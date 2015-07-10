@@ -85,4 +85,21 @@ public final class Some<T> implements Option<T> {
         return Stream.of(get());
     }
 
+    /**
+     * Returns <code>true</code> if the other object is {@link Some} containing a value that equals the value of this {@link Some}, else <code>false</code>.
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Some) ? value.equals(((Some) other).orNull()) : false;
+    }
+
+    /**
+     * Returns the hashCode based on the value of this {@link Some}.
+     */
+    @Override
+    public int hashCode() {
+        // no need for null checks on the value, as it per definition cannot be null
+        return 31 + value.hashCode();
+    }
 }

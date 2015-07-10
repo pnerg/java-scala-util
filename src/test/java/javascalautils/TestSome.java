@@ -26,11 +26,14 @@ import org.junit.Test;
  * @author Peter Nerg (epknerg)
  */
 public class TestSome extends BaseAssert {
-    private final Option<String> option = new Some<String>("Peter Rulez!");
+    /** Value used in this test case to populate {@link Some}. */
+    private final String TEXT_VALUE = "Peter Rulez!-" + System.nanoTime();
+
+    private final Option<String> option = new Some<String>(TEXT_VALUE);
 
     @Test
     public void contains_true() {
-        assertTrue(option.contains("Peter Rulez!"));
+        assertTrue(option.contains(TEXT_VALUE));
     }
 
     @Test
@@ -90,12 +93,12 @@ public class TestSome extends BaseAssert {
 
     @Test
     public void get() {
-        assertEquals("Peter Rulez!", option.get());
+        assertEquals(TEXT_VALUE, option.get());
     }
 
     @Test
     public void getOrElse() {
-        assertEquals("Peter Rulez!", option.getOrElse(() -> "NO-VALUE"));
+        assertEquals(TEXT_VALUE, option.getOrElse(() -> "NO-VALUE"));
     }
 
     @Test
@@ -107,7 +110,7 @@ public class TestSome extends BaseAssert {
     public void iterator() {
         Iterator<String> iterator = option.iterator();
         assertTrue(iterator.hasNext());
-        assertEquals("Peter Rulez!", iterator.next());
+        assertEquals(TEXT_VALUE, iterator.next());
         assertFalse(iterator.hasNext());
     }
 
@@ -123,8 +126,8 @@ public class TestSome extends BaseAssert {
 
     @Test
     public void orElse() {
-        Option<String> orelse = option.orElse(() -> Option.apply("peter"));
-        assertEquals("Peter Rulez!", orelse.get());
+        Option<String> orelse = option.orElse(() -> Option.apply("WON'T MATTER"));
+        assertEquals(TEXT_VALUE, orelse.get());
     }
 
     @Test
@@ -134,11 +137,31 @@ public class TestSome extends BaseAssert {
 
     @Test
     public void orNull() {
-        assertEquals("Peter Rulez!", option.orNull());
+        assertEquals(TEXT_VALUE, option.orNull());
     }
 
     @Test
     public void asOptional() {
         assertTrue(option.asOptional().isPresent());
+    }
+
+    @Test
+    public void equals_true() {
+        assertTrue(option.equals(new Some<String>(TEXT_VALUE)));
+    }
+
+    @Test
+    public void equals_false() {
+        assertFalse(option.equals(new Some<String>("NOT-THE-SAME-VALUE")));
+    }
+
+    @Test
+    public void equals_false2() {
+        assertFalse(option.equals(new None<String>()));
+    }
+
+    @Test
+    public void t_hashCode() {
+        assertEquals(31 + TEXT_VALUE.hashCode(), option.hashCode());
     }
 }

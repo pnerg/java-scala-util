@@ -119,4 +119,19 @@ public class TestNone extends BaseAssert {
     public void asOptional() {
         assertFalse(option.asOptional().isPresent());
     }
+
+    @Test
+    public void equals_true() {
+        assertTrue(option.equals(new None<String>()));
+    }
+
+    @Test
+    public void equals_false() {
+        assertFalse(option.equals(new Object()));
+    }
+
+    @Test
+    public void t_hashCode() {
+        assertEquals(0, option.hashCode());
+    }
 }

@@ -75,4 +75,22 @@ public final class None<T> implements Option<T> {
         return Stream.empty();
     }
 
+    /**
+     * Always returns <code>true</code> as None is stateless comparing it to some other None is therefore always the same.
+     * 
+     * @param other
+     * @return
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof None;
+    }
+
+    /**
+     * Always returns <code>0</code> as None is stateless and has no value.
+     */
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }
