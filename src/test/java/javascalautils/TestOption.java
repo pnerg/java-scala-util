@@ -41,4 +41,9 @@ public class TestOption extends BaseAssert {
         assertNotNull(option);
         assertFalse(option.isDefined());
     }
+
+    @Test
+    public void empty() {
+        assertFalse(Option.empty().isDefined());
+    }
 }

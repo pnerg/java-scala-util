@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Peter Nerg
  */
 public class TestNone extends BaseAssert {
-    private final Option<String> option = new None<String>();
+    private final Option<String> option = new None<>();
 
     @Test
     public void contains() {

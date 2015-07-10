@@ -46,9 +46,20 @@ public interface Option<T> extends Iterable<T> {
      * @param value
      * @return
      */
-    @SuppressWarnings("unchecked")
     public static <T> Option<T> apply(T value) {
-        return value != null ? new Some<T>(value) : DEFAULT_NONE;
+        return value != null ? new Some<T>(value) : empty();
+    }
+
+    /**
+     * Creates an empty Option.<br>
+     * In practice this returns a static default singleton as it anyways cannot represent a value/state.
+     * 
+     * @param value
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Option<T> empty() {
+        return DEFAULT_NONE;
     }
 
     /**
@@ -85,9 +96,8 @@ public interface Option<T> extends Iterable<T> {
      * @param p
      * @return
      */
-    @SuppressWarnings("unchecked")
     public default Option<T> filter(Predicate<T> p) {
-        return exists(p) ? this : DEFAULT_NONE;
+        return exists(p) ? this : empty();
     }
 
     /**
