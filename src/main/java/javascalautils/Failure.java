@@ -16,6 +16,7 @@
 package javascalautils;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +31,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     private final Throwable throwable;
 
     public Failure(Throwable throwable) {
+        Objects.requireNonNull(throwable, "Null values are not allowed for Failure");
         this.throwable = throwable;
     }
 
@@ -80,6 +82,6 @@ public final class Failure<T> implements Try<T>, Serializable {
      */
     @Override
     public String toString() {
-        return "Failure:" + (throwable != null ? throwable.getMessage() : "NULL VALUE");
+        return "Failure:" + throwable.getMessage();
     }
 }
