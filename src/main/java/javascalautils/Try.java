@@ -31,6 +31,18 @@ import java.util.function.Supplier;
 public interface Try<T> {
 
     /**
+     * Creates an instance of Try.<br>
+     * If a <code>null</code> or non-throwable value is provided then {@link Success} is returned containing the value, else {@link Failure} containing the
+     * provided throwable.
+     * 
+     * @param value
+     * @return
+     */
+    static <T> Try<T> apply(T value) {
+        return value instanceof Throwable ? new Failure<>((Throwable) value) : new Success<>(value);
+    }
+
+    /**
      * Returns <code>true</code> if the 'Try' is a {@link Failure}, <code>false</code> otherwise.
      */
     default boolean isFailure() {
@@ -86,7 +98,7 @@ public interface Try<T> {
      * 
      * @return
      */
-    public default Option<T> asOption() {
+    default Option<T> asOption() {
         return Option.apply(orNull());
     }
 }
