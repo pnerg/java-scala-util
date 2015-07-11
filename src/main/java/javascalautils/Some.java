@@ -102,4 +102,14 @@ public final class Some<T> implements Option<T> {
         // no need for null checks on the value, as it per definition cannot be null
         return 31 + value.hashCode();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Some:" + value.toString();
+    }
 }

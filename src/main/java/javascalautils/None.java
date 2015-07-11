@@ -93,4 +93,14 @@ public final class None<T> implements Option<T> {
     public int hashCode() {
         return 0;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "None";
+    }
 }
