@@ -25,7 +25,7 @@ import org.junit.Test;
 public class TestFailure extends BaseAssert {
 
     private final Exception exception = new Exception("Error, terror!");
-    private final Try<String> t = new Failure<String>(exception);
+    private final Try<String> t = new Failure<>(exception);
 
     @Test(expected = NullPointerException.class)
     public void create_withNullValue() {

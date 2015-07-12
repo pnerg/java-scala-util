@@ -25,7 +25,7 @@ import org.junit.Test;
 public class TestSuccess extends BaseAssert {
 
     private final String message = "Peter Rulez";
-    private final Try<String> t = new Success<String>(message);
+    private final Try<String> t = new Success<>(message);
 
     @Test
     public void isSuccess() {

@@ -15,7 +15,9 @@
  */
 package javascalautils;
 
+import java.util.Iterator;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * The 'Try' type represents a computation that may either result in an exception, or return a successfully computed value.<br>
@@ -28,7 +30,7 @@ import java.util.function.Supplier;
  * @author Peter Nerg
  * @since 1.0
  */
-public interface Try<T> {
+public interface Try<T> extends Iterable<T> {
 
     /**
      * Creates an instance of Try.<br>
@@ -39,7 +41,7 @@ public interface Try<T> {
      * @return
      */
     static <T> Try<T> apply(T value) {
-        return value instanceof Throwable ? new Failure<>((Throwable) value) : new Success<>(value);
+        return value instanceof Throwable ? new Failure<T>((Throwable) value) : new Success<T>(value);
     }
 
     /**
@@ -90,6 +92,26 @@ public interface Try<T> {
      * The exception is either the exception that the 'Try' failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
      */
     Try<Throwable> failed();
+
+    /**
+     * Returns the Try's value in an {@link Iterator} if it is a {@link Success}, or an empty {@link Iterator} if it is Failure. <br>
+     * Should it be a {@link Success} containing a <code>null</code> value then the iterator will also be empty.
+     * 
+     * @return
+     */
+    default Iterator<T> iterator() {
+        return stream().iterator();
+    }
+
+    /**
+     * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.<br>
+     * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
+     * 
+     * @return
+     */
+    default Stream<T> stream() {
+        return asOption().stream();
+    }
 
     /**
      * Returns this {@link Try} as an {@link Option}. <br>
