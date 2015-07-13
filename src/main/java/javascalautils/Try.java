@@ -16,11 +16,12 @@
 package javascalautils;
 
 import java.util.Iterator;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * The 'Try' type represents a computation that may either result in an exception, or return a successfully computed value.<br>
+ * The 'Try' type represents a computation that may either result in an exception, or return a successfully computed value. <br>
  * Typical use case is situations where parallel computation takes place resulting in more than one response where it's possible that one or more computations
  * fail. <br>
  * Though it might not be desirable to raise an exception for failed computations hence the Try acts a place holder for a response that is either failed or
@@ -118,6 +119,17 @@ public interface Try<T> extends Iterable<T> {
     default Iterator<T> iterator() {
         return stream().iterator();
     }
+
+    /**
+     * Maps the given function to the value from this {@link Success} or returns <code>this</code> if this is a {@link Failure}.
+     * 
+     * @param <R>
+     *            The type for the return value from the function
+     * @param function
+     *            The function to use
+     * @return The Option containing the mapped value
+     */
+    <R> Try<R> map(Function<T, R> function);
 
     /**
      * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.<br>

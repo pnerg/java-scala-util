@@ -16,6 +16,7 @@
 package javascalautils;
 
 import java.io.Serializable;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -79,7 +80,15 @@ public final class Success<T> implements Try<T>, Serializable {
      */
     @Override
     public Try<Throwable> failed() {
-        return new Failure<Throwable>(new UnsupportedOperationException("Success.failed"));
+        return Try.apply(new UnsupportedOperationException("Success.failed"));
+    }
+
+    /**
+     * Applies the value to the function and returns the Try representing the mapped value.
+     */
+    @Override
+    public <R> Try<R> map(Function<T, R> function) {
+        return Try.apply(function.apply(value));
     }
 
     /*
