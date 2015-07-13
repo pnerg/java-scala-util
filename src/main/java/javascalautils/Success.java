@@ -23,6 +23,8 @@ import java.util.function.Supplier;
  * 
  * @author Peter Nerg
  * @since 1.0
+ * @param <T>
+ *            The type of the value represented by this instance
  */
 public final class Success<T> implements Try<T>, Serializable {
 
@@ -34,6 +36,7 @@ public final class Success<T> implements Try<T>, Serializable {
      * Null values are allowed.
      * 
      * @param value
+     *            The value represented by this instance
      */
     public Success(T value) {
         this.value = value;

@@ -56,7 +56,7 @@ public class TestFailure extends BaseAssert {
     @Test
     public void orElse() {
         Success<String> defaultVal = new Success<String>("Default since we're testing a failure");
-        assertEquals(defaultVal, t.orElse(defaultVal));
+        assertEquals(defaultVal, t.orElse(() -> defaultVal));
     }
 
     @Test

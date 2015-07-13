@@ -25,9 +25,9 @@ import java.util.stream.Stream;
  * Represents an {@link Option} holding a value.
  * 
  * @author Peter Nerg
- *
- * @param <T>
  * @since 1.0
+ * @param <T>
+ *            The type of the value represented by this instance
  */
 public final class Some<T> implements Option<T> {
     private final T value;
@@ -37,6 +37,7 @@ public final class Some<T> implements Option<T> {
      * Null objects are not allowed and will render an exception.
      * 
      * @param value
+     *            The value represented by this Some
      */
     public Some(T value) {
         this.value = Objects.requireNonNull(value, "Null values are not allowed for Some");

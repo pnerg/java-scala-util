@@ -27,5 +27,8 @@ hs_err_pid*
 #Maven build dir
 /target/
 
+
+non-git/
+
 #Example code for the Wiki
 Examples.java

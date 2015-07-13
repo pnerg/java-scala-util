@@ -29,9 +29,9 @@ import java.util.stream.Stream;
  * {@link Some} holds a non-null value whilst {@link None} holds no value.
  * 
  * @author Peter Nerg
- *
- * @param <T>
  * @since 1.0
+ * @param <T>
+ *            The type of the value represented by this instance
  */
 public interface Option<T> extends Iterable<T> {
 
@@ -46,8 +46,11 @@ public interface Option<T> extends Iterable<T> {
      * Creates an instance of Option.<br>
      * If a <code>null</code> value is provided then {@link None} is returned, else {@link Some} containing the provided value.
      * 
+     * @param <T>
+     *            The type for the value this Option represents
      * @param value
-     * @return
+     *            The value this Option shall represent
+     * @return The Option representing the provided value
      */
     static <T> Option<T> apply(T value) {
         return value != null ? new Some<T>(value) : empty();
@@ -57,8 +60,9 @@ public interface Option<T> extends Iterable<T> {
      * Creates an empty Option.<br>
      * In practice this returns a {@link #DEFAULT_NONE singleton} as it anyways cannot represent a value/state.
      * 
-     * @param value
-     * @return
+     * @param <T>
+     *            The type for the value this Option represents
+     * @return The default {@link None} instance
      */
     @SuppressWarnings("unchecked")
     static <T> Option<T> empty() {
@@ -66,19 +70,20 @@ public interface Option<T> extends Iterable<T> {
     }
 
     /**
-     * If the Option contains the provided Object.
+     * Returns <code>true</code> if this is a {@link Some} containing the provided object, else <code>false</code>.
      * 
-     * @param t
-     * @return
+     * @param other
+     *            The other object to compare to
+     * @return If this {@link Some} contains the provided object
      */
-    default boolean contains(final T t) {
-        return exists(value -> value.equals(t));
+    default boolean contains(final T other) {
+        return exists(value -> value.equals(other));
     }
 
     /**
      * Returns the count which means <code>1</code> for nonempty Option's and <code>0</code> for empty.
      * 
-     * @return
+     * @return The count
      */
     default int count() {
         // map will either return Some(1) or None upon which the else(0) will be returned.
@@ -89,7 +94,8 @@ public interface Option<T> extends Iterable<T> {
      * Returns <code>true</code> if this option is nonempty and the predicate p returns <code>true</code> when applied to this Option's value.
      * 
      * @param p
-     * @return
+     *            The predicate
+     * @return If the predicate matches
      */
     boolean exists(Predicate<T> p);
 
@@ -97,7 +103,8 @@ public interface Option<T> extends Iterable<T> {
      * Returns this Option if it is nonempty and applying the predicate p to this Option's value returns <code>true</code>.
      * 
      * @param p
-     * @return
+     *            The predicate
+     * @return The Option representing the match
      */
     default Option<T> filter(Predicate<T> p) {
         return exists(p) ? this : empty();
@@ -107,7 +114,8 @@ public interface Option<T> extends Iterable<T> {
      * Returns this Option if it is nonempty and applying the predicate p to this Option's value returns <code>false</code>.
      * 
      * @param p
-     * @return
+     *            The predicate
+     * @return The Option representing the match
      */
     default Option<T> filterNot(final Predicate<T> p) {
         // filter not is in practice just negating the result of the provided predicate
@@ -119,7 +127,8 @@ public interface Option<T> extends Iterable<T> {
      * In an essence exactly the same as {@link #exists(Predicate)}.
      * 
      * @param p
-     * @return
+     *            The predicate
+     * @return If the predicate matches
      */
     default boolean forall(Predicate<T> p) {
         return exists(p);
@@ -128,21 +137,23 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns this Option's value if such exists, else {@link NoSuchElementException} is raised.
      * 
-     * @return
+     * @return The value of the Option
      */
     T get();
 
     /**
      * Returns this Option's value if such exists, else the value provided by the supplier.
      * 
-     * @return
+     * @param supplier
+     *            The supplier to use in case this is a {@link None}
+     * @return The value of the Option or the value provided by the supplier
      */
-    T getOrElse(Supplier<T> s);
+    T getOrElse(Supplier<T> supplier);
 
     /**
      * Returns <code>true</code> if the option is an instance of {@link Some}, <code>false</code> otherwise.
      * 
-     * @return
+     * @return If this Option is a {@link Some}
      */
     default boolean isDefined() {
         return exists(t -> true);
@@ -151,7 +162,7 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns <code>true</code> if the option is an instance of {@link None}, <code>false</code> otherwise
      * 
-     * @return
+     * @return If this Option is a {@link None}
      */
     default boolean isEmpty() {
         return !isDefined();
@@ -160,7 +171,7 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns the Option's value in an {@link Iterator} if it is nonempty, or an empty {@link Iterator} if it is empty.
      * 
-     * @return
+     * @return The iterator for the Option
      */
     @Override
     default Iterator<T> iterator() {
@@ -171,24 +182,27 @@ public interface Option<T> extends Iterable<T> {
      * Returns an Option consisting of the result of applying the given function to the current {@link Some}. <br>
      * Applying map to {@link None} will always yield {@link None}.
      * 
-     * @param f
-     * @return
+     * @param <R>
+     *            The type for the return value from the function
+     * @param function
+     *            The function to use
+     * @return The Option containing the mapped value
      */
-    <R> Option<R> map(Function<T, R> f);
+    <R> Option<R> map(Function<T, R> function);
 
     /**
      * Returns this Option if it is nonempty, otherwise return the result of provided by the supplier.
      * 
-     * @param s
-     * @return
+     * @param supplier
+     *            The supplier to use in case of {@link None}
+     * @return This Option or the one provided by the supplier
      */
-    Option<T> orElse(Supplier<Option<T>> s);
+    Option<T> orElse(Supplier<Option<T>> supplier);
 
     /**
      * Returns the Option's value if it is nonempty, or <code>null</code> if it is empty.
      * 
-     * @param s
-     * @return
+     * @return The value of the Option or <code>null</code> in case of {@link None}
      */
     default T orNull() {
         return getOrElse(() -> null);
@@ -197,14 +211,14 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns the Option's value in a Stream if it is nonempty, or an empty Stream if it is empty.
      * 
-     * @return
+     * @return The stream for the Option
      */
     Stream<T> stream();
 
     /**
      * Converts this {@link Option} to a corresponding {@link Optional}.
      * 
-     * @return
+     * @return The Optional instance
      */
     default Optional<T> asOptional() {
         return Optional.ofNullable(orNull());
@@ -213,11 +227,14 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Converts the {@link Optional} to a corresponding {@link Option}.
      * 
-     * @param o
-     * @return
+     * @param <T>
+     *            The type for the value this Option represents
+     * @param optional
+     *            The Optional to convert
+     * @return The Option for the provided Optional
      */
-    static <T> Option<T> ofOptional(Optional<T> o) {
-        return apply(o.orElse(null));
+    static <T> Option<T> ofOptional(Optional<T> optional) {
+        return apply(optional.orElse(null));
     }
 
 }

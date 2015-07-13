@@ -29,6 +29,8 @@ import java.util.stream.Stream;
  * 
  * @author Peter Nerg
  * @since 1.0
+ * @param <T>
+ *            The type of the value represented by this Option
  */
 public interface Try<T> extends Iterable<T> {
 
@@ -37,8 +39,11 @@ public interface Try<T> extends Iterable<T> {
      * If a <code>null</code> or non-throwable value is provided then {@link Success} is returned containing the value, else {@link Failure} containing the
      * provided throwable.
      * 
+     * @param <T>
+     *            The type for the Try
      * @param value
-     * @return
+     *            The value for this to create a Try
+     * @return The Try instance
      */
     static <T> Try<T> apply(T value) {
         return value instanceof Throwable ? new Failure<T>((Throwable) value) : new Success<T>(value);
@@ -46,6 +51,8 @@ public interface Try<T> extends Iterable<T> {
 
     /**
      * Returns <code>true</code> if the 'Try' is a {@link Failure}, <code>false</code> otherwise.
+     * 
+     * @return If the Try is a {@link Failure}
      */
     default boolean isFailure() {
         return !isSuccess();
@@ -53,25 +60,24 @@ public interface Try<T> extends Iterable<T> {
 
     /**
      * Returns <code>true</code> if the 'Try' is a {@link Success}, <code>false</code> otherwise.
+     * 
+     * @return If the Try is a {@link Success}
      */
     boolean isSuccess();
 
     /**
      * Returns the value from this {@link Success} or the value provided by the supplier if this is a {@link Failure}.
+     * 
+     * @param supplier
+     *            The supplier to return the value in case of a {@link Failure}
+     * @return The value from the Try or the supplier
      */
-    T getOrElse(Supplier<T> s);
-
-    /**
-     * Returns this 'Try' if it's a {@link Success} or the given 'default' argument if this is a {@link Failure}.
-     */
-    default Try<T> orElse(Try<T> defaultVal) {
-        return orElse(() -> defaultVal);
-    }
+    T getOrElse(Supplier<T> supplier);
 
     /**
      * Returns the value if it is a {@link Success}, else <code>null</code>.
      * 
-     * @return
+     * @return The value of the Try or <code>null</code>.
      */
     default T orNull() {
         return getOrElse(() -> null);
@@ -79,17 +85,27 @@ public interface Try<T> extends Iterable<T> {
 
     /**
      * Returns this 'Try' if it's a {@link Success} or the value provided by the supplier if this is a {@link Failure}.
+     * 
+     * @param supplier
+     *            The supplier to return the value in case of a {@link Failure}
+     * @return This try or the value from the supplier
      */
-    Try<T> orElse(Supplier<Try<T>> s);
+    Try<T> orElse(Supplier<Try<T>> supplier);
 
     /**
      * Returns the value from this {@link Success} or throws the exception if this is a {@link Failure}.
+     * 
+     * @return The value of the Try
+     * @throws Throwable
+     *             The Throwable in case of a {@link Failure}
      */
     T get() throws Throwable;
 
     /**
      * Completes this 'Try' with an exception wrapped in a {@link Success}.<br>
      * The exception is either the exception that the 'Try' failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
+     * 
+     * @return The value of the {@link Failure} in a {@link Success}
      */
     Try<Throwable> failed();
 
@@ -97,7 +113,7 @@ public interface Try<T> extends Iterable<T> {
      * Returns the Try's value in an {@link Iterator} if it is a {@link Success}, or an empty {@link Iterator} if it is Failure. <br>
      * Should it be a {@link Success} containing a <code>null</code> value then the iterator will also be empty.
      * 
-     * @return
+     * @return The iterator for the Try
      */
     default Iterator<T> iterator() {
         return stream().iterator();
@@ -107,7 +123,7 @@ public interface Try<T> extends Iterable<T> {
      * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.<br>
      * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
      * 
-     * @return
+     * @return The stream for the Try
      */
     default Stream<T> stream() {
         return asOption().stream();
@@ -118,7 +134,7 @@ public interface Try<T> extends Iterable<T> {
      * If it is a {@link Success} then the value is wrapped in {@link Some} else {@link None} is returned. <br>
      * Should the {@link Success} contain a <code>null</code> value the result will be {@link None}.
      * 
-     * @return
+     * @return The {@link Option} representing this Try
      */
     default Option<T> asOption() {
         return Option.apply(orNull());

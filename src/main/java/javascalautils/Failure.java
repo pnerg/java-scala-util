@@ -24,12 +24,21 @@ import java.util.function.Supplier;
  * 
  * @author Peter Nerg
  * @since 1.0
+ * @param <T>
+ *            The type of the exception represented by this instance
  */
 public final class Failure<T> implements Try<T>, Serializable {
 
     private static final long serialVersionUID = -3153874073796965428L;
     private final Throwable throwable;
 
+    /**
+     * Creates a Failure for the provided Throwable.<br>
+     * Null values are not allowed.
+     * 
+     * @param throwable
+     *            The throwable
+     */
     public Failure(Throwable throwable) {
         Objects.requireNonNull(throwable, "Null values are not allowed for Failure");
         this.throwable = throwable;

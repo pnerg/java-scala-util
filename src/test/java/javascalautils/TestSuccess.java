@@ -49,7 +49,7 @@ public class TestSuccess extends BaseAssert {
 
     @Test
     public void orElse() {
-        assertEquals(t, t.orElse(new Success<String>("Ignore as we're successful")));
+        assertEquals(t, t.orElse(() -> new Success<String>("Ignore as we're successful")));
     }
 
     @Test

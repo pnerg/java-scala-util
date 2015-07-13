@@ -24,11 +24,13 @@ import java.util.stream.Stream;
 /**
  * Represents an empty {@link Option}.
  *
- * @param <T>
  * @author Peter Nerg
  * @since 1.0
+ * @param <T>
+ *            The type of the value represented by this instance
  */
 public final class None<T> implements Option<T> {
+
     /**
      * Always throws {@link NoSuchElementException} since None cannot hold any value.
      */
@@ -39,8 +41,6 @@ public final class None<T> implements Option<T> {
 
     /**
      * Always the value provided by the supplier.
-     * 
-     * @return
      */
     public T getOrElse(Supplier<T> s) {
         return s.get();
@@ -63,6 +63,8 @@ public final class None<T> implements Option<T> {
 
     /**
      * Always the value provided by the supplier.
+     * 
+     * @return The value provided by the supplier
      */
     public Option<T> orElse(Supplier<Option<T>> s) {
         return s.get();
@@ -70,6 +72,8 @@ public final class None<T> implements Option<T> {
 
     /**
      * Always returns an empty stream.
+     * 
+     * @return Empty stream
      */
     public Stream<T> stream() {
         return Stream.empty();
@@ -79,7 +83,7 @@ public final class None<T> implements Option<T> {
      * Always returns <code>true</code> as None is stateless comparing it to some other None is therefore always the same.
      * 
      * @param other
-     * @return
+     *            The other object to compare to
      */
     @Override
     public boolean equals(Object other) {
