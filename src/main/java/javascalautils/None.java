@@ -15,6 +15,7 @@
  */
 package javascalautils;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -29,7 +30,9 @@ import java.util.stream.Stream;
  * @param <T>
  *            The type of the value represented by this instance
  */
-public final class None<T> implements Option<T> {
+public final class None<T> implements Option<T>, Serializable {
+
+    private static final long serialVersionUID = -5169653193196761412L;
 
     /**
      * Always throws {@link NoSuchElementException} since None cannot hold any value.

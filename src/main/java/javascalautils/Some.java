@@ -15,6 +15,7 @@
  */
 package javascalautils;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -29,7 +30,8 @@ import java.util.stream.Stream;
  * @param <T>
  *            The type of the value represented by this instance
  */
-public final class Some<T> implements Option<T> {
+public final class Some<T> implements Option<T>, Serializable {
+    private static final long serialVersionUID = -17186529545151493L;
     private final T value;
 
     /**
