@@ -8,6 +8,7 @@
 	<version>1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>Java implementation of some of the core utilities from Scala</description>
+	<url>https://github.com/pnerg/java-scala-util</url>
 	<issueManagement>
 		<system>github</system>
 		<url>https://github.com/pnerg/java-scala-util/issues</url>
