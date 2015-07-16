@@ -59,6 +59,14 @@ public final class Right<L, R> implements Either<L, R>, Serializable {
         return true;
     }
 
+    /**
+     * Returns a {@link Left} containing the value for this instance.
+     */
+    @Override
+    public Either<R, L> swap() {
+        return new Left<>(value);
+    }
+
     /*
      * (non-Javadoc)
      * 

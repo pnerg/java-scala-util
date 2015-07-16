@@ -91,7 +91,5 @@ public interface Either<L, R> {
      * 
      * @return
      */
-    default Either<R, L> swap() {
-        return null;
-    }
+    Either<R, L> swap();
 }

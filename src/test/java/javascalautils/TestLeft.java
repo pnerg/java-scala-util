@@ -40,6 +40,11 @@ public class TestLeft extends BaseAssert {
     }
 
     @Test
+    public void swap() {
+        assertTrue(either.swap().isRight());
+    }
+
+    @Test
     public void t_toString() {
         assertNotNull(either.toString());
     }
