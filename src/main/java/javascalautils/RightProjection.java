@@ -27,7 +27,7 @@ import java.util.function.Supplier;
  * @author Peter Nerg
  * @since 1.1
  */
-public class RightProjection<L, R> extends Projection<R> implements Iterable<R>, Serializable {
+public class RightProjection<L, R> extends Projection<R> implements Serializable {
     private static final long serialVersionUID = 4251047373391313192L;
     private final Either<L, R> either;
 
