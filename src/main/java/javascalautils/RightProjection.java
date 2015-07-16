@@ -17,12 +17,9 @@
 package javascalautils;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 /**
  * This is a right-biased wrapper for an instance of {@link Either}.
@@ -30,7 +27,7 @@ import java.util.stream.Stream;
  * @author Peter Nerg
  * @since 1.1
  */
-public class RightProjection<L, R> implements Iterable<R>, Serializable {
+public class RightProjection<L, R> extends Projection<R> implements Iterable<R>, Serializable {
     private static final long serialVersionUID = 4251047373391313192L;
     private final Either<L, R> either;
 
@@ -56,41 +53,15 @@ public class RightProjection<L, R> implements Iterable<R>, Serializable {
     }
 
     /**
-     * If this is a {@link Right} the return {@link Some} containing the value, else {@link None}.
-     * 
-     * @return The Option
-     */
-    public Option<R> asOption() {
-        return Option.apply(orNull());
-    }
-
-    /**
-     * Returns the value if this is a {@link Right} else throws {@link NoSuchElementException}.
-     * 
-     * @return The value
-     */
-    public R get() {
-        return asOption().get();
-    }
-
-    /**
      * Returns the value if this is a {@link Right} else the value provided by the supplier.
      * 
      * @param supplier
      *            The supplier
      * @return The value
      */
+    @Override
     public R getOrElse(Supplier<R> supplier) {
         return either.fold(v -> supplier.get(), v -> v);
-    }
-
-    /**
-     * Returns the value if this is a {@link Right} else <code>null</code>.
-     * 
-     * @return The value or <code>null</code>
-     */
-    public R orNull() {
-        return getOrElse(() -> null);
     }
 
     /**
@@ -119,22 +90,4 @@ public class RightProjection<L, R> implements Iterable<R>, Serializable {
         return either.isRight() ? new Right<>(function.apply(get())) : (Either<L, T>) either;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Iterable#iterator()
-     */
-    @Override
-    public Iterator<R> iterator() {
-        return stream().iterator();
-    }
-
-    /**
-     * If this is a {@link Right} then return a stream containing the value, else empty stream.
-     * 
-     * @return
-     */
-    public Stream<R> stream() {
-        return asOption().stream();
-    }
 }
