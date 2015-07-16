@@ -164,4 +164,10 @@ public class TestSome extends BaseAssert {
     public void t_hashCode() {
         assertEquals(31 + TEXT_VALUE.hashCode(), option.hashCode());
     }
+
+    @Test
+    public void t_toString() {
+        assertNotNull(option.toString());
+    }
+
 }

@@ -134,4 +134,9 @@ public class TestNone extends BaseAssert {
     public void t_hashCode() {
         assertEquals(0, option.hashCode());
     }
+
+    @Test
+    public void t_toString() {
+        assertNotNull(option.toString());
+    }
 }
