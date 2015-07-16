@@ -72,4 +72,10 @@ public class TestSuccess extends BaseAssert {
     public void asOption() {
         assertTrue(t.asOption().isDefined());
     }
+
+    @Test
+    public void map() {
+        assertEquals(message.toUpperCase(), t.map(v -> v.toUpperCase()).orNull());
+    }
+
 }

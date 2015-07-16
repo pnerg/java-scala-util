@@ -76,4 +76,10 @@ public class TestFailure extends BaseAssert {
         assertFalse(t.asOption().isDefined());
     }
 
+    @Test
+    public void map() {
+        // mapping a failure only returns itself anyways
+        assertTrue(t.map(v -> null).isFailure());
+    }
+
 }
