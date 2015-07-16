@@ -21,14 +21,14 @@ import java.util.NoSuchElementException;
 import org.junit.Test;
 
 /**
- * Test the class {@link RightProjection}
+ * Test the class {@link LeftProjection}
  * 
  * @author Peter Nerg
  */
-public class TestRightProjection_WithLeft extends BaseAssert {
+public class TestLeftProjection_WithRight extends BaseAssert {
 
-    private final Either<Object, String> either = new Left<>(new Object());
-    private final RightProjection<Object, String> projection = new RightProjection<>(either);
+    private final Either<String, Object> either = new Right<>(new Object());
+    private final LeftProjection<String, Object> projection = new LeftProjection<>(either);
 
     @Test
     public void asOption() {
@@ -81,7 +81,7 @@ public class TestRightProjection_WithLeft extends BaseAssert {
 
     @Test
     public void map() {
-        // mapping won't matter as it's a Left and will not be mapped
-        assertFalse(projection.map(v -> v).isRight());
+        // mapping won't matter as it's a Right and will not be mapped
+        assertFalse(projection.map(v -> v).isLeft());
     }
 }
