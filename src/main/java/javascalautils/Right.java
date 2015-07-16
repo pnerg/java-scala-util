@@ -24,6 +24,10 @@ import java.util.function.Function;
  * 
  * @author Peter Nerg
  * @since 1.1
+ * @param <L>
+ *            The type for the {@link Left} side (not used for this class)
+ * @param <R>
+ *            The type for the {@link Right} side
  */
 public final class Right<L, R> implements Either<L, R>, Serializable {
 

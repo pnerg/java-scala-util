@@ -25,7 +25,8 @@ import org.junit.Test;
  *
  */
 public class TestRight extends BaseAssert {
-    private final Either<Object, String> either = new Right<>("Right is not Left");
+    private final String TXT = "Right is not Left";
+    private final Either<Object, String> either = new Right<>(TXT);
 
     @Test
     public void isRight() {
@@ -35,8 +36,7 @@ public class TestRight extends BaseAssert {
     @Test
     public void fold() {
         // left function is anyways not used
-        String mapped = either.fold(null, v -> v.toUpperCase());
-        assertEquals("RIGHT IS NOT LEFT", mapped);
+        assertEquals(TXT.toUpperCase(), either.fold(null, v -> v.toUpperCase()));
     }
 
     @Test
