@@ -33,6 +33,12 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
     private static final long serialVersionUID = 6415576974626280469L;
     private final L value;
 
+    /**
+     * Creates an instance wrapping the provide value.
+     * 
+     * @param value
+     *            The value wrapped by this instance
+     */
     public Left(L value) {
         this.value = value;
     }

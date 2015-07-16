@@ -46,7 +46,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * 
      * @param predicate
      *            The predicate to apply
-     * @return
+     * @return If this is a {@link Left} and the predicate matches the value
      */
     public boolean exists(Predicate<L> predicate) {
         return either.isLeft() ? predicate.test(orNull()) : false;
@@ -68,7 +68,8 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * Returns a {@link Some} wrapping the {@link Either} if it's a {@link Left} and the value of the {@link Left} matches the predicate, else {@link None} .
      * 
      * @param predicate
-     * @return
+     *            The predicate to apply
+     * @return The resulting Option of the filter operation
      */
     public Option<Either<L, R>> filter(Predicate<L> predicate) {
         return Option.apply(exists(predicate) ? either : null);
@@ -89,6 +90,8 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * If this projection contains a {@link Left} then a new {@link Left} is returned containing the value from the original {@link Right} mapped via the
      * provided function, else the contained Either is returned as is.
      * 
+     * @param <T>
+     *            The type to return as the new {@link Left}
      * @param function
      *            The function
      * @return Mapped Either

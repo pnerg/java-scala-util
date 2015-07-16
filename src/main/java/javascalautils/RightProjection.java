@@ -46,7 +46,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * 
      * @param predicate
      *            The predicate to apply
-     * @return
+     * @return If this is a {@link Right} and the predicate matches the value
      */
     public boolean exists(Predicate<R> predicate) {
         return either.isRight() ? predicate.test(orNull()) : false;
@@ -68,7 +68,8 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * Returns a {@link Some} wrapping the {@link Either} if it's a {@link Right} and the value of the {@link Right} matches the predicate, else {@link None} .
      * 
      * @param predicate
-     * @return
+     *            The predicate to apply
+     * @return The resulting Option of the filter operation
      */
     public Option<Either<L, R>> filter(Predicate<R> predicate) {
         return Option.apply(exists(predicate) ? either : null);
@@ -89,6 +90,8 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * If this projection contains a {@link Right} then a new {@link Right} is returned containing the value from the original {@link Right} mapped via the
      * provided function, else the contained Either is returned as is.
      * 
+     * @param <T>
+     *            The type to return as the new {@link Right}
      * @param function
      *            The function
      * @return Mapped Either

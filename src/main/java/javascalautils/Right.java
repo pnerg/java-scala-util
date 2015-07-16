@@ -38,6 +38,7 @@ public final class Right<L, R> implements Either<L, R>, Serializable {
      * Creates an instance wrapping the provide value.
      * 
      * @param value
+     *            The value wrapped by this instance
      */
     public Right(R value) {
         this.value = value;

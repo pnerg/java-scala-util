@@ -89,7 +89,7 @@ public interface Either<L, R> {
     /**
      * If this is a {@link Left}, then return the left value in {@link Right} or vice versa.
      * 
-     * @return
+     * @return The swapped version of this instance
      */
     Either<R, L> swap();
 }

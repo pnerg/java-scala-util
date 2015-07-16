@@ -99,7 +99,7 @@ abstract class Projection<T> implements Iterable<T> {
      * Then return the value of the {@link Left}/{@link Right}.<br>
      * Any other case, return <code>null</code>. <br>
      * In an essence this is a specialized version of {@link #getOrElse(Supplier)} where the supplier returns <code>null</code>. <br>
-     * <code>getOrElse(() -> null)</code>
+     * <code>getOrElse(() -&#62; null)</code>
      * 
      * @return The value or <code>null</code>
      */
@@ -116,6 +116,8 @@ abstract class Projection<T> implements Iterable<T> {
      * Then return the value of the {@link Left}/{@link Right}.<br>
      * Any other case, return the value provided by the supplier.
      * 
+     * @param supplier
+     *            The supplier to use if else becomes used
      * @return The value or <code>null</code>
      */
     public abstract T getOrElse(Supplier<T> supplier);
