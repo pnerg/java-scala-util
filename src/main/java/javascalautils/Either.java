@@ -78,6 +78,15 @@ public interface Either<L, R> {
     }
 
     /**
+     * Returns a {@link LeftProjection} for this instance.
+     * 
+     * @return The projection
+     */
+    default LeftProjection<L, R> left() {
+        return new LeftProjection<>(this);
+    }
+
+    /**
      * If this is a {@link Left}, then return the left value in {@link Right} or vice versa.
      * 
      * @return
