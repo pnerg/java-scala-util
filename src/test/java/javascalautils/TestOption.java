@@ -46,4 +46,9 @@ public class TestOption extends BaseAssert {
     public void empty() {
         assertFalse(Option.empty().isDefined());
     }
+
+    @Test
+    public void None() {
+        assertFalse(Option.None().isDefined());
+    }
 }

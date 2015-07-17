@@ -57,15 +57,38 @@ public interface Option<T> extends Iterable<T> {
     }
 
     /**
-     * Creates an empty Option.<br>
+     * Returns an empty Option.<br>
      * In practice this returns a {@link #DEFAULT_NONE singleton} as it anyways cannot represent a value/state.
      * 
      * @param <T>
      *            The type for the value this Option represents
      * @return The default {@link None} instance
      */
-    @SuppressWarnings("unchecked")
     static <T> Option<T> empty() {
+        return None();
+    }
+
+    /**
+     * Returns an empty Option.<br>
+     * This is the same as {@link #empty()} but with the difference it provides a more Scala like feeling if the method is statically imported. <br>
+     * One can use <code>None()</code> as if it was a apply method on a companion object in Scala. E.g.
+     * 
+     * <pre>
+     * <code>
+     * import static javascalautils.Option.None;
+     * 
+     * Option&#60;String&#62; opt = None();
+     * </pre>
+     * 
+     * </code>
+     * 
+     * @param <T>
+     *            The type for the value this Option represents
+     * @return The default {@link None} instance
+     * @since 1.2
+     */
+    @SuppressWarnings("unchecked")
+    static <T> Option<T> None() {
         return DEFAULT_NONE;
     }
 
