@@ -15,8 +15,11 @@
  */
 package javascalautils.concurrent;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import javascalautils.Failure;
 import javascalautils.None;
@@ -94,6 +97,7 @@ public interface Future<T> {
      * This is pretty much the same as {@link #onSuccess(Consumer)} but is here for completion keeping a consistent look and feel.
      * 
      * @param consumer
+     *            The consumer to digest the result
      */
     void forEach(Consumer<T> consumer);
 
@@ -105,7 +109,40 @@ public interface Future<T> {
      *            The type for the value held by the mapped future
      * @param function
      *            The function to apply
-     * @return
+     * @return The mapped Future
      */
     <R> Future<R> map(Function<T, R> function);
+
+    /**
+     * Creates a new {@link Future} that will filter the successful value of this instance once it is completed. <br>
+     * The possible outcomes are:
+     * <ul>
+     * <li>This Future is successful -&#62; predicate matches -&#62; The filtered future is completed with the value.</li>
+     * <li>This Future is successful -&#62; predicate fails -&#62; The filtered future is failed with NoSuchElementException.</li>
+     * <li>This Future is failure -&#62; The failure is passed on to the filtered Future.</li>
+     * </ul>
+     * 
+     * @param predicate
+     *            The predicate to apply
+     * @return The filtered Future
+     */
+    Future<T> filter(Predicate<T> predicate);
+
+    /**
+     * Blocks and waits for this Future to complete. <br>
+     * Returns the result of a successful Future or throws the exception in case of a failure. <br>
+     * The methods blocks for at most the provided duration. <br>
+     * If the Future is already completed the method returns immediately.
+     * 
+     * @param duration
+     *            The duration to block
+     * @param timeUnit
+     *            The unit for the duration
+     * @return The result in case successful
+     * @throws Throwable
+     *             The error reported in case of a failure
+     * @throws TimeoutException
+     *             In case the waiting time is passed
+     */
+    T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException;
 }

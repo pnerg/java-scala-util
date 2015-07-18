@@ -19,8 +19,13 @@ import static javascalautils.Option.None;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import javascalautils.Failure;
 import javascalautils.Option;
@@ -107,8 +112,54 @@ final class FutureImpl<T> implements Future<T> {
         return future;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#filter(java.util.function.Predicate)
+     */
+    @Override
+    public Future<T> filter(Predicate<T> predicate) {
+        // Create new future expected to hold the value of the mapped type
+        FutureImpl<T> future = new FutureImpl<>();
+        // install success handler that will filter the result before applying it
+        onSuccess(value -> {
+            if (predicate.test(value)) {
+                future.success(value);
+            } else {
+                future.failure(new NoSuchElementException("The predicate failed on value [" + value + "]"));
+            }
+        });
+        // install failure handler that just passes the result through
+        onFailure(t -> future.failure(t));
+        return future;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#result(long, java.util.concurrent.TimeUnit)
+     */
+    @Override
+    public T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException {
+        CountDownLatch latch = new CountDownLatch(1);
+
+        // install a handler that releases the count down latch when notified with a result.
+        // the actual result is of no interest as we anyways have access to it internally in this class/instance.
+        onComplete(t -> latch.countDown());
+
+        // block for either the time to pass or the Future gets completed
+        if (!latch.await(duration, timeUnit)) {
+            throw new TimeoutException("Timeout waiting for Future to complete");
+        }
+
+        // The response is now set to Some
+        // return the value of the response (Try), should it be a Failure the exception is raised
+        return response.get().get();
+    }
+
     /**
-     * Used to report a success to this future.
+     * Used to report a success to this future. <br>
+     * Invoked by the Promise owning this instance.
      * 
      * @param value
      *            The response value
@@ -122,7 +173,8 @@ final class FutureImpl<T> implements Future<T> {
     }
 
     /**
-     * Used to report a failure to this future.
+     * Used to report a failure to this future. <br>
+     * Invoked by the Promise owning this instance.
      * 
      * @param throwable
      *            The failure Throwable
@@ -149,7 +201,7 @@ final class FutureImpl<T> implements Future<T> {
     }
 
     /**
-     * Internal holder for the success/failure handlers provided by the user.<br>
+     * Internal holder for the success/failure/complete handlers provided by the user.<br>
      * Used primarily to keep track on if a particular handler already has been notified. <br>
      * This is to make sure the same handler won't be notified more than once.
      * 

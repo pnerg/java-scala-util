@@ -16,9 +16,11 @@
 
 package javascalautils.concurrent;
 
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 
 import javascalautils.BaseAssert;
 
@@ -106,7 +108,7 @@ public class TestFutureImpl extends BaseAssert {
         SuccessHandler successHandlerAfter = new SuccessHandler();
 
         // apply a success handler
-        future.onSuccess(successHandlerBefore);
+        future.onSuccess(s -> successHandlerBefore.notify(s));
 
         // simulate success response
         future.success(response);
@@ -117,7 +119,7 @@ public class TestFutureImpl extends BaseAssert {
         successHandlerBefore.assertResponse(response);
 
         // apply a second success handler
-        future.onSuccess(successHandlerAfter);
+        future.onSuccess(s -> successHandlerAfter.notify(s));
 
         // assert that the second listener got a response
         successHandlerAfter.assertResponse(response);
@@ -233,24 +235,70 @@ public class TestFutureImpl extends BaseAssert {
         // map the future to one that counts the length of the response
         Future<Integer> mapped = future.map(s -> s.length());
 
+        // simulate success response
+        future.success(response);
+
+        assertTrue(mapped.isCompleted());
+        assertEquals(response.length(), mapped.result(5, TimeUnit.SECONDS).intValue());
+    }
+
+    @Test
+    public void filter_successful_predicate_matches() throws Throwable {
+        String response = "Peter is in da house!!!";
+
+        // apply a filter that is always successful/true
+        Future<String> filtered = future.filter(v -> true);
+
         // apply a success handler to the mapped future
         AtomicBoolean gotEvent = new AtomicBoolean(false);
-        mapped.forEach(i -> {
-            assertEquals(response.length(), i.intValue());
+        filtered.forEach(s -> {
+            assertEquals(response, s);
             gotEvent.set(true);
         });
 
         // simulate success response
         future.success(response);
 
-        assertTrue(mapped.isCompleted());
-        assertEquals(response.length(), mapped.value().get().get().intValue());
+        assertTrue(filtered.isCompleted());
+        assertEquals(response, filtered.value().get().get());
 
         // assert that the success handler got a response
         assertTrue(gotEvent.get());
     }
 
-    private static final class SuccessHandler implements Consumer<String> {
+    @Test(expected = NoSuchElementException.class)
+    public void filter_successful_predicate_nomatch() throws Throwable {
+        String response = "Peter is in da house!!!";
+
+        // apply a filter that is always unsuccessful/false
+        Future<String> filtered = future.filter(v -> false);
+
+        // simulate success response
+        future.success(response);
+
+        assertTrue(filtered.isCompleted());
+        filtered.result(5, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void result_succesful() throws TimeoutException, Throwable {
+        String response = "Peter is in da house!!!";
+        future.success(response);
+        assertEquals(response, future.result(5, TimeUnit.SECONDS));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void result_failed() throws TimeoutException, Throwable {
+        future.failure(new NullPointerException("Error, terror!!!"));
+        future.result(5, TimeUnit.SECONDS);
+    }
+
+    @Test(expected = TimeoutException.class)
+    public void result_timeout() throws TimeoutException, Throwable {
+        future.result(5, TimeUnit.MILLISECONDS);
+    }
+
+    private static final class SuccessHandler {
         private final AtomicInteger eventCounter = new AtomicInteger();
         private String response;
 
@@ -259,8 +307,7 @@ public class TestFutureImpl extends BaseAssert {
          * 
          * @see java.util.function.Consumer#accept(java.lang.Object)
          */
-        @Override
-        public void accept(String response) {
+        private void notify(String response) {
             this.response = response;
             eventCounter.incrementAndGet();
         }
