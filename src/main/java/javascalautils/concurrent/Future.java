@@ -29,6 +29,8 @@ import javascalautils.Try;
  * 
  * @author Peter Nerg
  * @since 1.2
+ * @param <T>
+ *            The type this Future will hold as result
  */
 public interface Future<T> {
 

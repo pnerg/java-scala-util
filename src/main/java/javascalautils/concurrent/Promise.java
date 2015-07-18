@@ -21,6 +21,8 @@ package javascalautils.concurrent;
  * 
  * @author Peter Nerg
  * @since 1.2
+ * @param <T>
+ *            The type this Promise will produce as result
  */
 public interface Promise<T> {
 
