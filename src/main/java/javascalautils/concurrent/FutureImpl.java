@@ -17,7 +17,8 @@ package javascalautils.concurrent;
 
 import static javascalautils.Option.None;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javascalautils.Failure;
@@ -32,19 +33,16 @@ import javascalautils.Try;
  * @since 1.2
  */
 final class FutureImpl<T> implements Future<T> {
-    /** If we have responded to either the success or failure handler. Used to make sure we only report the response once. */
-    private final AtomicBoolean responded = new AtomicBoolean(false);
-
     /**
      * Contains either a {@link Success} as a result of {@link #success(Object)} or a {@link Failure} as a result of {@link #failure(Throwable)}
      */
     private Option<Try<T>> response = None();
 
-    /** The failure handler set by the user. */
-    private Option<Consumer<Throwable>> failureHandler = None();
+    /** The success handlers set by the user. */
+    private final List<EventHandler<T>> successHandlers = new ArrayList<>();
 
-    /** The success handler set by the user. */
-    private Option<Consumer<T>> successHandler = None();
+    /** The failure handlers set by the user. */
+    private final List<EventHandler<Throwable>> failureHandlers = new ArrayList<>();
 
     @Override
     public boolean isCompleted() {
@@ -58,14 +56,14 @@ final class FutureImpl<T> implements Future<T> {
 
     @Override
     public void onFailure(Consumer<Throwable> c) {
-        this.failureHandler = Option.apply(c);
-        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> invokeFailureHandler(t));
+        failureHandlers.add(new EventHandler<>(c));
+        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> invokeFailureHandlers(t));
     }
 
     @Override
     public void onSuccess(Consumer<T> c) {
-        this.successHandler = Option.apply(c);
-        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> invokeSucessHandler(r));
+        successHandlers.add(new EventHandler<>(c));
+        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> invokeSucessHandlers(r));
     }
 
     /**
@@ -76,7 +74,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     void success(final T value) {
         this.response = Option.apply(new Success<>(value));
-        this.invokeSucessHandler(value);
+        this.invokeSucessHandlers(value);
     }
 
     /**
@@ -87,7 +85,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     void failure(Throwable throwable) {
         this.response = Option.apply(new Failure<>(throwable));
-        this.invokeFailureHandler(throwable);
+        this.invokeFailureHandlers(throwable);
     }
 
     /**
@@ -97,9 +95,9 @@ final class FutureImpl<T> implements Future<T> {
      * @param response
      *            The response to report
      */
-    private void invokeSucessHandler(T response) {
-        // The filter is to make sure we only respond once
-        successHandler.filter(c -> responded.compareAndSet(false, true)).forEach(c -> c.accept(response));
+    private void invokeSucessHandlers(T response) {
+        // The filter is to make sure we only respond/notify once
+        successHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(response));
     }
 
     /**
@@ -109,8 +107,45 @@ final class FutureImpl<T> implements Future<T> {
      * @param throwable
      *            The throwable to report
      */
-    private void invokeFailureHandler(Throwable throwable) {
-        // The filter is to make sure we only respond once
-        failureHandler.filter(c -> responded.compareAndSet(false, true)).forEach(c -> c.accept(throwable));
+    private void invokeFailureHandlers(Throwable throwable) {
+        // The filter is to make sure we only respond/notify once
+        failureHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(throwable));
+    }
+
+    /**
+     * Internal holder for the success/failure handlers provided by the user.<br>
+     * Used primarily to keep track on if a particular handler already has been notified. <br>
+     * This is to make sure the same handler won't be notified more than once.
+     * 
+     * @author Peter Nerg
+     *
+     * @param <R>
+     */
+    private static final class EventHandler<R> {
+        private final Consumer<R> consumer;
+        private boolean notified = false;
+
+        private EventHandler(Consumer<R> consumer) {
+            this.consumer = consumer;
+        }
+
+        /**
+         * If this event handler already has been notified.
+         * 
+         * @return
+         */
+        private boolean notified() {
+            return notified;
+        }
+
+        /**
+         * Notifies the response to the handler.
+         * 
+         * @param response
+         */
+        private void notify(R response) {
+            notified = true;
+            consumer.accept(response);
+        }
     }
 }

@@ -57,7 +57,8 @@ public interface Future<T> {
     /**
      * Register a handler to be invoked if the Future gets completed with an exception. <br>
      * If the Future has already been completed the invocation will happen in the current thread. <br>
-     * The Handler will only be invoked once. <br>
+     * Multiple handlers can be registered, without any guarantee of notification order. <br>
+     * Each individual Handler will only be invoked once. <br>
      * 
      * @param failureHandler
      *            Consumer to invoke.
@@ -67,11 +68,14 @@ public interface Future<T> {
     /**
      * Register a handler to be invoked if the Future gets completed with a value. <br>
      * If the Future has already been completed the invocation will happen in the current thread. <br>
-     * The Handler will only be invoked once. <br>
+     * Multiple handlers can be registered, without any guarantee of notification order. <br>
+     * Each individual Handler will only be invoked once. <br>
      * 
      * @param successHandler
      *            Consumer to invoke.
      */
     void onSuccess(Consumer<T> successHandler);
+
+    // void onComplete(Consumer<Try<T>> completeHandler);
 
 }

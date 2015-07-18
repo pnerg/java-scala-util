@@ -17,6 +17,8 @@
 package javascalautils.concurrent;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import javascalautils.BaseAssert;
 
@@ -91,6 +93,40 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     /**
+     * Simulates a success response before/after the success listener has been installed.<br>
+     * That is
+     * 
+     * @throws Throwable
+     */
+    @Test
+    public void success_listenerAddedBeforeAndAfter() throws Throwable {
+        String response = "Peter is in da house!!!";
+
+        SuccessHandler successHandlerBefore = new SuccessHandler();
+        SuccessHandler successHandlerAfter = new SuccessHandler();
+
+        // apply a success handler
+        future.onSuccess(successHandlerBefore);
+
+        // simulate success response
+        future.success(response);
+        assertTrue(future.isCompleted());
+        assertEquals(response, future.value().get().get());
+
+        // assert that the success handler1 got a response
+        successHandlerBefore.assertResponse(response);
+
+        // apply a second success handler
+        future.onSuccess(successHandlerAfter);
+
+        // assert that the second listener got a response
+        successHandlerAfter.assertResponse(response);
+
+        // assert the first listener still only got a single response
+        successHandlerBefore.assertEventCount();
+    }
+
+    /**
      * Simulates a failure response after the success listener has been installed
      * 
      * @throws Throwable
@@ -137,5 +173,31 @@ public class TestFutureImpl extends BaseAssert {
 
         // assert that the failure handler got a response
         assertTrue(gotEvent.get());
+    }
+
+    private static final class SuccessHandler implements Consumer<String> {
+        private final AtomicInteger eventCounter = new AtomicInteger();
+        private String response;
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.function.Consumer#accept(java.lang.Object)
+         */
+        @Override
+        public void accept(String response) {
+            this.response = response;
+            eventCounter.incrementAndGet();
+        }
+
+        private void assertEventCount() {
+            assertEquals("Expected exactly one response", 1, eventCounter.get());
+        }
+
+        private void assertResponse(String expected) {
+            assertEventCount();
+            assertEquals(expected, response);
+        }
+
     }
 }
