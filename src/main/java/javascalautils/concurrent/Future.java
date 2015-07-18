@@ -16,6 +16,7 @@
 package javascalautils.concurrent;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javascalautils.Failure;
 import javascalautils.None;
@@ -95,4 +96,16 @@ public interface Future<T> {
      * @param consumer
      */
     void forEach(Consumer<T> consumer);
+
+    /**
+     * Creates a new {@link Future} that will hold the mapped successful value of this instance once it is completed. <br>
+     * Unsuccessful Futures will not be mapped, they are kept unsuccessful as they are.
+     * 
+     * @param <R>
+     *            The type for the value held by the mapped future
+     * @param function
+     *            The function to apply
+     * @return
+     */
+    <R> Future<R> map(Function<T, R> function);
 }

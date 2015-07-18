@@ -20,6 +20,7 @@ import static javascalautils.Option.None;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javascalautils.Failure;
 import javascalautils.Option;
@@ -88,6 +89,22 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void forEach(Consumer<T> consumer) {
         onSuccess(consumer);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#map(java.util.function.Function)
+     */
+    @Override
+    public <R> Future<R> map(Function<T, R> function) {
+        // Create new future expected to hold the value of the mapped type
+        FutureImpl<R> future = new FutureImpl<>();
+        // install success handler that will map the result before applying it
+        onSuccess(value -> future.success(function.apply(value)));
+        // install failure handler that just passes the result through
+        onFailure(t -> future.failure(t));
+        return future;
     }
 
     /**
