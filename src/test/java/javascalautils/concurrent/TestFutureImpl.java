@@ -223,13 +223,8 @@ public class TestFutureImpl extends BaseAssert {
         assertTrue(gotEvent.get());
     }
 
-    /**
-     * Simulates a success response after forEach has been invoked
-     * 
-     * @throws Throwable
-     */
     @Test
-    public void map() throws Throwable {
+    public void map_succesful() throws Throwable {
         String response = "Peter is in da house!!!";
 
         // map the future to one that counts the length of the response
@@ -240,6 +235,18 @@ public class TestFutureImpl extends BaseAssert {
 
         assertTrue(mapped.isCompleted());
         assertEquals(response.length(), mapped.result(5, TimeUnit.SECONDS).intValue());
+    }
+
+    @Test(expected = DummyException.class)
+    public void map_failure() throws Throwable {
+        // map the future to one that counts the length of the response
+        Future<Integer> mapped = future.map(s -> s.length());
+
+        // simulate success response
+        future.failure(new DummyException());
+
+        assertTrue(mapped.isCompleted());
+        mapped.result(5, TimeUnit.SECONDS);
     }
 
     @Test
@@ -280,6 +287,19 @@ public class TestFutureImpl extends BaseAssert {
         filtered.result(5, TimeUnit.SECONDS);
     }
 
+    @Test(expected = DummyException.class)
+    public void filter_failure() throws Throwable {
+
+        // the filter doesn't matter as it will never be applied
+        Future<String> filtered = future.filter(v -> false);
+
+        // simulate failure response
+        future.failure(new DummyException());
+
+        assertTrue(filtered.isCompleted());
+        filtered.result(5, TimeUnit.SECONDS);
+    }
+
     @Test
     public void result_succesful() throws TimeoutException, Throwable {
         String response = "Peter is in da house!!!";
@@ -287,9 +307,9 @@ public class TestFutureImpl extends BaseAssert {
         assertEquals(response, future.result(5, TimeUnit.SECONDS));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = DummyException.class)
     public void result_failed() throws TimeoutException, Throwable {
-        future.failure(new NullPointerException("Error, terror!!!"));
+        future.failure(new DummyException());
         future.result(5, TimeUnit.SECONDS);
     }
 
@@ -321,5 +341,14 @@ public class TestFutureImpl extends BaseAssert {
             assertEquals(expected, response);
         }
 
+    }
+
+    /**
+     * Dummy exception used for testing purposes
+     * 
+     * @author Peter Nerg
+     */
+    private static final class DummyException extends Exception {
+        private static final long serialVersionUID = 1L;
     }
 }
