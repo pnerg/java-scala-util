@@ -44,6 +44,9 @@ final class FutureImpl<T> implements Future<T> {
     /** The failure handlers set by the user. */
     private final List<EventHandler<Throwable>> failureHandlers = new ArrayList<>();
 
+    /** The complete handlers set by the user. */
+    private final List<EventHandler<Try<T>>> completeHandlers = new ArrayList<>();
+
     @Override
     public boolean isCompleted() {
         return response.isDefined();
@@ -57,13 +60,24 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void onFailure(Consumer<Throwable> c) {
         failureHandlers.add(new EventHandler<>(c));
-        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> invokeFailureHandlers(t));
+        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> notifyHandlers(failureHandlers, t));
     }
 
     @Override
     public void onSuccess(Consumer<T> c) {
         successHandlers.add(new EventHandler<>(c));
-        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> invokeSucessHandlers(r));
+        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> notifyHandlers(successHandlers, r));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#onComplete(java.util.function.Consumer)
+     */
+    @Override
+    public void onComplete(Consumer<Try<T>> c) {
+        completeHandlers.add(new EventHandler<>(c));
+        response.forEach(t -> notifyHandlers(completeHandlers, t));
     }
 
     /**
@@ -73,8 +87,11 @@ final class FutureImpl<T> implements Future<T> {
      *            The response value
      */
     void success(final T value) {
-        this.response = Option.apply(new Success<>(value));
-        this.invokeSucessHandlers(value);
+        Try<T> success = new Success<>(value);
+        this.response = Option.apply(success);
+
+        notifyHandlers(successHandlers, value);
+        notifyHandlers(completeHandlers, success);
     }
 
     /**
@@ -84,32 +101,24 @@ final class FutureImpl<T> implements Future<T> {
      *            The failure Throwable
      */
     void failure(Throwable throwable) {
-        this.response = Option.apply(new Failure<>(throwable));
-        this.invokeFailureHandlers(throwable);
+        Try<T> failure = new Failure<>(throwable);
+        this.response = Option.apply(failure);
+
+        notifyHandlers(failureHandlers, throwable);
+        notifyHandlers(completeHandlers, failure);
     }
 
     /**
-     * Report the stored {@link #value} to the stored {@link #successHandler}.<br>
-     * This will only report once irrespective on how many times the method is invoked.
+     * Invoke all provided handlers with the provided value. <br>
+     * A filter is applied to make sure we only notify handlers that have not been notified before.
      * 
-     * @param response
-     *            The response to report
+     * @param handlers
+     *            The handlers to notify.
+     * @param value
      */
-    private void invokeSucessHandlers(T response) {
+    private <R> void notifyHandlers(List<EventHandler<R>> handlers, R value) {
         // The filter is to make sure we only respond/notify once
-        successHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(response));
-    }
-
-    /**
-     * Report the stored {@link #throwable} to the stored {@link #failureHandler}.<br>
-     * This will only report once irrespective on how many times the method is invoked.
-     * 
-     * @param throwable
-     *            The throwable to report
-     */
-    private void invokeFailureHandlers(Throwable throwable) {
-        // The filter is to make sure we only respond/notify once
-        failureHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(throwable));
+        handlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(value));
     }
 
     /**

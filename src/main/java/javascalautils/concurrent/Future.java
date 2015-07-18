@@ -76,6 +76,14 @@ public interface Future<T> {
      */
     void onSuccess(Consumer<T> successHandler);
 
-    // void onComplete(Consumer<Try<T>> completeHandler);
-
+    /**
+     * Register a handler to be invoked if the Future gets completed with a value or a failure. <br>
+     * If the Future has already been completed the invocation will happen in the current thread. <br>
+     * Multiple handlers can be registered, without any guarantee of notification order. <br>
+     * Each individual Handler will only be invoked once. <br>
+     * 
+     * @param completeHandler
+     *            Consumer to invoke.
+     */
+    void onComplete(Consumer<Try<T>> completeHandler);
 }

@@ -175,6 +175,27 @@ public class TestFutureImpl extends BaseAssert {
         assertTrue(gotEvent.get());
     }
 
+    @Test
+    public void success_withCompleteHandler() throws Throwable {
+        String response = "Peter is in da house!!!";
+
+        // apply a success handler
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+        future.onComplete(t -> {
+            assertEquals(response, t.orNull());
+            gotEvent.set(true);
+        });
+
+        // simulate success response
+        future.success(response);
+        assertTrue(future.isCompleted());
+        assertEquals(response, future.value().get().get());
+
+        // assert that the success handler got a response
+        assertTrue(gotEvent.get());
+
+    }
+
     private static final class SuccessHandler implements Consumer<String> {
         private final AtomicInteger eventCounter = new AtomicInteger();
         private String response;
