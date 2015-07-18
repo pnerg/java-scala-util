@@ -24,16 +24,16 @@ package javascalautils.concurrent;
  */
 public interface Promise<T> {
 
-    // /**
-    // * Creates an instance of Promise.
-    // *
-    // * @param <T>
-    // * The type the Promise is expected to deliver
-    // * @return
-    // */
-    // public static <T> Promise<T> apply() {
-    // return new PromiseImpl<T>();
-    // }
+    /**
+     * Creates an instance of Promise.
+     * 
+     * @param <T>
+     *            The type the Promise is expected to deliver
+     * @return
+     */
+    public static <T> Promise<T> apply() {
+        return new PromiseImpl<T>();
+    }
 
     /**
      * Get a Future that will hold the value once this Promise is completed.
