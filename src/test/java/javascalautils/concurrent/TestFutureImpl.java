@@ -196,6 +196,31 @@ public class TestFutureImpl extends BaseAssert {
 
     }
 
+    /**
+     * Simulates a success response after forEach has been invoked
+     * 
+     * @throws Throwable
+     */
+    @Test
+    public void forEach() throws Throwable {
+        String response = "Peter is in da house!!!";
+
+        // apply a success handler
+        AtomicBoolean gotEvent = new AtomicBoolean(false);
+        future.forEach(s -> {
+            assertEquals(response, s);
+            gotEvent.set(true);
+        });
+
+        // simulate success response
+        future.success(response);
+        assertTrue(future.isCompleted());
+        assertEquals(response, future.value().get().get());
+
+        // assert that the success handler got a response
+        assertTrue(gotEvent.get());
+    }
+
     private static final class SuccessHandler implements Consumer<String> {
         private final AtomicInteger eventCounter = new AtomicInteger();
         private String response;

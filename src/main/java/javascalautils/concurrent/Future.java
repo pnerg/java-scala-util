@@ -86,4 +86,13 @@ public interface Future<T> {
      *            Consumer to invoke.
      */
     void onComplete(Consumer<Try<T>> completeHandler);
+
+    /**
+     * Asynchronously processes the value in the Future once it is available. <br>
+     * Only successful futures are reported to the consumer. <br>
+     * This is pretty much the same as {@link #onSuccess(Consumer)} but is here for completion keeping a consistent look and feel.
+     * 
+     * @param consumer
+     */
+    void forEach(Consumer<T> consumer);
 }

@@ -80,6 +80,16 @@ final class FutureImpl<T> implements Future<T> {
         response.forEach(t -> notifyHandlers(completeHandlers, t));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#forEach(java.util.function.Consumer)
+     */
+    @Override
+    public void forEach(Consumer<T> consumer) {
+        onSuccess(consumer);
+    }
+
     /**
      * Used to report a success to this future.
      * 
