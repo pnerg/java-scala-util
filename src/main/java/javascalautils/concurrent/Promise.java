@@ -39,21 +39,22 @@ public interface Promise<T> {
     }
 
     /**
-     * Get a Future that will hold the value once this Promise is completed.
+     * Get a {@link Future} that will hold the value once this Promise is completed. <br>
+     * Each {@link Promise} is connected to a single {@link Future}, invoking this method multiple times will always return the same {@link Future} instance.
      * 
      * @return A Future that will hold the value once this Promise is completed.
      */
     Future<T> future();
 
     /**
-     * Check if the Promise have been completed, with a value or an exception.
+     * Check if the {@link Promise} have been completed, with a value or an exception.
      * 
-     * @return <code>true</code> if the Promise has been completed. <code>false</code> otherwise.
+     * @return <code>true</code> if the {@link Promise} has been completed. <code>false</code> otherwise.
      */
     boolean isCompleted();
 
     /**
-     * Completes the Promise with a value.
+     * Completes the {@link Promise} with a value.
      * 
      * @param object
      *            The value to complete with.
@@ -64,7 +65,7 @@ public interface Promise<T> {
     void success(T object);
 
     /**
-     * Completes the Promise with an exception.
+     * Completes the {@link Promise} with an exception.
      * 
      * @param throwable
      *            The Throwable to complete with.

@@ -59,13 +59,13 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void onFailure(Consumer<Throwable> c) {
         this.failureHandler = Option.apply(c);
-        response.filter(t -> t.isFailure()).map(t -> t.failed().orNull()).forEach(t -> invokeFailureHandler(t));
+        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> invokeFailureHandler(t));
     }
 
     @Override
     public void onSuccess(Consumer<T> c) {
         this.successHandler = Option.apply(c);
-        response.filter(t -> t.isSuccess()).map(t -> t.orNull()).forEach(r -> invokeSucessHandler(r));
+        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> invokeSucessHandler(r));
     }
 
     /**
@@ -93,16 +93,24 @@ final class FutureImpl<T> implements Future<T> {
     /**
      * Report the stored {@link #value} to the stored {@link #successHandler}.<br>
      * This will only report once irrespective on how many times the method is invoked.
+     * 
+     * @param response
+     *            The response to report
      */
     private void invokeSucessHandler(T response) {
+        // The filter is to make sure we only respond once
         successHandler.filter(c -> responded.compareAndSet(false, true)).forEach(c -> c.accept(response));
     }
 
     /**
      * Report the stored {@link #throwable} to the stored {@link #failureHandler}.<br>
      * This will only report once irrespective on how many times the method is invoked.
+     * 
+     * @param throwable
+     *            The throwable to report
      */
     private void invokeFailureHandler(Throwable throwable) {
+        // The filter is to make sure we only respond once
         failureHandler.filter(c -> responded.compareAndSet(false, true)).forEach(c -> c.accept(throwable));
     }
 }
