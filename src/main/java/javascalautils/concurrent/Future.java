@@ -45,9 +45,9 @@ public interface Future<T> {
      * The value of the future. <br>
      * There are three possible outcomes:
      * <ul>
-     * <li>The future has not been completed -> {@link None} is returned</li>
-     * <li>The execution of the Future was successful -> {@link Some} with a {@link Success} containing the value of the executed job</li>
-     * <li>The execution failed and an exception was reported -> {@link Some} with a {@link Failure} containing the Throwable</li>
+     * <li>The future has not been completed -&#62; {@link None} is returned</li>
+     * <li>The execution of the Future was successful -&#62; {@link Some} with a {@link Success} containing the value of the executed job</li>
+     * <li>The execution failed and an exception was reported -&#62; {@link Some} with a {@link Failure} containing the Throwable</li>
      * </ul>
      * 
      * @return An Option with the result.

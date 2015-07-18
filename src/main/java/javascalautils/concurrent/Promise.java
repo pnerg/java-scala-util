@@ -27,11 +27,12 @@ package javascalautils.concurrent;
 public interface Promise<T> {
 
     /**
-     * Creates an instance of Promise.
+     * Creates an instance of Promise. <br>
+     * E.g. <code>Promise&#60;String&#62; p = Promise.apply();</code>
      * 
      * @param <T>
      *            The type the Promise is expected to deliver
-     * @return
+     * @return The Promise instance
      */
     public static <T> Promise<T> apply() {
         return new PromiseImpl<T>();

@@ -72,6 +72,7 @@ final class FutureImpl<T> implements Future<T> {
      * Used to report a success to this future.
      * 
      * @param value
+     *            The response value
      */
     void success(final T value) {
         this.response = Option.apply(new Success<>(value));
@@ -82,6 +83,7 @@ final class FutureImpl<T> implements Future<T> {
      * Used to report a failure to this future.
      * 
      * @param throwable
+     *            The failure Throwable
      */
     void failure(Throwable throwable) {
         this.response = Option.apply(new Failure<>(throwable));

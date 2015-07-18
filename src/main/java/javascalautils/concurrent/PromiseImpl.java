@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 final class PromiseImpl<T> implements Promise<T> {
 
-    private final FutureImpl<T> future = new FutureImpl<T>();
+    private final FutureImpl<T> future = new FutureImpl<>();
     private final AtomicBoolean completed = new AtomicBoolean(false);
 
     @Override

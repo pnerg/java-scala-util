@@ -78,9 +78,9 @@ public interface Option<T> extends Iterable<T> {
      * import static javascalautils.Option.None;
      * 
      * Option&#60;String&#62; opt = None();
+     * </code>
      * </pre>
      * 
-     * </code>
      * 
      * @param <T>
      *            The type for the value this Option represents
