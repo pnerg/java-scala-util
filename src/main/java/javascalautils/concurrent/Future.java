@@ -54,7 +54,7 @@ public interface Future<T> {
      * <li>The execution failed and an exception was reported -&#62; {@link Some} with a {@link Failure} containing the Throwable</li>
      * </ul>
      * 
-     * @return An Option with the result.
+     * @return An {@link Option} with the result.
      */
     Option<Try<T>> value();
 
@@ -93,7 +93,7 @@ public interface Future<T> {
 
     /**
      * Asynchronously processes the value in the Future once it is available. <br>
-     * Only successful futures are reported to the consumer. <br>
+     * Only successful Futures are reported to the consumer. <br>
      * This is pretty much the same as {@link #onSuccess(Consumer)} but is here for completion keeping a consistent look and feel.
      * 
      * @param consumer
