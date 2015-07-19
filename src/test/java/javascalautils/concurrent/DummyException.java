@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Peter Nerg
+ *  Copyright 2015 Peter Nerg
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,24 +13,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 package javascalautils.concurrent;
 
-import java.util.concurrent.Executor;
-
 /**
- * Executor for running all runnables in the same calling thread. <br>
- * To be used in environments where a deterministic behavior is needed (e.g. during test).
+ * Dummy exception used for testing purposes.
  * 
  * @author Peter Nerg
+ *
  */
-class SameThreadExecutor implements Executor {
-
-    /**
-     * Invokes {@link Runnable#run()} in the same thread.
-     */
-    @Override
-    public void execute(Runnable runnable) {
-        runnable.run();
-    }
-
+final class DummyException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 }

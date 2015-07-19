@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package javascalautils.concurrent;
 
 import java.util.NoSuchElementException;
@@ -343,12 +342,4 @@ public class TestFutureImpl extends BaseAssert {
 
     }
 
-    /**
-     * Dummy exception used for testing purposes
-     * 
-     * @author Peter Nerg
-     */
-    private static final class DummyException extends Exception {
-        private static final long serialVersionUID = 1L;
-    }
 }
