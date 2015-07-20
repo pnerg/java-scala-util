@@ -101,4 +101,20 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
         return either.isLeft() ? new Left<>(function.apply(get())) : (Either<T, R>) either;
     }
 
+    /**
+     * If this projection contains a {@link Left} then a new {@link Left} is returned containing the value from the original {@link Right} mapped via the
+     * provided function, else the contained Either is returned as is.
+     * 
+     * @param <T>
+     *            The type to return as the new {@link Left}
+     * @param function
+     *            The function
+     * @return Mapped Either
+     * @since 1.2
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Either<T, R> flatMap(Function<L, Left<T, R>> function) {
+        return either.isLeft() ? function.apply(get()) : (Either<T, R>) either;
+    }
+
 }

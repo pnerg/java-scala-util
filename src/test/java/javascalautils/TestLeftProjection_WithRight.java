@@ -84,4 +84,10 @@ public class TestLeftProjection_WithRight extends BaseAssert {
         // mapping won't matter as it's a Right and will not be mapped
         assertFalse(projection.map(v -> v).isLeft());
     }
+
+    @Test
+    public void flatMap() {
+        // mapping won't matter as it's a Right and will not be mapped
+        assertFalse(projection.flatMap(v -> new Left<>(v)).isLeft());
+    }
 }

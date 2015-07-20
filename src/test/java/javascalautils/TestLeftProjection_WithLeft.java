@@ -91,4 +91,11 @@ public class TestLeftProjection_WithLeft extends BaseAssert {
         assertTrue(mapped.isLeft());
         assertEquals(TEXT.length(), (int) mapped.left().get());
     }
+
+    @Test
+    public void flatMap() {
+        Either<Integer, Object> mapped = projection.flatMap(v -> new Left<>(v.length()));
+        assertTrue(mapped.isLeft());
+        assertEquals(TEXT.length(), (int) mapped.left().get());
+    }
 }

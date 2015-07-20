@@ -91,4 +91,11 @@ public class TestRightProjection_WithRight extends BaseAssert {
         assertTrue(mapped.isRight());
         assertEquals(TEXT.length(), (int) mapped.right().get());
     }
+
+    @Test
+    public void flatMap() {
+        Either<Object, Integer> mapped = projection.flatMap(v -> new Right<>(v.length()));
+        assertTrue(mapped.isRight());
+        assertEquals(TEXT.length(), (int) mapped.right().get());
+    }
 }

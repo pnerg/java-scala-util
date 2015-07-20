@@ -101,4 +101,19 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
         return either.isRight() ? new Right<>(function.apply(get())) : (Either<L, T>) either;
     }
 
+    /**
+     * If this projection contains a {@link Right} then a new {@link Right} is returned containing the value from the original {@link Right} mapped via the
+     * provided function, else the contained Either is returned as is.
+     * 
+     * @param <T>
+     *            The type to return as the new {@link Right}
+     * @param function
+     *            The function
+     * @return Mapped Either
+     * @since 1.2
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Either<L, T> flatMap(Function<R, Right<L, T>> function) {
+        return either.isRight() ? function.apply(get()) : (Either<L, T>) either;
+    }
 }
