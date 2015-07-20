@@ -20,6 +20,7 @@ import static javascalautils.Option.None;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -65,12 +66,14 @@ final class FutureImpl<T> implements Future<T> {
 
     @Override
     public void onFailure(Consumer<Throwable> c) {
+        Objects.requireNonNull(c, "Null is not a valid consumer");
         failureHandlers.add(new EventHandler<>(c));
         response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> notifyHandlers(failureHandlers, t));
     }
 
     @Override
     public void onSuccess(Consumer<T> c) {
+        Objects.requireNonNull(c, "Null is not a valid consumer");
         successHandlers.add(new EventHandler<>(c));
         response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> notifyHandlers(successHandlers, r));
     }
@@ -82,6 +85,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public void onComplete(Consumer<Try<T>> c) {
+        Objects.requireNonNull(c, "Null is not a valid consumer");
         completeHandlers.add(new EventHandler<>(c));
         response.forEach(t -> notifyHandlers(completeHandlers, t));
     }
@@ -92,8 +96,9 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#forEach(java.util.function.Consumer)
      */
     @Override
-    public void forEach(Consumer<T> consumer) {
-        onSuccess(consumer);
+    public void forEach(Consumer<T> c) {
+        Objects.requireNonNull(c, "Null is not a valid consumer");
+        onSuccess(c);
     }
 
     /*
@@ -103,6 +108,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public <R> Future<R> map(Function<T, R> function) {
+        Objects.requireNonNull(function, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<R> future = new FutureImpl<>();
         // install success handler that will map the result before applying it
@@ -119,6 +125,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public Future<T> filter(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate, "Null is not a valid predicate");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<T> future = new FutureImpl<>();
         // install success handler that will filter the result before applying it
@@ -141,6 +148,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException {
+        Objects.requireNonNull(timeUnit, "Null is not a valid time unit");
         CountDownLatch latch = new CountDownLatch(1);
 
         // install a handler that releases the count down latch when notified with a result.
@@ -155,6 +163,16 @@ final class FutureImpl<T> implements Future<T> {
         // The response is now set to Some
         // return the value of the response (Try), should it be a Failure the exception is raised
         return response.get().get();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Future:" + response.toString();
     }
 
     /**
