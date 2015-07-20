@@ -145,4 +145,33 @@ public class BaseAssert extends Assert {
         assertEquals(expectedSize, collection.size());
     }
 
+    /**
+     * Method that does...nothing. <br>
+     * Used in test cases concerning executables that don't fulfill their Promise.
+     */
+    public static void doNothing() {
+    }
+
+    /**
+     * Dummy method to raise a {@link DummyException}. <br>
+     * This is used since one cannot raise exceptions directly from Lambda expressions.
+     * 
+     * @return Never ever, since it always raises a DummyException
+     */
+    public static <T> T throwDummyException() {
+        return throwException(new DummyException());
+    }
+
+    /**
+     * Throws the provided exception. <br>
+     * This is used since one cannot raise exceptions directly from Lambda expressions.
+     * 
+     * @param ex
+     *            The exception to throw
+     * @return Never ever, since it always raises a DummyException
+     */
+    public static <T> T throwException(RuntimeException ex) {
+        throw ex;
+    }
+
 }

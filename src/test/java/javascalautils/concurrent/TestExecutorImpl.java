@@ -20,6 +20,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javascalautils.BaseAssert;
+import javascalautils.DummyException;
 
 import org.junit.After;
 import org.junit.Test;
@@ -106,32 +107,4 @@ public class TestExecutorImpl extends BaseAssert {
         }
     }
 
-    /**
-     * Method that does...nothing. <br>
-     * Used in test cases concerning executables that don't fulfill their Promise.
-     */
-    private static void doNothing() {
-    }
-
-    /**
-     * Dummy method to raise a {@link DummyException}. <br>
-     * This is used since one cannot raise exceptions directly from Lambda expressions.
-     * 
-     * @return Never ever, since it always raises a DummyException
-     */
-    private static String throwDummyException() {
-        return throwException(new DummyException());
-    }
-
-    /**
-     * Throws the provided exception. <br>
-     * This is used since one cannot raise exceptions directly from Lambda expressions.
-     * 
-     * @param ex
-     *            The exception to throw
-     * @return Never ever, since it always raises a DummyException
-     */
-    private static String throwException(RuntimeException ex) {
-        throw ex;
-    }
 }

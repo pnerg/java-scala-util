@@ -114,6 +114,18 @@ public interface Future<T> {
     <R> Future<R> map(Function<T, R> function);
 
     /**
+     * Creates a new {@link Future} that will hold the mapped successful value of this instance once it is completed. <br>
+     * Unsuccessful Futures will not be mapped, they are kept unsuccessful as they are.
+     * 
+     * @param <R>
+     *            The type for the value held by the mapped future
+     * @param function
+     *            The function to apply
+     * @return The mapped Future
+     */
+    <R> Future<R> flatMap(Function<T, Future<R>> function);
+
+    /**
      * Creates a new {@link Future} that will filter the successful value of this instance once it is completed. <br>
      * The possible outcomes are:
      * <ul>

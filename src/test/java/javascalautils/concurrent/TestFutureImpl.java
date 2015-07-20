@@ -22,7 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javascalautils.BaseAssert;
+import javascalautils.DummyException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -33,6 +36,16 @@ import org.junit.Test;
  */
 public class TestFutureImpl extends BaseAssert {
     private final FutureImpl<String> future = new FutureImpl<>();
+
+    @Before
+    public void before() {
+        assertNotNull(future.toString());
+    }
+
+    @After
+    public void after() {
+        assertNotNull(future.toString());
+    }
 
     @Test
     public void isCompleted_notCompleted() {
@@ -249,6 +262,63 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     @Test
+    public void flatMap_success() throws TimeoutException, Throwable {
+        FutureImpl<Integer> f1 = new FutureImpl<>();
+        FutureImpl<Integer> f2 = new FutureImpl<>();
+
+        f1.success(5);
+        f2.success(7);
+
+        Future<Object> mapped = f1.flatMap(v1 -> f2.map(v2 -> v1 + v2));
+        assertEquals(12, mapped.result(5, TimeUnit.SECONDS));
+    }
+
+    @Test(expected = DummyException.class)
+    public void flatMap_failureDuringMapping() throws Throwable {
+        // map the future to one that counts the length of the response
+        Future<Integer> mapped = future.flatMap(s -> throwDummyException());
+
+        // simulate success response
+        future.success("whatever-will-anyways-not-be-used");
+
+        assertTrue(mapped.isCompleted());
+        // should throw an exception
+        mapped.result(5, TimeUnit.SECONDS);
+    }
+
+    @Test(expected = DummyException.class)
+    public void flatMap_failureInMapped() throws Throwable {
+        // map the future to one that counts the length of the response
+        // provide a dummy future that does nothing
+        Future<Integer> mapped = future.flatMap(s -> new FutureImpl<Integer>());
+
+        // simulate failure response
+        future.failure(new DummyException());
+
+        assertTrue(mapped.isCompleted());
+        // should throw an exception
+        mapped.result(5, TimeUnit.SECONDS);
+    }
+
+    @Test(expected = DummyException.class)
+    public void flatMap_failureInMappingFunction() throws Throwable {
+        // map the future to one that counts the length of the response
+        // provide a dummy future that does nothing
+        FutureImpl<Integer> innerFuture = new FutureImpl<Integer>();
+        Future<Integer> mapped = future.flatMap(s -> innerFuture);
+
+        // simulate that the future created by the flatMap function fails
+        // this failure should propagate to the future we got from the flatMap method
+        innerFuture.failure(new DummyException());
+        // simulate success response
+        future.success("whatever-will-anyways-not-be-used");
+
+        assertTrue(mapped.isCompleted());
+        // should throw an exception
+        mapped.result(5, TimeUnit.SECONDS);
+    }
+
+    @Test
     public void filter_successful_predicate_matches() throws Throwable {
         String response = "Peter is in da house!!!";
 
@@ -294,7 +364,6 @@ public class TestFutureImpl extends BaseAssert {
 
         // simulate failure response
         future.failure(new DummyException());
-
         assertTrue(filtered.isCompleted());
         filtered.result(5, TimeUnit.SECONDS);
     }
@@ -315,6 +384,11 @@ public class TestFutureImpl extends BaseAssert {
     @Test(expected = TimeoutException.class)
     public void result_timeout() throws TimeoutException, Throwable {
         future.result(5, TimeUnit.MILLISECONDS);
+    }
+
+    @Test
+    public void t_toString() {
+        assertNotNull(future.toString());
     }
 
     private static final class SuccessHandler {

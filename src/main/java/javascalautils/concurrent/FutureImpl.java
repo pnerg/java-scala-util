@@ -121,6 +121,33 @@ final class FutureImpl<T> implements Future<T> {
     /*
      * (non-Javadoc)
      * 
+     * @see javascalautils.concurrent.Future#flatMap(java.util.function.Function)
+     */
+    @Override
+    public <R> Future<R> flatMap(Function<T, Future<R>> function) {
+        Objects.requireNonNull(function, "Null is not a valid function");
+        // Create new future expected to hold the value of the mapped type
+        FutureImpl<R> future = new FutureImpl<>();
+
+        // install success handler that will map the result before applying it
+        onSuccess(value -> {
+            // use the provided function to create a mapped future
+            Future<R> mapped = function.apply(value);
+            // install success/failure handlers on the mapped future to bridge between this instance
+            // and the one created a few lines above
+            mapped.onSuccess(v -> future.success(v));
+            mapped.onFailure(t -> future.failure(t));
+        });
+
+        // install failure handler that just passes the result through
+        onFailure(t -> future.failure(t));
+
+        return future;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see javascalautils.concurrent.Future#filter(java.util.function.Predicate)
      */
     @Override

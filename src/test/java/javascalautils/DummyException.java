@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package javascalautils.concurrent;
+package javascalautils;
 
 /**
  * Dummy exception used for testing purposes.
@@ -22,6 +22,6 @@ package javascalautils.concurrent;
  * @author Peter Nerg
  *
  */
-final class DummyException extends RuntimeException {
+public final class DummyException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 }
