@@ -214,6 +214,19 @@ public interface Option<T> extends Iterable<T> {
     <R> Option<R> map(Function<T, R> function);
 
     /**
+     * Returns an Option consisting of the result of applying the given function to the current {@link Some}. <br>
+     * Applying map to {@link None} will always yield {@link None}.
+     * 
+     * @param <R>
+     *            The type for the return value from the function
+     * @param function
+     *            The function to use
+     * @return The Option containing the mapped value
+     * @since 1.2
+     */
+    <R> Option<R> flatMap(Function<T, Option<R>> function);
+
+    /**
      * Returns this Option if it is nonempty, otherwise return the result of provided by the supplier.
      * 
      * @param supplier

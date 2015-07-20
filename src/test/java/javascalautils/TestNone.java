@@ -95,6 +95,11 @@ public class TestNone extends BaseAssert {
     }
 
     @Test
+    public void flatMap() {
+        assertFalse(option.flatMap(v -> Option.apply(v)).isDefined());
+    }
+
+    @Test
     public void isEmpty() {
         assertTrue(option.isEmpty());
     }

@@ -65,6 +65,15 @@ public final class None<T> implements Option<T>, Serializable {
     }
 
     /**
+     * Always returns <code>this</code>.
+     */
+    @Override
+    public <R> Option<R> flatMap(Function<T, Option<R>> function) {
+        // uses the Map method as it anyways produces the same result
+        return map(null);
+    }
+
+    /**
      * Always the value provided by the supplier.
      * 
      * @return The value provided by the supplier

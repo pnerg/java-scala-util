@@ -116,7 +116,16 @@ public class TestSome extends BaseAssert {
 
     @Test
     public void map() {
-        assertTrue(option.map(v -> 666).isDefined());
+        Option<Integer> mapped = option.map(v -> v.length());
+        assertTrue(mapped.isDefined());
+        assertEquals(TEXT_VALUE.length(), mapped.get().intValue());
+    }
+
+    @Test
+    public void flatMap() {
+        Option<Integer> mapped = option.flatMap(v -> Option.apply(v.length()));
+        assertTrue(mapped.isDefined());
+        assertEquals(TEXT_VALUE.length(), mapped.get().intValue());
     }
 
     @Test
