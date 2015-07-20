@@ -82,4 +82,9 @@ public class TestFailure extends BaseAssert {
         assertTrue(t.map(v -> null).isFailure());
     }
 
+    @Test
+    public void flatMap() {
+        // mapping a failure only returns itself anyways
+        assertTrue(t.flatMap(v -> null).isFailure());
+    }
 }

@@ -132,6 +132,18 @@ public interface Try<T> extends Iterable<T> {
     <R> Try<R> map(Function<T, R> function);
 
     /**
+     * Maps the given function to the value from this {@link Success} or returns <code>this</code> if this is a {@link Failure}.
+     * 
+     * @param <R>
+     *            The type for the return value from the function
+     * @param function
+     *            The function to use
+     * @return The Option containing the mapped value
+     * @since 1.2
+     */
+    <R> Try<R> flatMap(Function<T, Try<R>> function);
+
+    /**
      * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.<br>
      * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
      * 

@@ -78,4 +78,8 @@ public class TestSuccess extends BaseAssert {
         assertEquals(message.toUpperCase(), t.map(v -> v.toUpperCase()).orNull());
     }
 
+    @Test
+    public void flatMap() {
+        assertEquals(message.toUpperCase(), t.flatMap(v -> new Success<>(v.toUpperCase())).orNull());
+    }
 }

@@ -93,6 +93,14 @@ public final class Failure<T> implements Try<T>, Serializable {
         return (Try<R>) this;
     }
 
+    /**
+     * Always returns <code>this</code>
+     */
+    @Override
+    public <R> Try<R> flatMap(Function<T, Try<R>> function) {
+        return map(null);
+    }
+
     /*
      * (non-Javadoc)
      * 

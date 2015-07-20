@@ -94,6 +94,16 @@ public final class Success<T> implements Try<T>, Serializable {
     /*
      * (non-Javadoc)
      * 
+     * @see javascalautils.Try#flatMap(java.util.function.Function)
+     */
+    @Override
+    public <R> Try<R> flatMap(Function<T, Try<R>> function) {
+        return function.apply(value);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
