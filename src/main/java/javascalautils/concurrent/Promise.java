@@ -69,6 +69,17 @@ public interface Promise<T> {
     void complete(Try<T> result);
 
     /**
+     * Completes this {@link Promise} with the value from the provided {@link Future} once that is completed.
+     * 
+     * @param future
+     *            The future whose value will complete this Promise
+     * @throws IllegalStateException
+     *             Thrown if the Promise is already completed.
+     * @since 1.3
+     */
+    void completeWith(Future<T> future);
+
+    /**
      * Completes the {@link Promise} with a value.
      * 
      * @param result
@@ -99,6 +110,17 @@ public interface Promise<T> {
      * @since 1.3
      */
     boolean tryComplete(Try<T> result);
+
+    /**
+     * Tries to complete this {@link Promise} with the value from the provided {@link Future} once that is completed. <br>
+     * Contrary to the {@link #complete(Try)} method this does not throw an exception in case the Promise is already completed.
+     * 
+     * @param future
+     *            The future whose value will complete this Promise
+     * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
+     * @since 1.3
+     */
+    boolean tryCompleteWith(Future<T> future);
 
     /**
      * Tries to complete the {@link Promise} with a value. <br>

@@ -16,6 +16,9 @@
 
 package javascalautils.concurrent;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import javascalautils.BaseAssert;
 import javascalautils.Success;
 
@@ -112,6 +115,21 @@ public class TestPromiseImpl extends BaseAssert {
     }
 
     @Test
+    public void completeWith_once() throws TimeoutException, Throwable {
+        FutureImpl<String> future = new FutureImpl<>();
+        promise.completeWith(future);
+        future.complete(new Success<>("Amazing stuff this!"));
+        assertTrue(promise.isCompleted());
+        assertEquals("Amazing stuff this!", promise.future().result(1, TimeUnit.SECONDS));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void completeWith_twice() throws TimeoutException, Throwable {
+        completeWith_once();
+        promise.completeWith(new FutureImpl<>());
+    }
+
+    @Test
     public void tryComplete_once() {
         assertTrue(promise.tryComplete(new Success<>("wohooo!")));
         assertTrue(promise.isCompleted());
@@ -146,4 +164,5 @@ public class TestPromiseImpl extends BaseAssert {
         tryFailure_once();
         assertFalse(promise.tryFailure(new Exception("Scheit, another exception")));
     }
+
 }
