@@ -15,7 +15,7 @@
  */
 
 /**
- * Introducing some of the core concepts of Scala into Java.<br>
+ * Introducing some of the core concepts of Scala into Java. <br>
  * The aim with these utility classes is to provide neat and concise programming patterns.<br>
  * Details and Wiki can be found at:<br>
  * <a href="https://github.com/pnerg/java-scala-util">https://github.com/pnerg/java-scala-util</a>

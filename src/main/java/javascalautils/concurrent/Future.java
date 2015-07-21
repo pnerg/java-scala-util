@@ -61,7 +61,8 @@ public interface Future<T> {
     boolean isCompleted();
 
     /**
-     * The value of the future. <br>
+     * The current (completed or not) value of the future. <br>
+     * This is a non-blocking method, it will return the current state/value of the Future. <br>
      * There are three possible outcomes:
      * <ul>
      * <li>The future has not been completed -&#62; {@link None} is returned</li>
