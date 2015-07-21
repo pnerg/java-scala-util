@@ -64,7 +64,7 @@ public interface Promise<T> {
      *            The result to complete with.
      * @throws IllegalStateException
      *             Thrown if the Promise is already completed.
-     * @since 1.4
+     * @since 1.3
      */
     void complete(Try<T> result);
 
@@ -96,7 +96,7 @@ public interface Promise<T> {
      * @param result
      *            The result to complete with.
      * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
-     * @since 1.4
+     * @since 1.3
      */
     boolean tryComplete(Try<T> result);
 
@@ -107,7 +107,7 @@ public interface Promise<T> {
      * @param result
      *            The value to complete with.
      * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
-     * @since 1.4
+     * @since 1.3
      */
     boolean trySuccess(T result);
 
@@ -118,7 +118,7 @@ public interface Promise<T> {
      * @param throwable
      *            The Throwable to complete with.
      * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
-     * @since 1.4
+     * @since 1.3
      */
     boolean tryFailure(Throwable throwable);
 }
