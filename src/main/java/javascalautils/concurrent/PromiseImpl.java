@@ -17,6 +17,7 @@ package javascalautils.concurrent;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import javascalautils.Failure;
 import javascalautils.Success;
@@ -71,20 +72,12 @@ final class PromiseImpl<T> implements Promise<T> {
     @Override
     public boolean tryComplete(Try<T> result) {
         Objects.requireNonNull(result, "Must provide a valid result");
-        if (completed.compareAndSet(false, true)) {
-            future.complete(result);
-            return true;
-        }
-        return false;
+        return tryComplete(future -> future.complete(result));
     }
 
     @Override
     public boolean tryCompleteWith(Future<T> result) {
-        if (completed.compareAndSet(false, true)) {
-            result.onComplete(response -> future.complete(response));
-            return true;
-        }
-        return false;
+        return tryComplete(future -> result.onComplete(response -> future.complete(response)));
     }
 
     @Override
@@ -95,5 +88,20 @@ final class PromiseImpl<T> implements Promise<T> {
     @Override
     public boolean tryFailure(Throwable throwable) {
         return tryComplete(new Failure<>(throwable));
+    }
+
+    /**
+     * Internal try complete method that takes a consumer to apply the Future this Promise holds. <br>
+     * Performs a check if this Promise already has been fulfilled or not.
+     * 
+     * @param c
+     * @return
+     */
+    private boolean tryComplete(Consumer<FutureImpl<T>> c) {
+        if (completed.compareAndSet(false, true)) {
+            c.accept(future);
+            return true;
+        }
+        return false;
     }
 }
