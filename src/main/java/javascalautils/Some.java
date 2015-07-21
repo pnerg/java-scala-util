@@ -23,7 +23,14 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Represents an {@link Option} holding a value.
+ * Represents an {@link Option} holding a value. <br>
+ * The instance of Some is guaranteed to keep a non-null value object. <br>
+ * Null values are not allowed as it implies an instance of {@link None}. <br>
+ * <br>
+ * Either use the implementation directly: <br>
+ * <code>Option&#60;String&#62; option = new Some&#60;&#62;("Peter is Great!");</code> <br>
+ * or use the factory/apply method from Option: <br>
+ * <code>Option&#60;String&#62; option = Option.apply("Peter is Great!");</code>
  * 
  * @author Peter Nerg
  * @since 1.0
@@ -48,6 +55,7 @@ public final class Some<T> implements Option<T>, Serializable {
     /**
      * Returns <code>true</code> if the predicate matches the value.
      */
+    @Override
     public boolean exists(Predicate<T> p) {
         return p.test(value);
     }
@@ -63,13 +71,15 @@ public final class Some<T> implements Option<T>, Serializable {
     /**
      * Always returns the value.
      */
+    @Override
     public T getOrElse(Supplier<T> s) {
-        return get();
+        return value;
     }
 
     /**
      * Returns an Option consisting of the result of applying the given function to the current value.
      */
+    @Override
     public <R> Option<R> map(Function<T, R> f) {
         return Option.apply(f.apply(value));
     }
@@ -85,6 +95,7 @@ public final class Some<T> implements Option<T>, Serializable {
     /**
      * Always returns <code>this</code>.
      */
+    @Override
     public Option<T> orElse(Supplier<Option<T>> s) {
         return this;
     }
@@ -92,6 +103,7 @@ public final class Some<T> implements Option<T>, Serializable {
     /**
      * Returns a stream of size one containing the value.
      */
+    @Override
     public Stream<T> stream() {
         return Stream.of(value);
     }
@@ -121,6 +133,6 @@ public final class Some<T> implements Option<T>, Serializable {
      */
     @Override
     public String toString() {
-        return "Some:" + value.toString();
+        return "Some:" + value;
     }
 }
