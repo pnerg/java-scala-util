@@ -56,11 +56,28 @@ final class PromiseImpl<T> implements Promise<T> {
 
     @Override
     public void complete(Try<T> result) {
+        if (!tryComplete(result)) {
+            throw new IllegalStateException("Attempt to complete an already completed Promise");
+        }
+    }
+
+    @Override
+    public boolean tryComplete(Try<T> result) {
         Objects.requireNonNull(result, "Must provide a valid result");
         if (completed.compareAndSet(false, true)) {
             future.complete(result);
-        } else {
-            throw new IllegalStateException("Attempt to complete an already completed Promise");
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean trySuccess(T result) {
+        return tryComplete(new Success<>(result));
+    }
+
+    @Override
+    public boolean tryFailure(Throwable throwable) {
+        return tryComplete(new Failure<>(throwable));
     }
 }

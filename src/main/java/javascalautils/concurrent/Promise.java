@@ -58,15 +58,26 @@ public interface Promise<T> {
     boolean isCompleted();
 
     /**
+     * Completes the {@link Promise} with either a {@link Success} or a {@link Failure}.
+     * 
+     * @param result
+     *            The result to complete with.
+     * @throws IllegalStateException
+     *             Thrown if the Promise is already completed.
+     * @since 1.4
+     */
+    void complete(Try<T> result);
+
+    /**
      * Completes the {@link Promise} with a value.
      * 
-     * @param object
+     * @param result
      *            The value to complete with.
      * @throws IllegalStateException
      *             Thrown if the Promise is already completed.
      * 
      */
-    void success(T object);
+    void success(T result);
 
     /**
      * Completes the {@link Promise} with an exception.
@@ -79,13 +90,35 @@ public interface Promise<T> {
     void failure(Throwable throwable);
 
     /**
-     * Completes the {@link Promise} with either a {@link Success} or a {@link Failure}.
+     * Tries to complete the {@link Promise} with either a {@link Success} or a {@link Failure}. <br>
+     * Contrary to the {@link #complete(Try)} method this does not throw an exception in case the Promise is already completed.
      * 
      * @param result
      *            The result to complete with.
-     * @throws IllegalStateException
-     *             Thrown if the Promise is already completed.
+     * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
      * @since 1.4
      */
-    void complete(Try<T> result);
+    boolean tryComplete(Try<T> result);
+
+    /**
+     * Tries to complete the {@link Promise} with a value. <br>
+     * Contrary to the {@link #success(Object)} method this does not throw an exception in case the Promise is already completed.
+     * 
+     * @param result
+     *            The value to complete with.
+     * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
+     * @since 1.4
+     */
+    boolean trySuccess(T result);
+
+    /**
+     * Tries to complete the {@link Promise} with an exception. <br>
+     * Contrary to the {@link #failure(Throwable)} method this does not throw an exception in case the Promise is already completed.
+     * 
+     * @param throwable
+     *            The Throwable to complete with.
+     * @return <code>true</code> if the Promise was not completed before, <code>false</code> otherwise
+     * @since 1.4
+     */
+    boolean tryFailure(Throwable throwable);
 }

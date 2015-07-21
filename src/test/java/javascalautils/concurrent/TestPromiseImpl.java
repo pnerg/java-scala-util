@@ -111,4 +111,39 @@ public class TestPromiseImpl extends BaseAssert {
         promise.complete(new Success<>("Ooops a second response, bummer"));
     }
 
+    @Test
+    public void tryComplete_once() {
+        assertTrue(promise.tryComplete(new Success<>("wohooo!")));
+        assertTrue(promise.isCompleted());
+    }
+
+    @Test
+    public void tryComplete_twice() {
+        tryComplete_once();
+        assertFalse(promise.tryComplete(new Success<>("Ooops a second response, bummer")));
+    }
+
+    @Test
+    public void trySuccess_once() {
+        assertTrue(promise.trySuccess("wohooo!"));
+        assertTrue(promise.isCompleted());
+    }
+
+    @Test
+    public void trySuccess_twice() {
+        trySuccess_once();
+        assertFalse(promise.trySuccess("Ooops a second response, bummer"));
+    }
+
+    @Test
+    public void tryFailure_once() {
+        assertTrue(promise.tryFailure(new Exception("What a sad day!")));
+        assertTrue(promise.isCompleted());
+    }
+
+    @Test
+    public void tryFailure_twice() {
+        tryFailure_once();
+        assertFalse(promise.tryFailure(new Exception("Scheit, another exception")));
+    }
 }
