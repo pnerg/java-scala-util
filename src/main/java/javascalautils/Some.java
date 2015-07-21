@@ -71,7 +71,7 @@ public final class Some<T> implements Option<T>, Serializable {
      * Returns an Option consisting of the result of applying the given function to the current value.
      */
     public <R> Option<R> map(Function<T, R> f) {
-        return Option.apply(f.apply(get()));
+        return Option.apply(f.apply(value));
     }
 
     /**
@@ -79,7 +79,7 @@ public final class Some<T> implements Option<T>, Serializable {
      */
     @Override
     public <R> Option<R> flatMap(Function<T, Option<R>> function) {
-        return function.apply(get());
+        return function.apply(value);
     }
 
     /**
@@ -93,7 +93,7 @@ public final class Some<T> implements Option<T>, Serializable {
      * Returns a stream of size one containing the value.
      */
     public Stream<T> stream() {
-        return Stream.of(get());
+        return Stream.of(value);
     }
 
     /**
