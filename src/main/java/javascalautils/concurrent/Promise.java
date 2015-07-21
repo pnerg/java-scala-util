@@ -21,7 +21,22 @@ import javascalautils.Try;
 
 /**
  * A Promise that can be completed once with a value or failed once with an exception. <br>
- * Together with a {@link Future} this allows a safe publication of asynchronously calculated results into another thread.
+ * Together with a {@link Future} this allows a safe publication of asynchronously calculated results into another thread. <br>
+ * The basic principle is to first create a Promise. <br>
+ * <code>Promise&#60;String&#62; promise = Promise.apply();</code> <br>
+ * Using that instance one can get hold of the {@link Future} that is the container for the value-to-be. <br>
+ * <code>Future&#60;String&#62; future = promise.future();</code> <br>
+ * To complete the Promise and by extension completing the Future one can use any of several methods:
+ * <ul>
+ * <li>{@link #success(Object)}</li>
+ * <li>{@link #failure(Throwable)}</li>
+ * <li>{@link #complete(Try)}</li>
+ * <li>{@link #completeWith(Future)}</li>
+ * </ul>
+ * E.g. <code>promise.success("Peter was here");</code><br>
+ * Note that only <u>one</u> of the methods may be invoked as the Promise can only be fulfilled once.<br>
+ * The above methods come with a variant <i>tryNNN</i> which allows for multiple invocations without raising an exception. <br>
+ * Though still only the first invocation/completion counts.
  * 
  * @author Peter Nerg
  * @since 1.2

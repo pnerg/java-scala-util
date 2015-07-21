@@ -29,7 +29,22 @@ import javascalautils.Success;
 import javascalautils.Try;
 
 /**
- * A Future that holds the result of a computation executed asynchronously.
+ * A Future that holds the result of a computation executed asynchronously. <br>
+ * The Future is paired with an instance of {@link Promise} which is also the way to get hold of a Future. <br>
+ * One can see a Future as a holder for a value-to-be, not yet available but accessible sometime in the future. <br>
+ * The preferred way to get hold of the value-to-be is to register a listener on any of the provided listener types since this allows for asynchronous
+ * non-blocking operations.
+ * <ul>
+ * <li>{@link #onComplete(Consumer)}</li>
+ * <li>{@link #onSuccess(Consumer)}</li>
+ * <li>{@link #onFailure(Consumer)}</li>
+ * </ul>
+ * It is possible to register multiple listeners to several/same listener type. <br>
+ * One can register a listener both before and after a Future has been completed. <br>
+ * Should the Future already be completed when the listener is added it is fired immediately. <br>
+ * The guarantee is that a listener is only fired once. <br>
+ * <br>
+ * For situations where it is necessary to maintain synchronous/blocking behavior the method {@link #result(long, TimeUnit)} is provided.
  * 
  * @author Peter Nerg
  * @since 1.2
