@@ -23,6 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javascalautils.BaseAssert;
 import javascalautils.DummyException;
+import javascalautils.Failure;
+import javascalautils.Success;
 
 import org.junit.After;
 import org.junit.Before;
@@ -67,7 +69,7 @@ public class TestFutureImpl extends BaseAssert {
         String response = "Peter is in da house!!!";
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
         assertTrue(future.isCompleted());
         assertEquals(response, future.value().get().get());
 
@@ -98,7 +100,7 @@ public class TestFutureImpl extends BaseAssert {
         });
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
         assertTrue(future.isCompleted());
         assertEquals(response, future.value().get().get());
 
@@ -123,7 +125,7 @@ public class TestFutureImpl extends BaseAssert {
         future.onSuccess(s -> successHandlerBefore.notify(s));
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
         assertTrue(future.isCompleted());
         assertEquals(response, future.value().get().get());
 
@@ -150,7 +152,7 @@ public class TestFutureImpl extends BaseAssert {
         Exception error = new Exception("Error, terror!!!");
 
         // simulate failure response
-        future.failure(error);
+        future.complete(new Failure<>(error));
         assertTrue(future.isCompleted());
         assertEquals(error, future.value().get().failed().get());
 
@@ -181,7 +183,7 @@ public class TestFutureImpl extends BaseAssert {
         });
 
         // simulate failure response
-        future.failure(error);
+        future.complete(new Failure<>(error));
         assertTrue(future.isCompleted());
         assertEquals(error, future.value().get().failed().get());
 
@@ -201,7 +203,7 @@ public class TestFutureImpl extends BaseAssert {
         });
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
         assertTrue(future.isCompleted());
         assertEquals(response, future.value().get().get());
 
@@ -227,7 +229,7 @@ public class TestFutureImpl extends BaseAssert {
         });
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
         assertTrue(future.isCompleted());
         assertEquals(response, future.value().get().get());
 
@@ -243,7 +245,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<Integer> mapped = future.map(s -> s.length());
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
 
         assertTrue(mapped.isCompleted());
         assertEquals(response.length(), mapped.result(5, TimeUnit.SECONDS).intValue());
@@ -255,7 +257,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<Integer> mapped = future.map(s -> s.length());
 
         // simulate success response
-        future.failure(new DummyException());
+        future.complete(new Failure<>(new DummyException()));
 
         assertTrue(mapped.isCompleted());
         mapped.result(5, TimeUnit.SECONDS);
@@ -266,8 +268,8 @@ public class TestFutureImpl extends BaseAssert {
         FutureImpl<Integer> f1 = new FutureImpl<>();
         FutureImpl<Integer> f2 = new FutureImpl<>();
 
-        f1.success(5);
-        f2.success(7);
+        f1.complete(new Success<>(5));
+        f2.complete(new Success<>(7));
 
         Future<Object> mapped = f1.flatMap(v1 -> f2.map(v2 -> v1 + v2));
         assertEquals(12, mapped.result(5, TimeUnit.SECONDS));
@@ -279,7 +281,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<Integer> mapped = future.flatMap(s -> throwDummyException());
 
         // simulate success response
-        future.success("whatever-will-anyways-not-be-used");
+        future.complete(new Success<>("whatever-will-anyways-not-be-used"));
 
         assertTrue(mapped.isCompleted());
         // should throw an exception
@@ -293,7 +295,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<Integer> mapped = future.flatMap(s -> new FutureImpl<Integer>());
 
         // simulate failure response
-        future.failure(new DummyException());
+        future.complete(new Failure<>(new DummyException()));
 
         assertTrue(mapped.isCompleted());
         // should throw an exception
@@ -309,9 +311,9 @@ public class TestFutureImpl extends BaseAssert {
 
         // simulate that the future created by the flatMap function fails
         // this failure should propagate to the future we got from the flatMap method
-        innerFuture.failure(new DummyException());
+        innerFuture.complete(new Failure<>(new DummyException()));
         // simulate success response
-        future.success("whatever-will-anyways-not-be-used");
+        future.complete(new Success<>("whatever-will-anyways-not-be-used"));
 
         assertTrue(mapped.isCompleted());
         // should throw an exception
@@ -333,7 +335,7 @@ public class TestFutureImpl extends BaseAssert {
         });
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
 
         assertTrue(filtered.isCompleted());
         assertEquals(response, filtered.value().get().get());
@@ -350,7 +352,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<String> filtered = future.filter(v -> false);
 
         // simulate success response
-        future.success(response);
+        future.complete(new Success<>(response));
 
         assertTrue(filtered.isCompleted());
         filtered.result(5, TimeUnit.SECONDS);
@@ -363,7 +365,7 @@ public class TestFutureImpl extends BaseAssert {
         Future<String> filtered = future.filter(v -> false);
 
         // simulate failure response
-        future.failure(new DummyException());
+        future.complete(new Failure<>(new DummyException()));
         assertTrue(filtered.isCompleted());
         filtered.result(5, TimeUnit.SECONDS);
     }
@@ -371,13 +373,13 @@ public class TestFutureImpl extends BaseAssert {
     @Test
     public void result_succesful() throws TimeoutException, Throwable {
         String response = "Peter is in da house!!!";
-        future.success(response);
+        future.complete(new Success<>(response));
         assertEquals(response, future.result(5, TimeUnit.SECONDS));
     }
 
     @Test(expected = DummyException.class)
     public void result_failed() throws TimeoutException, Throwable {
-        future.failure(new DummyException());
+        future.complete(new Failure<>(new DummyException()));
         future.result(5, TimeUnit.SECONDS);
     }
 

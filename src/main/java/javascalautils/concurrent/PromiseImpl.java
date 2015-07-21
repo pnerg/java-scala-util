@@ -15,7 +15,12 @@
  */
 package javascalautils.concurrent;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javascalautils.Failure;
+import javascalautils.Success;
+import javascalautils.Try;
 
 /**
  * The Promise implementation. <br>
@@ -41,20 +46,21 @@ final class PromiseImpl<T> implements Promise<T> {
 
     @Override
     public void success(T object) {
-        if (completed.compareAndSet(false, true)) {
-            future.success(object);
-        } else {
-            throw new IllegalStateException("Attempt to complete an already completed promise");
-        }
+        complete(new Success<>(object));
     }
 
     @Override
     public void failure(Throwable throwable) {
-        if (completed.compareAndSet(false, true)) {
-            future.failure(throwable);
-        } else {
-            throw new IllegalStateException("Attempt to complete an already completed promise");
-        }
+        complete(new Failure<>(throwable));
     }
 
+    @Override
+    public void complete(Try<T> result) {
+        Objects.requireNonNull(result, "Must provide a valid result");
+        if (completed.compareAndSet(false, true)) {
+            future.complete(result);
+        } else {
+            throw new IllegalStateException("Attempt to complete an already completed Promise");
+        }
+    }
 }

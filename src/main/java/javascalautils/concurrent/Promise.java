@@ -15,6 +15,10 @@
  */
 package javascalautils.concurrent;
 
+import javascalautils.Failure;
+import javascalautils.Success;
+import javascalautils.Try;
+
 /**
  * A Promise that can be completed once with a value or failed once with an exception. <br>
  * Together with a {@link Future} this allows a safe publication of asynchronously calculated results into another thread.
@@ -74,4 +78,14 @@ public interface Promise<T> {
      */
     void failure(Throwable throwable);
 
+    /**
+     * Completes the {@link Promise} with either a {@link Success} or a {@link Failure}.
+     * 
+     * @param result
+     *            The result to complete with.
+     * @throws IllegalStateException
+     *             Thrown if the Promise is already completed.
+     * @since 1.4
+     */
+    void complete(Try<T> result);
 }

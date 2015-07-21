@@ -17,6 +17,7 @@
 package javascalautils.concurrent;
 
 import javascalautils.BaseAssert;
+import javascalautils.Success;
 
 import org.junit.Test;
 
@@ -91,4 +92,23 @@ public class TestPromiseImpl extends BaseAssert {
         failure_once();
         success_once();
     }
+
+    /**
+     * Test a {@link Promise#complete(javascalautils.Try)} invocation
+     */
+    @Test
+    public void complete_once() {
+        promise.complete(new Success<>("wohooo!"));
+        assertTrue(promise.isCompleted());
+    }
+
+    /**
+     * Test two {@link Promise#complete(javascalautils.Try)} invocations, should render an exception on the second.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void complete_twice() {
+        complete_once();
+        promise.complete(new Success<>("Ooops a second response, bummer"));
+    }
+
 }

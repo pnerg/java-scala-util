@@ -203,33 +203,41 @@ final class FutureImpl<T> implements Future<T> {
     }
 
     /**
-     * Used to report a success to this future. <br>
+     * Completes this Future with a result. <br>
      * Invoked by the Promise owning this instance.
      * 
-     * @param value
-     *            The response value
+     * @param result
      */
-    void success(final T value) {
-        Try<T> success = new Success<>(value);
-        this.response = Option.apply(success);
-
-        notifyHandlers(successHandlers, value);
-        notifyHandlers(completeHandlers, success);
+    void complete(Try<T> result) {
+        this.response = Option.apply(result);
+        if (result.isSuccess()) {
+            // the orNull is just to skip the exception handling otherwise forced by get()
+            notifyHandlers(successHandlers, result.orNull());
+        } else {
+            // the orNull is just to skip the exception handling otherwise forced by get()
+            notifyHandlers(failureHandlers, result.failed().orNull());
+        }
+        notifyHandlers(completeHandlers, result);
     }
 
     /**
-     * Used to report a failure to this future. <br>
-     * Invoked by the Promise owning this instance.
-     * 
+     * Internal report success to this future. <br>
+     *
+     * @param value
+     *            The response value
+     */
+    private void success(T value) {
+        complete(new Success<>(value));
+    }
+
+    /**
+     * Internal report failure to this future. <br>
+     *
      * @param throwable
      *            The failure Throwable
      */
-    void failure(Throwable throwable) {
-        Try<T> failure = new Failure<>(throwable);
-        this.response = Option.apply(failure);
-
-        notifyHandlers(failureHandlers, throwable);
-        notifyHandlers(completeHandlers, failure);
+    private void failure(Throwable throwable) {
+        complete(new Failure<>(throwable));
     }
 
     /**
