@@ -175,7 +175,7 @@ final class FutureImpl<T> implements Future<T> {
         FutureImpl<R> future = new FutureImpl<>();
         // install success handler that will map the result before applying it
         onSuccess(value -> future.success(onSuccess.apply(value)));
-        // install failure handler that just passes the result through
+        // install failure handler that will map the error before applying it
         onFailure(t -> future.failure(onFailure.apply(t)));
         return future;
     }
