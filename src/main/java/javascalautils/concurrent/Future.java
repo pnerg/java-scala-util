@@ -172,6 +172,17 @@ public interface Future<T> {
     <R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure);
 
     /**
+     * Creates a new {@link Future} that in case <i>this</i> {@link Future} is a 'failure' will apply the function to recover the 'failure' to a 'success'. <br>
+     * Should <i>this</i> {@link Future} be a 'success' the value is propagated as-is.
+     * 
+     * @param recoverFunction
+     *            The function to apply in case of a 'failure'
+     * @return The recover Future
+     * @since 1.3
+     */
+    Future<T> recover(Function<Throwable, T> recoverFunction);
+
+    /**
      * Blocks and waits for this Future to complete. <br>
      * Returns the result of a successful Future or throws the exception in case of a failure. <br>
      * The methods blocks for at most the provided duration. <br>

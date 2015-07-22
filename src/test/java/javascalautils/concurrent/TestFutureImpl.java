@@ -369,6 +369,23 @@ public class TestFutureImpl extends BaseAssert {
         assertEquals(stringResponse.toUpperCase(), transformed.result(1, TimeUnit.SECONDS));
     }
 
+    @Test
+    public void recover_successful() throws TimeoutException, Throwable {
+        // the function won't matter as this test case will not fail the Future
+        Future<String> recovered = future.recover(t -> "");
+        future.complete(new Success<>(stringResponse));
+        assertTrue(recovered.isCompleted());
+        assertEquals(stringResponse, recovered.result(1, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void recover_failed() throws TimeoutException, Throwable {
+        Future<String> recovered = future.recover(t -> "This is the recovery message");
+        future.complete(new Failure<>(new DummyException()));
+        assertTrue(recovered.isCompleted());
+        assertEquals("This is the recovery message", recovered.result(1, TimeUnit.SECONDS));
+    }
+
     @Test(expected = DummyException.class)
     public void transform_failed() throws TimeoutException, Throwable {
         // the success function does nothing as it anyways will not be used for this test
