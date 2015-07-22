@@ -109,13 +109,8 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public <R> Future<R> map(Function<T, R> function) {
         Objects.requireNonNull(function, "Null is not a valid function");
-        // Create new future expected to hold the value of the mapped type
-        FutureImpl<R> future = new FutureImpl<>();
-        // install success handler that will map the result before applying it
-        onSuccess(value -> future.success(function.apply(value)));
-        // install failure handler that just passes the result through
-        onFailure(t -> future.failure(t));
-        return future;
+        // the onFailure function just passed the error as-is without transformation
+        return transform(function, t -> t);
     }
 
     /*
