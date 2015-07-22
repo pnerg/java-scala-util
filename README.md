@@ -1,5 +1,7 @@
 # Java Scala Util: Introducing some of the core concepts of Scala into Java
 
+[![Join the chat at https://gitter.im/pnerg/java-scala-util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 One might ask the question why bother to map some of the features in Scala to Java.
 
 Why not use Scala?
