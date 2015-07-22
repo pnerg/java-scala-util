@@ -18,7 +18,7 @@ The project will supply features such as:
 
 ## Discussion Forum
 
-- [java-scala-util on Gitter](https://gitter.im/pnerg/java-scala-util)
+- [java-scala-util on Gitter](https://gitter.im/pnerg/java-scala-util) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## LICENSE
 
