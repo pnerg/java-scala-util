@@ -102,7 +102,7 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Returns a stream of size one containing the value.
+     * Returns a stream of size one containing the value of this instance.
      */
     @Override
     public Stream<T> stream() {
