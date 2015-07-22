@@ -16,6 +16,10 @@ The project will supply features such as:
 
 - [Wiki](https://github.com/pnerg/java-scala-util/wiki)
 
+## Discussion Forum
+
+- [java-scala-util on Gitter](https://gitter.im/pnerg/java-scala-util)
+
 ## LICENSE
 
 Copyright 2015 Peter Nerg.
