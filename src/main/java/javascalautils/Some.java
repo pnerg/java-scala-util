@@ -24,8 +24,9 @@ import java.util.stream.Stream;
 
 /**
  * Represents an {@link Option} holding a value. <br>
- * The instance of Some is guaranteed to keep a non-null value object. <br>
+ * The instance of {@link Some} is guaranteed to keep a non-null value object. <br>
  * Null values are not allowed as it implies an instance of {@link None}. <br>
+ * One can consider {@link Some} as a collection of size 1. <br>
  * <br>
  * Either use the implementation directly: <br>
  * <code>Option&#60;String&#62; option = new Some&#60;&#62;("Peter is Great!");</code> <br>

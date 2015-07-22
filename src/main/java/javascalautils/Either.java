@@ -21,9 +21,9 @@ import java.util.function.Function;
 /**
  * Represents a value of one of two possible types. <br>
  * Instances of {@link Either} are either an instance of {@link Left} or {@link Right}. <br>
- * This is what is called a disjoint union, meaning that the Either will never contain both types only one of them.<br>
- * This is the biggest difference from a tuple that would contain both values.<br>
- * Examples of creating an {@link Either} of the type {@link Right}.<br>
+ * This is what is called a disjoint union, meaning that the Either will never contain both types only one of them. <br>
+ * This is the biggest difference from a tuple that would contain both values. <br>
+ * Examples of creating an {@link Either} of the type {@link Right}. <br>
  * 
  * <pre>
  * <code>

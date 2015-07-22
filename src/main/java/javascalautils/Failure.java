@@ -34,8 +34,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     private final Throwable throwable;
 
     /**
-     * Creates a Failure for the provided Throwable.<br>
-     * Null values are not allowed.
+     * Creates a Failure for the provided Throwable. <br>
+     * Null values are <b>not</b> allowed since a 'failure' needs a reason.
      * 
      * @param throwable
      *            The throwable
@@ -53,19 +53,19 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns the provided default value.
+     * Always returns the value provided by the supplier.
      */
     @Override
-    public T getOrElse(Supplier<T> s) {
-        return s.get();
+    public T getOrElse(Supplier<T> supplier) {
+        return supplier.get();
     }
 
     /**
-     * Always returns the provided default value.
+     * Always returns the value provided by the supplier.
      */
     @Override
-    public Try<T> orElse(Supplier<Try<T>> s) {
-        return s.get();
+    public Try<T> orElse(Supplier<Try<T>> supplier) {
+        return supplier.get();
     }
 
     /**
@@ -77,7 +77,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns a {@link Success} with the {@link Throwable} provided in the constructor.
+     * Returns a {@link Success} with the {@link Throwable} provided in the constructor.
      */
     @Override
     public Try<Throwable> failed() {
@@ -85,7 +85,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns <code>this</code>
+     * Always returns <i>this</i>
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -94,7 +94,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns <code>this</code>
+     * Always returns <i>this</i>
      */
     @Override
     public <R> Try<R> flatMap(Function<T, Try<R>> function) {

@@ -34,7 +34,7 @@ import javascalautils.Try;
  * <li>{@link #completeWith(Future)}</li>
  * </ul>
  * E.g. <code>promise.success("Peter was here");</code><br>
- * Note that only <u>one</u> of the methods may be invoked as the Promise can only be fulfilled once.<br>
+ * Note that only <u>one</u> of the methods may be invoked as the Promise can only be fulfilled once. <br>
  * The above methods come with a variant <i>tryNNN</i> which allows for multiple invocations without raising an exception. <br>
  * Though still only the first invocation/completion counts.
  * 

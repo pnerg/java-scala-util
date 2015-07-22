@@ -25,8 +25,43 @@ import java.util.stream.Stream;
 
 /**
  * Represents optional values. <br>
- * Instances of Option are either an instance of {@link Some} or {@link None}.<br>
- * {@link Some} holds a non-null value whilst {@link None} holds no value.
+ * Instances of Option are either an instance of {@link Some} or {@link None}. <br>
+ * {@link Some} holds a non-null value whilst {@link None} holds no value. <br>
+ * The primary use case is to replace ugly null-checks. <br>
+ * Consider the method: <br>
+ * 
+ * <pre>
+ * <code>
+ * SomeData getDataIfExists(SomeInput input) {
+ *   if(haveData(input) {
+ *      return getSomeDataFromInternalStorage();
+ *   }
+ *   return null;
+ * }
+ * </code>
+ * </pre>
+ * 
+ * The above method causes the user to do null-checks in case the method returned a proper value or not. <br>
+ * A neater way would be:
+ * 
+ * <pre>
+ * <code>
+ * Option&#60;SomeData&#62; getDataIfExists(SomeInput input) {
+ *   if(haveData(input) {
+ *      return new Some&#60;&#62;(getSomeDataFromInternalStorage());
+ *   }
+ *   return Option.None();
+ * }
+ * </code>
+ * </pre>
+ * 
+ * Another example is the usage of {@link java.util.Map Maps}. <br>
+ * Performing a <code>get</code> on a Map will either yield the value of the key or null if no such key existed. <br>
+ * Consider the Map: <br>
+ * <code>Map&#60;String, SomeData&#62; map = ....</code> <br>
+ * To avoid null checks one could do like so: <br>
+ * <code>Option&#60;SomeData&#62; option = Option.apply(map.get("someKey"));</code> <br>
+ * Now you have a guaranteed non-null value with which you can work with without performing constant null-checks.
  * 
  * @author Peter Nerg
  * @since 1.0
@@ -36,14 +71,14 @@ import java.util.stream.Stream;
 public interface Option<T> extends Iterable<T> {
 
     /**
-     * This is a singleton {@link None} since it anyways cannot represent a state.<br>
+     * This is a singleton {@link None} since it anyways cannot represent a state. <br>
      * Can also be accessed using {@link #empty()}
      */
     @SuppressWarnings("rawtypes")
     public static final None DEFAULT_NONE = new None();
 
     /**
-     * Creates an instance of Option.<br>
+     * Creates an instance of Option. <br>
      * If a <code>null</code> value is provided then {@link None} is returned, else {@link Some} containing the provided value.
      * 
      * @param <T>
@@ -57,7 +92,7 @@ public interface Option<T> extends Iterable<T> {
     }
 
     /**
-     * Returns an empty Option.<br>
+     * Returns an empty Option. <br>
      * In practice this returns a {@link #DEFAULT_NONE singleton} as it anyways cannot represent a value/state.
      * 
      * @param <T>
@@ -69,9 +104,10 @@ public interface Option<T> extends Iterable<T> {
     }
 
     /**
-     * Returns an empty Option.<br>
+     * Returns an empty Option. <br>
      * This is the same as {@link #empty()} but with the difference it provides a more Scala like feeling if the method is statically imported. <br>
-     * One can use <code>None()</code> as if it was a apply method on a companion object in Scala. E.g.
+     * One can use <code>None()</code> as if it was a apply method on a companion object in Scala. <br>
+     * E.g.
      * 
      * <pre>
      * <code>
@@ -146,7 +182,7 @@ public interface Option<T> extends Iterable<T> {
     }
 
     /**
-     * Returns <code>true</code> if the Option is nonempty and the predicate holds <code>true</code>, else <code>false</code>.<br>
+     * Returns <code>true</code> if the Option is nonempty and the predicate holds <code>true</code>, else <code>false</code>. <br>
      * In an essence exactly the same as {@link #exists(Predicate)}.
      * 
      * @param p

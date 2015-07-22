@@ -25,18 +25,33 @@ import java.util.stream.Stream;
  * Typical use case is situations where parallel computation takes place resulting in more than one response where it's possible that one or more computations
  * fail. <br>
  * Though it might not be desirable to raise an exception for failed computations hence the Try acts a place holder for a response that is either failed or
- * successful.<br>
- * Instances of 'Try', are either an instance of {@link Success} or {@link Failure}.
+ * successful. <br>
+ * Instances of 'Try', are either an instance of {@link Success} or {@link Failure}. <br>
+ * Example of usage: <br>
+ * 
+ * <pre>
+ * <code>
+ * Try&#60;SomeData&#62; getSomeData(SomeInput input) {
+ *     try {
+ *        SomeData data = ...
+ *        return new Success&#60;&#62;(data);
+ *     }
+ *     catch(SomeException ex) {
+ *        return new Failure&#60;&#62;(ex);
+ *     }
+ * }
+ * </code>
+ * </pre>
  * 
  * @author Peter Nerg
  * @since 1.0
  * @param <T>
- *            The type of the value represented by this Option
+ *            The type of the value represented by this Try
  */
 public interface Try<T> extends Iterable<T> {
 
     /**
-     * Creates an instance of Try.<br>
+     * Creates an instance of Try. <br>
      * If a <code>null</code> or non-throwable value is provided then {@link Success} is returned containing the value, else {@link Failure} containing the
      * provided throwable.
      * 
@@ -103,7 +118,7 @@ public interface Try<T> extends Iterable<T> {
     T get() throws Throwable;
 
     /**
-     * Completes this 'Try' with an exception wrapped in a {@link Success}.<br>
+     * Completes this 'Try' with an exception wrapped in a {@link Success}. <br>
      * The exception is either the exception that the 'Try' failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
      * 
      * @return The value of the {@link Failure} in a {@link Success}
@@ -144,7 +159,7 @@ public interface Try<T> extends Iterable<T> {
     <R> Try<R> flatMap(Function<T, Try<R>> function);
 
     /**
-     * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.<br>
+     * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}. <br>
      * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
      * 
      * @return The stream for the Try

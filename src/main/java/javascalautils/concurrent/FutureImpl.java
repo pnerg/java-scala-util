@@ -254,7 +254,7 @@ final class FutureImpl<T> implements Future<T> {
     }
 
     /**
-     * Internal holder for the success/failure/complete handlers provided by the user.<br>
+     * Internal holder for the success/failure/complete handlers provided by the user. <br>
      * Used primarily to keep track on if a particular handler already has been notified. <br>
      * This is to make sure the same handler won't be notified more than once.
      * 

@@ -16,7 +16,7 @@
 package javascalautils.concurrent;
 
 /**
- * A task that returns either a successful or failed result.<br>
+ * A task that returns either a successful or failed result. <br>
  * Implementors define a single method with called <tt>execute</tt>. <br>
  * The <tt>Executable</tt> interface is similar to {@link java.lang.Runnable} and {@link java.util.concurrent.Callable}, in that both are designed for classes
  * whose instances are potentially executed by another thread. <br>
@@ -32,7 +32,7 @@ package javascalautils.concurrent;
 public interface Executable<T> {
 
     /**
-     * Execute the job.<br>
+     * Execute the job. <br>
      * Any response needs to be reported via either {@link Promise#success(Object) Promise,success(T)} or {@link Promise#failure(Throwable)}. <br>
      * When this method has finished it is imperative that the implementation has reported either failure/success. If not the framework will automatically
      * report the execution as a failure due to a missing response.

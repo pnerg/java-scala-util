@@ -34,7 +34,7 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
      * Then then return {@link Some} containing the value of the {@link Left}/{@link Right}. <br>
      * Any other case, return {@link None}.
      * 
@@ -49,8 +49,8 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
-     * Then return the value of the {@link Left}/{@link Right}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
+     * Then return the value of the {@link Left}/{@link Right}. <br>
      * Any other case, throw {@link NoSuchElementException}.
      * 
      * @return The value
@@ -64,7 +64,7 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
      * Then return an iterator with the value for the {@link Left}/{@link Right}. <br>
      * Else return an empty iterator
      * 
@@ -80,7 +80,7 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
      * Then return a stream with the value for the {@link Left}/{@link Right}. <br>
      * Else return an empty stream
      * 
@@ -95,8 +95,8 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
-     * Then return the value of the {@link Left}/{@link Right}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
+     * Then return the value of the {@link Left}/{@link Right}. <br>
      * Any other case, return <code>null</code>. <br>
      * In an essence this is a specialized version of {@link #getOrElse(Supplier)} where the supplier returns <code>null</code>. <br>
      * <code>getOrElse(() -&#62; null)</code>
@@ -112,8 +112,8 @@ abstract class Projection<T> implements Iterable<T> {
      * That is:<br>
      * If this is a {@link RightProjection} with a {@link Right} <br>
      * or<br>
-     * If this is a {@link LeftProjection} with a {@link Left}.<br>
-     * Then return the value of the {@link Left}/{@link Right}.<br>
+     * If this is a {@link LeftProjection} with a {@link Left}. <br>
+     * Then return the value of the {@link Left}/{@link Right}. <br>
      * Any other case, return the value provided by the supplier.
      * 
      * @param supplier

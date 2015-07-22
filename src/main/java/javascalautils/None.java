@@ -23,7 +23,12 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Represents an empty {@link Option}.
+ * Represents an empty {@link Option}. <br>
+ * The {@link None} is a replacement for <code>null</code> values representing a non-existing value. <br>
+ * One can consider {@link None} as a collection of size 0. <br>
+ * Instances of None should not be created directly, rather use the factory methods provided on {@link Option}. <br>
+ * {@link Option#empty()} or {@link Option#None()}, since {@link None} anyways cannot represent a value it is preferable to use it as a singleton thus saving
+ * unnecessary instance creation.
  *
  * @author Peter Nerg
  * @since 1.0
@@ -45,27 +50,30 @@ public final class None<T> implements Option<T>, Serializable {
     /**
      * Always the value provided by the supplier.
      */
-    public T getOrElse(Supplier<T> s) {
-        return s.get();
+    public T getOrElse(Supplier<T> supplier) {
+        return supplier.get();
     }
 
     /**
-     * Always returns <code>false</code>.
+     * Always returns <code>false</code>. <br>
+     * I.e. the predicate is never used as {@link None} represents nothing/no value.
      */
-    public boolean exists(Predicate<T> p) {
+    public boolean exists(Predicate<T> predicate) {
         return false;
     }
 
     /**
-     * Always returns <code>this</code>.
+     * Always returns <code>this</code>. <br>
+     * I.e. the function is never used as {@link None} represents nothing/no value.
      */
     @SuppressWarnings("unchecked")
-    public <R> Option<R> map(Function<T, R> f) {
+    public <R> Option<R> map(Function<T, R> function) {
         return (Option<R>) this;
     }
 
     /**
-     * Always returns <code>this</code>.
+     * Always returns <code>this</code>. <br>
+     * I.e. the function is never used as {@link None} represents nothing/no value.
      */
     @Override
     public <R> Option<R> flatMap(Function<T, Option<R>> function) {
@@ -92,10 +100,12 @@ public final class None<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Always returns <code>true</code> as None is stateless comparing it to some other None is therefore always the same.
+     * Returns <code>true</code> if other is a {@link None} as {@link None} is stateless comparing it to some other None is therefore always the same,
+     * <code>false</code> otherwise.
      * 
      * @param other
      *            The other object to compare to
+     * @return <code>true</code> if other is {@link None}, <code>false</code> otherwise
      */
     @Override
     public boolean equals(Object other) {
@@ -104,6 +114,8 @@ public final class None<T> implements Option<T>, Serializable {
 
     /**
      * Always returns <code>0</code> as None is stateless and has no value.
+     * 
+     * @return 0
      */
     @Override
     public int hashCode() {
