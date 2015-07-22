@@ -37,6 +37,10 @@ import org.junit.Test;
  *
  */
 public class TestFutureImpl extends BaseAssert {
+    /**
+     * Used for testing as the 'success' value.
+     */
+    private static final String stringResponse = "Peter is in da house!!! - " + System.currentTimeMillis();
     private final FutureImpl<String> future = new FutureImpl<>();
 
     @Before
@@ -66,17 +70,15 @@ public class TestFutureImpl extends BaseAssert {
      */
     @Test
     public void success_listenerAddedAfter() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
         assertTrue(future.isCompleted());
-        assertEquals(response, future.value().get().get());
+        assertEquals(stringResponse, future.value().get().get());
 
         // apply a success handler and assert it immediately gets notified with the response
         AtomicBoolean gotEvent = new AtomicBoolean(false);
         future.onSuccess(s -> {
-            assertEquals(response, s);
+            assertEquals(stringResponse, s);
             gotEvent.set(true);
         });
         // assert that the success handler got a response
@@ -90,19 +92,17 @@ public class TestFutureImpl extends BaseAssert {
      */
     @Test
     public void success_listenerAddedBefore() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // apply a success handler
         AtomicBoolean gotEvent = new AtomicBoolean(false);
         future.onSuccess(s -> {
-            assertEquals(response, s);
+            assertEquals(stringResponse, s);
             gotEvent.set(true);
         });
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
         assertTrue(future.isCompleted());
-        assertEquals(response, future.value().get().get());
+        assertEquals(stringResponse, future.value().get().get());
 
         // assert that the success handler got a response
         assertTrue(gotEvent.get());
@@ -116,8 +116,6 @@ public class TestFutureImpl extends BaseAssert {
      */
     @Test
     public void success_listenerAddedBeforeAndAfter() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         SuccessHandler successHandlerBefore = new SuccessHandler();
         SuccessHandler successHandlerAfter = new SuccessHandler();
 
@@ -125,18 +123,18 @@ public class TestFutureImpl extends BaseAssert {
         future.onSuccess(s -> successHandlerBefore.notify(s));
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
         assertTrue(future.isCompleted());
-        assertEquals(response, future.value().get().get());
+        assertEquals(stringResponse, future.value().get().get());
 
         // assert that the success handler1 got a response
-        successHandlerBefore.assertResponse(response);
+        successHandlerBefore.assertResponse(stringResponse);
 
         // apply a second success handler
         future.onSuccess(s -> successHandlerAfter.notify(s));
 
         // assert that the second listener got a response
-        successHandlerAfter.assertResponse(response);
+        successHandlerAfter.assertResponse(stringResponse);
 
         // assert the first listener still only got a single response
         successHandlerBefore.assertEventCount();
@@ -193,19 +191,17 @@ public class TestFutureImpl extends BaseAssert {
 
     @Test
     public void success_withCompleteHandler() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // apply a success handler
         AtomicBoolean gotEvent = new AtomicBoolean(false);
         future.onComplete(t -> {
-            assertEquals(response, t.orNull());
+            assertEquals(stringResponse, t.orNull());
             gotEvent.set(true);
         });
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
         assertTrue(future.isCompleted());
-        assertEquals(response, future.value().get().get());
+        assertEquals(stringResponse, future.value().get().get());
 
         // assert that the success handler got a response
         assertTrue(gotEvent.get());
@@ -219,19 +215,17 @@ public class TestFutureImpl extends BaseAssert {
      */
     @Test
     public void forEach() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // apply a success handler
         AtomicBoolean gotEvent = new AtomicBoolean(false);
         future.forEach(s -> {
-            assertEquals(response, s);
+            assertEquals(stringResponse, s);
             gotEvent.set(true);
         });
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
         assertTrue(future.isCompleted());
-        assertEquals(response, future.value().get().get());
+        assertEquals(stringResponse, future.value().get().get());
 
         // assert that the success handler got a response
         assertTrue(gotEvent.get());
@@ -239,16 +233,14 @@ public class TestFutureImpl extends BaseAssert {
 
     @Test
     public void map_succesful() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // map the future to one that counts the length of the response
         Future<Integer> mapped = future.map(s -> s.length());
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
 
         assertTrue(mapped.isCompleted());
-        assertEquals(response.length(), mapped.result(5, TimeUnit.SECONDS).intValue());
+        assertEquals(stringResponse.length(), mapped.result(5, TimeUnit.SECONDS).intValue());
     }
 
     @Test(expected = DummyException.class)
@@ -322,23 +314,21 @@ public class TestFutureImpl extends BaseAssert {
 
     @Test
     public void filter_successful_predicate_matches() throws Throwable {
-        String response = "Peter is in da house!!!";
-
         // apply a filter that is always successful/true
         Future<String> filtered = future.filter(v -> true);
 
         // apply a success handler to the mapped future
         AtomicBoolean gotEvent = new AtomicBoolean(false);
         filtered.forEach(s -> {
-            assertEquals(response, s);
+            assertEquals(stringResponse, s);
             gotEvent.set(true);
         });
 
         // simulate success response
-        future.complete(new Success<>(response));
+        future.complete(new Success<>(stringResponse));
 
         assertTrue(filtered.isCompleted());
-        assertEquals(response, filtered.value().get().get());
+        assertEquals(stringResponse, filtered.value().get().get());
 
         // assert that the success handler got a response
         assertTrue(gotEvent.get());
@@ -346,7 +336,7 @@ public class TestFutureImpl extends BaseAssert {
 
     @Test(expected = NoSuchElementException.class)
     public void filter_successful_predicate_nomatch() throws Throwable {
-        String response = "Peter is in da house!!!";
+        String response = stringResponse;
 
         // apply a filter that is always unsuccessful/false
         Future<String> filtered = future.filter(v -> false);
@@ -371,10 +361,28 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     @Test
+    public void transform_successful() throws TimeoutException, Throwable {
+        // the failure function does nothing as it anyways will not be used for this test
+        Future<String> transformed = future.transform(s -> s.toUpperCase(), t -> t);
+        future.complete(new Success<>(stringResponse));
+        assertTrue(transformed.isCompleted());
+        assertEquals(stringResponse.toUpperCase(), transformed.result(1, TimeUnit.SECONDS));
+    }
+
+    @Test(expected = DummyException.class)
+    public void transform_failed() throws TimeoutException, Throwable {
+        // the success function does nothing as it anyways will not be used for this test
+        Future<String> transformed = future.transform(s -> s, t -> new DummyException());
+        future.complete(new Failure<>(new NullPointerException("This shold be transformed")));
+        assertTrue(transformed.isCompleted());
+        // this should throw the transformed DummyException
+        transformed.result(1, TimeUnit.SECONDS);
+    }
+
+    @Test
     public void result_succesful() throws TimeoutException, Throwable {
-        String response = "Peter is in da house!!!";
-        future.complete(new Success<>(response));
-        assertEquals(response, future.result(5, TimeUnit.SECONDS));
+        future.complete(new Success<>(stringResponse));
+        assertEquals(stringResponse, future.result(5, TimeUnit.SECONDS));
     }
 
     @Test(expected = DummyException.class)

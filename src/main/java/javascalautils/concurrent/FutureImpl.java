@@ -171,6 +171,24 @@ final class FutureImpl<T> implements Future<T> {
     /*
      * (non-Javadoc)
      * 
+     * @see javascalautils.concurrent.Future#transform(java.util.function.Function, java.util.function.Function)
+     */
+    @Override
+    public <R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure) {
+        Objects.requireNonNull(onSuccess, "Null is not a valid function");
+        Objects.requireNonNull(onFailure, "Null is not a valid function");
+        // Create new future expected to hold the value of the mapped type
+        FutureImpl<R> future = new FutureImpl<>();
+        // install success handler that will map the result before applying it
+        onSuccess(value -> future.success(onSuccess.apply(value)));
+        // install failure handler that just passes the result through
+        onFailure(t -> future.failure(onFailure.apply(t)));
+        return future;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see javascalautils.concurrent.Future#result(long, java.util.concurrent.TimeUnit)
      */
     @Override
@@ -179,7 +197,7 @@ final class FutureImpl<T> implements Future<T> {
         CountDownLatch latch = new CountDownLatch(1);
 
         // install a handler that releases the count down latch when notified with a result.
-        // the actual result is of no interest as we anyways have access to it internally in this class/instance.
+        // the actual result/response is of no interest as we anyways have access to it internally in this class/instance.
         onComplete(t -> latch.countDown());
 
         // block for either the time to pass or the Future gets completed

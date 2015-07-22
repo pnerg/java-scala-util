@@ -157,6 +157,21 @@ public interface Future<T> {
     Future<T> filter(Predicate<T> predicate);
 
     /**
+     * Creates a new {@link Future} that will hold the mapped successful value of this instance once it is completed. <br>
+     * Successful futures are mapped with the <i>onSuccess</i> function and unsuccessful/failure futures are mapped with <i>onFailure</i>.
+     * 
+     * @param <R>
+     *            The type for the value held by the mapped future
+     * @param onSuccess
+     *            The function to apply on a 'successful' result
+     * @param onFailure
+     *            The function to apply on a 'failure' result
+     * @return The mapped Future
+     * @since 1.3
+     */
+    <R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure);
+
+    /**
      * Blocks and waits for this Future to complete. <br>
      * Returns the result of a successful Future or throws the exception in case of a failure. <br>
      * The methods blocks for at most the provided duration. <br>
