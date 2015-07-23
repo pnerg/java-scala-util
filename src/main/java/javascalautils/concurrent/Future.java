@@ -173,7 +173,19 @@ public interface Future<T> {
 
     /**
      * Creates a new {@link Future} that in case <i>this</i> {@link Future} is a 'failure' will apply the function to recover the 'failure' to a 'success'. <br>
-     * Should <i>this</i> {@link Future} be a 'success' the value is propagated as-is.
+     * Should <i>this</i> {@link Future} be a 'success' the value is propagated as-is. <br>
+     * E.g.
+     * 
+     * <pre>
+     * <code>
+     * Future&lt;String&gt; future = ...
+     * Future&lt;String&gt; recovered = future.recover(t -&gt; t.getMessage());
+     * </code>
+     * </pre>
+     * 
+     * In case of 'future' being successful then that value is passed on to 'recovered', in case of failure then the recover function kicks in and returns the
+     * message from the throwable.
+     * 
      * 
      * @param recoverFunction
      *            The function to apply in case of a 'failure'
