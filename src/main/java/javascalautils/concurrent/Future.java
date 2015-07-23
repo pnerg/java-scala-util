@@ -26,6 +26,7 @@ import javascalautils.None;
 import javascalautils.Option;
 import javascalautils.Some;
 import javascalautils.Success;
+import javascalautils.ThrowableFunction0;
 import javascalautils.Try;
 
 /**
@@ -44,7 +45,19 @@ import javascalautils.Try;
  * Should the Future already be completed when the listener is added it is fired immediately. <br>
  * The guarantee is that a listener is only fired once. <br>
  * <br>
- * For situations where it is necessary to maintain synchronous/blocking behavior the method {@link #result(long, TimeUnit)} is provided.
+ * For situations where it is necessary to maintain synchronous/blocking behavior the method {@link #result(long, TimeUnit)} is provided. <br>
+ * <br>
+ * For real short and consistent programming one can use the {@link #apply(ThrowableFunction0)} method to provide a function that will be executed in the
+ * future.<br>
+ * The result of the function will be reported to the Future returned by the method. <br>
+ * 
+ * <pre>
+ * <code>
+ * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9/3); //The Future will at some point contain: Success(3)
+ * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9/0); //The Future will at some point contain: Failure(ArithmeticException)
+ * </code>
+ * </pre>
+ * 
  * 
  * @author Peter Nerg
  * @since 1.2
@@ -52,6 +65,35 @@ import javascalautils.Try;
  *            The type this Future will hold as result
  */
 public interface Future<T> {
+
+    /**
+     * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
+     * The method will use the {@link Executors#getDefault()} method to get hold of the default {@link Executor} to use for executing the provided job. <br>
+     * Simple examples:
+     * 
+     * <pre>
+     * <code>
+     * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9/3); //The Future will at some point contain: Success(3)
+     * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9/0); //The Future will at some point contain: Failure(ArithmeticException)
+     * </code>
+     * </pre>
+     * 
+     * @param <T>
+     *            The type for the Try
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @return The future that will hold the result provided by the function
+     * @since 1.3
+     */
+    static <T> Future<T> apply(ThrowableFunction0<T> function) {
+        return Executors.getDefault().execute(promise -> {
+            try {
+                promise.success(function.apply());
+            } catch (Throwable t) {
+                promise.failure(t);
+            }
+        });
+    }
 
     /**
      * Check if this Future is completed, with a value or an exception.

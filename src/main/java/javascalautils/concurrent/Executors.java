@@ -26,10 +26,24 @@ import java.util.concurrent.ThreadFactory;
  */
 public final class Executors {
 
+    /** The default executor. */
+    private static Executor Default = createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default"));
+
     /**
      * Inhibitive constructor.
      */
     private Executors() {
+    }
+
+    /**
+     * Get the default thread executor. <br>
+     * Unless specified the default one is created from {@link #createCachedThreadPoolExecutor(ThreadFactory)}.
+     * 
+     * @return The default thread executor
+     * @since 1.3
+     */
+    public static Executor getDefault() {
+        return Default;
     }
 
     /**
