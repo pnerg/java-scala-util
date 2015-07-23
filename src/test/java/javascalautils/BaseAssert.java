@@ -174,4 +174,17 @@ public class BaseAssert extends Assert {
         throw ex;
     }
 
+    /**
+     * Method used for testing to either raise a {@link DummyException} or return the provided value.
+     * 
+     * @param arg
+     * @return
+     */
+    public static final String throwIfNull(String arg) {
+        if (arg == null) {
+            throwDummyException();
+        }
+        return arg;
+    }
+
 }

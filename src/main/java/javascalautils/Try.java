@@ -31,14 +31,35 @@ import java.util.stream.Stream;
  * 
  * <pre>
  * <code>
- * Try&#60;SomeData&#62; getSomeData(SomeInput input) {
+ * Try&lt;SomeData&gt; getSomeData(SomeInput input) {
  *     try {
- *        SomeData data = ...
- *        return new Success&#60;&#62;(data);
+ *        //readUserFromDB throws if no user exists
+ *        SomeData data = readUserFromDB(input);
+ *        return new Success&lt;&gt;(data);
  *     }
  *     catch(SomeException ex) {
- *        return new Failure&#60;&#62;(ex);
+ *        return new Failure&lt;&gt;(ex);
  *     }
+ * }
+ * </code>
+ * </pre>
+ * 
+ * A more elaborate way is to provide a {@link ThrowableFunction0 checked function} provided to the {@link #apply(ThrowableFunction0)} method. <br>
+ * 
+ * <pre>
+ * <code>
+ * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3);
+ * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0);
+ * </code>
+ * </pre>
+ * 
+ * Or let us re-write the first example to use the {@link #apply(ThrowableFunction0)} method. <br>
+ * 
+ * <pre>
+ * <code>
+ * Try&lt;SomeData&gt; getSomeData(SomeInput input) {
+ *     //readUserFromDB throws if no user exists
+ *     Try.apply(() -&gt;  readUserFromDB(input));
  * }
  * </code>
  * </pre>
@@ -63,6 +84,38 @@ public interface Try<T> extends Iterable<T> {
      */
     static <T> Try<T> apply(T value) {
         return value instanceof Throwable ? new Failure<T>((Throwable) value) : new Success<T>(value);
+    }
+
+    /**
+     * Creates an instance of Try wrapping the result of the provided function. <br>
+     * If the function results in a value then {@link Success} with the value is returned. <br>
+     * In case the function raises an exception then {@link Failure} is returned containing that exception. <br>
+     * If <code>null</code> is provided as argument then the {@link #apply(Object)} is invoked. <br>
+     * Example simple division by zero results in an exception.
+     * 
+     * <pre>
+     * <code>
+     * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3);
+     * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0);
+     * </code>
+     * </pre>
+     * 
+     * @param <T>
+     *            The type for the Try
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @return The resulting Try instance wrapping what the function resulted in
+     * @since 1.3
+     */
+    static <T> Try<T> apply(ThrowableFunction0<T> function) {
+        if (function == null) {
+            return apply((T) null);
+        }
+        try {
+            return new Success<>(function.apply());
+        } catch (Throwable ex) {
+            return new Failure<T>(ex);
+        }
     }
 
     /**

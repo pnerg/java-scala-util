@@ -41,6 +41,16 @@ public class TestTry extends BaseAssert {
     }
 
     @Test
+    public void apply_checkedEx_success() {
+        assertTrue(Try.apply(() -> 9 / 3).isSuccess());
+    }
+
+    @Test
+    public void apply_checkedEx_failure() {
+        assertTrue(Try.apply(() -> 9 / 0).isFailure());
+    }
+
+    @Test
     public void iterator_success() {
         assertTrue(Try.apply(new Object()).iterator().hasNext());
     }
@@ -69,4 +79,5 @@ public class TestTry extends BaseAssert {
     public void stream_failure() {
         assertEquals(0, Try.apply(new Exception("Crash!")).stream().count());
     }
+
 }
