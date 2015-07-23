@@ -48,8 +48,8 @@ import java.util.stream.Stream;
  * 
  * <pre>
  * <code>
- * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3);
- * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0);
+ * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3); //results in Success(3)
+ * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0); //results in Failure(ArithmeticException)
  * </code>
  * </pre>
  * 
