@@ -30,38 +30,42 @@ import java.util.stream.Stream;
  * The primary use case is to replace ugly null-checks. <br>
  * Consider the method: <br>
  * 
+ * <blockquote>
+ * 
  * <pre>
- * <code>
  * SomeData getDataIfExists(SomeInput input) {
  *   if(haveData(input) {
  *      return getSomeDataFromInternalStorage();
  *   }
  *   return null;
  * }
- * </code>
  * </pre>
+ * 
+ * </blockquote>
  * 
  * The above method causes the user to do null-checks in case the method returned a proper value or not. <br>
  * A neater way would be:
  * 
+ * <blockquote>
+ * 
  * <pre>
- * <code>
  * Option&#60;SomeData&#62; getDataIfExists(SomeInput input) {
  *   if(haveData(input) {
  *      return new Some&#60;&#62;(getSomeDataFromInternalStorage());
  *   }
  *   return Option.None();
  * }
- * </code>
  * </pre>
+ * 
+ * </blockquote>
  * 
  * Another example is the usage of {@link java.util.Map Maps}. <br>
  * Performing a <code>get</code> on a Map will either yield the value of the key or null if no such key existed. <br>
  * Consider the Map: <br>
- * <code>Map&#60;String, SomeData&#62; map = ....</code> <br>
+ * <blockquote>Map&#60;String, SomeData&#62; map = ....</blockquote> <br>
  * To avoid null checks one could do like so: <br>
- * <code>Option&#60;SomeData&#62; option = Option.apply(map.get("someKey"));</code> <br>
- * Now you have a guaranteed non-null value with which you can work with without performing constant null-checks.
+ * <blockquote>Option&#60;SomeData&#62; option = Option.apply(map.get("someKey"));</blockquote> Now you have a guaranteed non-null value with which you can work
+ * with without performing constant null-checks.
  * 
  * @author Peter Nerg
  * @since 1.0

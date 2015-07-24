@@ -29,9 +29,9 @@ import java.util.stream.Stream;
  * One can consider {@link Some} as a collection of size 1. <br>
  * <br>
  * Either use the implementation directly: <br>
- * <code>Option&#60;String&#62; option = new Some&#60;&#62;("Peter is Great!");</code> <br>
+ * <blockquote>Option&#60;String&#62; option = new Some&#60;&#62;("Peter is Great!");</blockquote> <br>
  * or use the factory/apply method from Option: <br>
- * <code>Option&#60;String&#62; option = Option.apply("Peter is Great!");</code>
+ * <blockquote>Option&#60;String&#62; option = Option.apply("Peter is Great!");</blockquote>
  * 
  * @author Peter Nerg
  * @since 1.0

@@ -25,11 +25,7 @@ import java.util.function.Function;
  * This is the biggest difference from a tuple that would contain both values. <br>
  * Examples of creating an {@link Either} of the type {@link Right}. <br>
  * 
- * <pre>
- * {@code
- *     Either<InputStream, String>; either = new Right<>("Right is not Left");
- * }
- * </pre>
+ * <blockquote> Either&lt;InputStream, String&gt; either = new Right&lt;&gt;("Right is not Left"); </blockquote>
  * 
  * In contrast to {@link Try} and {@link Option} the {@link Either} cannot directly be used as a collection (i.e iterate over it). <br>
  * This is due to that {@link Either} is unbiased as to which of {@link Left}, {@link Right} it represents. <br>
@@ -41,12 +37,7 @@ import java.util.function.Function;
  * The methods {@link #isLeft()} and {@link #isRight()} will help you decide which side is represented. <br>
  * Invoking either {@link #left()} or {@link #right()} will yield a biased projection for that side. <br>
  * 
- * <pre>
- * {
- *     &#064;code
- *     RightProjection&lt;InputStream, String&gt; projection = either.right();
- * }
- * </pre>
+ * <blockquote>RightProjection&lt;InputStream, String&gt; projection = either.right();</blockquote>
  * 
  * @author Peter Nerg
  * @since 1.1

@@ -50,14 +50,16 @@ import javascalautils.Try;
  * <br>
  * For real short and consistent programming one can use the {@link #apply(ThrowableFunction0)} method to provide a function that will be executed in the
  * future.<br>
- * The result of the function will be reported to the Future returned by the method. <br>
+ * The result of the function will be reported to the Future returned by the method.
+ * 
+ * <blockquote>
  * 
  * <pre>
- * <code>
- * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9/3); //The Future will at some point contain: Success(3)
- * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9/0); //The Future will at some point contain: Failure(ArithmeticException)
- * </code>
+ * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9 / 3); // The Future will at some point contain: Success(3)
+ * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9 / 0); // The Future will at some point contain: Failure(ArithmeticException)
  * </pre>
+ * 
+ * </blockquote>
  * 
  * 
  * @author Peter Nerg
