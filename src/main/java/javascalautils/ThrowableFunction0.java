@@ -17,10 +17,12 @@ package javascalautils;
 
 import java.util.function.Function;
 
+import javascalautils.concurrent.Future;
+
 /**
  * A function that takes no arguments and returns a value of type <i>T</i>. <br>
  * The difference with this interface and {@link Function} is that it allows for raising checked exceptions. <br>
- * Primary use case is to create concise lambda expressions such as the {@link Try#apply(ThrowableFunction0)}
+ * Primary use case is to create concise lambda expressions such as the {@link Try#apply(ThrowableFunction0)} and {@link Future#apply(ThrowableFunction0)}
  * 
  * 
  * @author Peter Nerg
