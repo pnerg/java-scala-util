@@ -113,13 +113,15 @@ public interface Option<T> extends Iterable<T> {
      * One can use <code>None()</code> as if it was a apply method on a companion object in Scala. <br>
      * E.g.
      * 
+     * <blockquote>
+     * 
      * <pre>
-     * <code>
      * import static javascalautils.Option.None;
      * 
      * Option&#60;String&#62; opt = None();
-     * </code>
      * </pre>
+     * 
+     * </blockquote>
      * 
      * 
      * @param <T>

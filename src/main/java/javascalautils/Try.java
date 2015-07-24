@@ -29,40 +29,45 @@ import java.util.stream.Stream;
  * Instances of 'Try', are either an instance of {@link Success} or {@link Failure}. <br>
  * Example of usage: <br>
  * 
+ * <blockquote>
+ * 
  * <pre>
- * <code>
  * Try&lt;SomeData&gt; getSomeData(SomeInput input) {
  *     try {
- *        //readUserFromDB throws if no user exists
- *        SomeData data = readUserFromDB(input);
- *        return new Success&lt;&gt;(data);
- *     }
- *     catch(SomeException ex) {
- *        return new Failure&lt;&gt;(ex);
+ *         // readUserFromDB throws if no user exists
+ *         SomeData data = readUserFromDB(input);
+ *         return new Success&lt;&gt;(data);
+ *     } catch (SomeException ex) {
+ *         return new Failure&lt;&gt;(ex);
  *     }
  * }
- * </code>
  * </pre>
+ * 
+ * </blockquote>
  * 
  * A more elaborate way is to provide a {@link ThrowableFunction0 checked function} provided to the {@link #apply(ThrowableFunction0)} method. <br>
  * 
+ * <blockquote>
+ * 
  * <pre>
- * <code>
- * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3); //results in Success(3)
- * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0); //results in Failure(ArithmeticException)
- * </code>
+ * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9 / 3); // results in Success(3)
+ * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9 / 0); // results in Failure(ArithmeticException)
  * </pre>
+ * 
+ * </blockquote>
  * 
  * Or let us re-write the first example to use the {@link #apply(ThrowableFunction0)} method. <br>
  * 
+ * <blockquote>
+ * 
  * <pre>
- * <code>
  * Try&lt;SomeData&gt; getSomeData(SomeInput input) {
- *     //readUserFromDB throws if no user exists
- *     Try.apply(() -&gt;  readUserFromDB(input));
+ *     // readUserFromDB throws if no user exists
+ *     Try.apply(() -&gt; readUserFromDB(input));
  * }
- * </code>
  * </pre>
+ * 
+ * </blockquote>
  * 
  * @author Peter Nerg
  * @since 1.0
@@ -93,12 +98,14 @@ public interface Try<T> extends Iterable<T> {
      * If <code>null</code> is provided as argument then the {@link #apply(Object)} is invoked. <br>
      * Example simple division by zero results in an exception.
      * 
+     * <blockquote>
+     * 
      * <pre>
-     * <code>
-     * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9/3);
-     * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9/0);
-     * </code>
+     * Try&lt;Integer&gt; resultSuccess = Try.apply(() -&gt; 9 / 3); // results in Success(3)
+     * Try&lt;Integer&gt; resultFailure = Try.apply(() -&gt; 9 / 0); // results in Failure(ArithmeticException)
      * </pre>
+     * 
+     * </blockquote>
      * 
      * @param <T>
      *            The type for the Try

@@ -74,12 +74,14 @@ public interface Future<T> {
      * The method will use the {@link Executors#getDefault()} method to get hold of the default {@link Executor} to use for executing the provided job. <br>
      * Simple examples:
      * 
+     * <blockquote>
+     * 
      * <pre>
-     * <code>
-     * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9/3); //The Future will at some point contain: Success(3)
-     * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9/0); //The Future will at some point contain: Failure(ArithmeticException)
-     * </code>
+     * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9 / 3); // The Future will at some point contain: Success(3)
+     * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9 / 0); // The Future will at some point contain: Failure(ArithmeticException)
      * </pre>
+     * 
+     * </blockquote>
      * 
      * @param <T>
      *            The type for the Try
@@ -221,12 +223,14 @@ public interface Future<T> {
      * Should <i>this</i> {@link Future} be a 'success' the value is propagated as-is. <br>
      * E.g.
      * 
+     * <blockquote>
+     * 
      * <pre>
-     * <code>
      * Future&lt;String&gt; future = ...
      * Future&lt;String&gt; recovered = future.recover(t -&gt; t.getMessage());
-     * </code>
      * </pre>
+     * 
+     * </blockquote>
      * 
      * In case of 'future' being successful then that value is passed on to 'recovered', in case of failure then the recover function kicks in and returns the
      * message from the throwable.
