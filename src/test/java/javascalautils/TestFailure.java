@@ -27,7 +27,7 @@ public class TestFailure extends BaseAssert {
     private final Exception exception = new Exception("Error, terror!");
     private final Try<String> t = new Failure<>(exception);
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void create_withNullValue() {
         new Failure<Object>(null);
     }

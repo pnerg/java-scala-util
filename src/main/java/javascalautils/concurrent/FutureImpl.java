@@ -20,7 +20,6 @@ import static javascalautils.Option.None;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -32,6 +31,7 @@ import javascalautils.Failure;
 import javascalautils.Option;
 import javascalautils.Success;
 import javascalautils.Try;
+import javascalautils.Validator;
 
 /**
  * The future implementation.
@@ -66,14 +66,14 @@ final class FutureImpl<T> implements Future<T> {
 
     @Override
     public void onFailure(Consumer<Throwable> c) {
-        Objects.requireNonNull(c, "Null is not a valid consumer");
+        Validator.requireNonNull(c, "Null is not a valid consumer");
         failureHandlers.add(new EventHandler<>(c));
         response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> notifyHandlers(failureHandlers, t));
     }
 
     @Override
     public void onSuccess(Consumer<T> c) {
-        Objects.requireNonNull(c, "Null is not a valid consumer");
+        Validator.requireNonNull(c, "Null is not a valid consumer");
         successHandlers.add(new EventHandler<>(c));
         response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> notifyHandlers(successHandlers, r));
     }
@@ -85,7 +85,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public void onComplete(Consumer<Try<T>> c) {
-        Objects.requireNonNull(c, "Null is not a valid consumer");
+        Validator.requireNonNull(c, "Null is not a valid consumer");
         completeHandlers.add(new EventHandler<>(c));
         response.forEach(t -> notifyHandlers(completeHandlers, t));
     }
@@ -97,7 +97,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public void forEach(Consumer<T> c) {
-        Objects.requireNonNull(c, "Null is not a valid consumer");
+        Validator.requireNonNull(c, "Null is not a valid consumer");
         onSuccess(c);
     }
 
@@ -119,7 +119,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public <R> Future<R> flatMap(Function<T, Future<R>> function) {
-        Objects.requireNonNull(function, "Null is not a valid function");
+        Validator.requireNonNull(function, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<R> future = new FutureImpl<>();
 
@@ -146,7 +146,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public Future<T> filter(Predicate<T> predicate) {
-        Objects.requireNonNull(predicate, "Null is not a valid predicate");
+        Validator.requireNonNull(predicate, "Null is not a valid predicate");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<T> future = new FutureImpl<>();
         // install success handler that will filter the result before applying it
@@ -169,8 +169,8 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public <R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure) {
-        Objects.requireNonNull(onSuccess, "Null is not a valid function");
-        Objects.requireNonNull(onFailure, "Null is not a valid function");
+        Validator.requireNonNull(onSuccess, "Null is not a valid function");
+        Validator.requireNonNull(onFailure, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<R> future = new FutureImpl<>();
         // install success handler that will map the result before applying it
@@ -187,7 +187,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public Future<T> recover(Function<Throwable, T> recoverFunction) {
-        Objects.requireNonNull(recoverFunction, "Null is not a valid function");
+        Validator.requireNonNull(recoverFunction, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<T> future = new FutureImpl<>();
         // install success handler that will pass the value as-is
@@ -204,7 +204,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException {
-        Objects.requireNonNull(timeUnit, "Null is not a valid time unit");
+        Validator.requireNonNull(timeUnit, "Null is not a valid time unit");
         CountDownLatch latch = new CountDownLatch(1);
 
         // install a handler that releases the count down latch when notified with a result.

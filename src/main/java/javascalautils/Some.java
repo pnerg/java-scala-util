@@ -16,7 +16,6 @@
 package javascalautils;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -50,7 +49,7 @@ public final class Some<T> implements Option<T>, Serializable {
      *            The value represented by this Some
      */
     public Some(T value) {
-        this.value = Objects.requireNonNull(value, "Null values are not allowed for Some");
+        this.value = Validator.requireNonNull(value, "Null values are not allowed for Some");
     }
 
     /**

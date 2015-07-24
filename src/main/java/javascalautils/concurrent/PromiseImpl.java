@@ -15,13 +15,13 @@
  */
 package javascalautils.concurrent;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import javascalautils.Failure;
 import javascalautils.Success;
 import javascalautils.Try;
+import javascalautils.Validator;
 
 /**
  * The Promise implementation. <br>
@@ -71,7 +71,7 @@ final class PromiseImpl<T> implements Promise<T> {
 
     @Override
     public boolean tryComplete(Try<T> result) {
-        Objects.requireNonNull(result, "Must provide a valid result");
+        Validator.requireNonNull(result, "Must provide a valid result");
         return tryComplete(future -> future.complete(result));
     }
 

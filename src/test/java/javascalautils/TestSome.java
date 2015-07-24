@@ -31,6 +31,11 @@ public class TestSome extends BaseAssert {
 
     private final Option<String> option = new Some<String>(TEXT_VALUE);
 
+    @Test(expected = IllegalArgumentException.class)
+    public void create_withNullValue() {
+        new Some<Object>(null);
+    }
+
     @Test
     public void contains_true() {
         assertTrue(option.contains(TEXT_VALUE));
