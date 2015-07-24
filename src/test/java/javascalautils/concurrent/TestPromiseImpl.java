@@ -165,4 +165,8 @@ public class TestPromiseImpl extends BaseAssert {
         assertFalse(promise.tryFailure(new Exception("Scheit, another exception")));
     }
 
+    @Test
+    public void t_toString() {
+        assertNotNull(promise.toString());
+    }
 }

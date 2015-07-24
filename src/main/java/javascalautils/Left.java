@@ -67,10 +67,8 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
         return new Right<>(value);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {

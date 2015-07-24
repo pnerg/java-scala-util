@@ -102,10 +102,8 @@ public final class Success<T> implements Try<T>, Serializable {
         return function.apply(value);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {

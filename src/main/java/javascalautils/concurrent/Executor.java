@@ -21,7 +21,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Executor service used to execute work in asynchronous fashion.
+ * Executor service used to execute work in asynchronous fashion. <br>
+ * In contrast to the {@link java.util.concurrent.Executor} service provided by the Java SDK this returns non-blocking {@link Future} instances.
  * 
  * @author Peter Nerg
  * @since 1.2

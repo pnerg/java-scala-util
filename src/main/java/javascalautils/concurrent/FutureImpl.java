@@ -221,14 +221,12 @@ final class FutureImpl<T> implements Future<T> {
         return response.get().get();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {
-        return "Future:" + response.toString();
+        return "Future:" + response;
     }
 
     /**

@@ -26,9 +26,12 @@ import java.util.stream.Stream;
  * Represents an empty {@link Option}. <br>
  * The {@link None} is a replacement for <code>null</code> values representing a non-existing value. <br>
  * One can consider {@link None} as a collection of size 0. <br>
- * Instances of None should not be created directly, rather use the factory methods provided on {@link Option}. <br>
- * {@link Option#empty()} or {@link Option#None()}, since {@link None} anyways cannot represent a value it is preferable to use it as a singleton thus saving
- * unnecessary instance creation.
+ * Instances of None should not be created directly, rather use the factory methods provided on {@link Option}.
+ * <ul>
+ * <li>{@link Option#empty()}</li>
+ * <li>{@link Option#None()}</li>
+ * </ul>
+ * Since {@link None} anyways cannot represent a value it is preferable to use it as a singleton saving unnecessary instance creation.
  *
  * @author Peter Nerg
  * @since 1.0
@@ -40,7 +43,7 @@ public final class None<T> implements Option<T>, Serializable {
     private static final long serialVersionUID = -5169653193196761412L;
 
     /**
-     * Always throws {@link NoSuchElementException} since None cannot hold any value.
+     * Always throws {@link NoSuchElementException} since None cannot per definition hold any value.
      */
     @Override
     public T get() {
@@ -122,10 +125,8 @@ public final class None<T> implements Option<T>, Serializable {
         return 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {

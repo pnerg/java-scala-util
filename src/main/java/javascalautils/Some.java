@@ -127,10 +127,8 @@ public final class Some<T> implements Option<T>, Serializable {
         return 31 + value.hashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {

@@ -164,7 +164,7 @@ public interface Try<T> extends Iterable<T> {
     /**
      * Returns the value from this {@link Success} or throws the exception if this is a {@link Failure}.
      * 
-     * @return The value of the Try
+     * @return The value of the {@link Success}
      * @throws Throwable
      *             The Throwable in case of a {@link Failure}
      */
@@ -224,7 +224,8 @@ public interface Try<T> extends Iterable<T> {
     /**
      * Returns this {@link Try} as an {@link Option}. <br>
      * If it is a {@link Success} then the value is wrapped in {@link Some} else {@link None} is returned. <br>
-     * Should the {@link Success} contain a <code>null</code> value the result will be {@link None}.
+     * Should the {@link Success} contain a <code>null</code> value the result will be {@link None} as <code>null</code> values are per definition
+     * <i>none/nothing</i>.
      * 
      * @return The {@link Option} representing this Try
      */

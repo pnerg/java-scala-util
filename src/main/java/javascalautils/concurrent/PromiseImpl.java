@@ -91,6 +91,14 @@ final class PromiseImpl<T> implements Promise<T> {
     }
 
     /**
+     * Returns a String representation of the instance.
+     */
+    @Override
+    public String toString() {
+        return "Promise:" + future;
+    }
+
+    /**
      * Internal try complete method that takes a consumer to apply the Future this Promise holds. <br>
      * Performs a check if this Promise already has been fulfilled or not.
      * 

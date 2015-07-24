@@ -69,7 +69,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always throws the {@link Throwable} provided in the constructor.
+     * Always throws the {@link Throwable} this instance represents.
      */
     @Override
     public T get() throws Throwable {
@@ -77,7 +77,7 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Returns a {@link Success} with the {@link Throwable} provided in the constructor.
+     * Returns a {@link Success} with the {@link Throwable} this instance represents.
      */
     @Override
     public Try<Throwable> failed() {
@@ -101,10 +101,8 @@ public final class Failure<T> implements Try<T>, Serializable {
         return map(null);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
+    /**
+     * Returns a String representation of the instance.
      */
     @Override
     public String toString() {

@@ -30,18 +30,21 @@ import java.util.function.Function;
  *     Either<InputStream, String>; either = new Right<>("Right is not Left");
  * }
  * </pre>
+ * 
  * In contrast to {@link Try} and {@link Option} the {@link Either} cannot directly be used as a collection (i.e iterate over it). <br>
  * This is due to that {@link Either} is unbiased as to which of {@link Left}, {@link Right} it represents. <br>
- * To get access to the data represented by the {@link Either} you as a programmer have to decide to work with either the {@link Left} or {@link Right} side. <br>
+ * To get access to the data represented by the {@link Either} you as a developer have to decide to work with either the {@link Left} or {@link Right} side. <br>
  * <br>
  * Consider the {@link Either} ({@link Right}) instance exemplified above. <br>
  * To get hold of the data it represents you need to decide which side (Left, Right) to work with. <br>
  * Easiest way is to first decide which side the instance represents. <br>
  * The methods {@link #isLeft()} and {@link #isRight()} will help you decide which side is represented. <br>
  * Invoking either {@link #left()} or {@link #right()} will yield a biased projection for that side. <br>
+ * 
  * <pre>
- * {@code
- *     RightProjection<InputStream, String> projection = either.right();
+ * {
+ *     &#064;code
+ *     RightProjection&lt;InputStream, String&gt; projection = either.right();
  * }
  * </pre>
  * 

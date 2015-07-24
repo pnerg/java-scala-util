@@ -30,7 +30,7 @@ import javascalautils.ThrowableFunction0;
 import javascalautils.Try;
 
 /**
- * A Future that holds the result of a computation executed asynchronously. <br>
+ * A Future that will hold the result of an asynchronous computation. <br>
  * The Future is paired with an instance of {@link Promise} which is also the way to get hold of a Future. <br>
  * One can see a Future as a holder for a value-to-be, not yet available but accessible sometime in the future. <br>
  * The preferred way to get hold of the value-to-be is to register a listener on any of the provided listener types since this allows for asynchronous
@@ -45,7 +45,8 @@ import javascalautils.Try;
  * Should the Future already be completed when the listener is added it is fired immediately. <br>
  * The guarantee is that a listener is only fired once. <br>
  * <br>
- * For situations where it is necessary to maintain synchronous/blocking behavior the method {@link #result(long, TimeUnit)} is provided. <br>
+ * All operations on this class are non-blocking, i.e. allowing for proper asynchronous/non-blocking programming patterns. <br>
+ * With one exception, for situations where it is necessary to maintain synchronous/blocking behavior the method {@link #result(long, TimeUnit)} is provided. <br>
  * <br>
  * For real short and consistent programming one can use the {@link #apply(ThrowableFunction0)} method to provide a function that will be executed in the
  * future.<br>
@@ -118,9 +119,9 @@ public interface Future<T> {
 
     /**
      * Register a handler to be invoked if the Future gets completed with an exception. <br>
-     * If the Future has already been completed the invocation will happen in the current thread. <br>
+     * If the Future has already been completed the notification will happen in the current thread. <br>
      * Multiple handlers can be registered, without any guarantee of notification order. <br>
-     * Each individual Handler will only be invoked once. <br>
+     * Each individual event handler will only be invoked once. <br>
      * 
      * @param failureHandler
      *            Consumer to invoke.
@@ -129,9 +130,9 @@ public interface Future<T> {
 
     /**
      * Register a handler to be invoked if the Future gets completed with a value. <br>
-     * If the Future has already been completed the invocation will happen in the current thread. <br>
+     * If the Future has already been completed the notification will happen in the current thread. <br>
      * Multiple handlers can be registered, without any guarantee of notification order. <br>
-     * Each individual Handler will only be invoked once. <br>
+     * Each individual event handler will only be invoked once. <br>
      * 
      * @param successHandler
      *            Consumer to invoke.
@@ -140,9 +141,9 @@ public interface Future<T> {
 
     /**
      * Register a handler to be invoked if the Future gets completed with a value or a failure. <br>
-     * If the Future has already been completed the invocation will happen in the current thread. <br>
+     * If the Future has already been completed the notification will happen in the current thread. <br>
      * Multiple handlers can be registered, without any guarantee of notification order. <br>
-     * Each individual Handler will only be invoked once. <br>
+     * Each individual event handler will only be invoked once. <br>
      * 
      * @param completeHandler
      *            Consumer to invoke.
