@@ -27,6 +27,12 @@ import java.util.Objects;
 public final class Validator {
 
     /**
+     * Inhibitive constructor.
+     */
+    private Validator() {
+    }
+
+    /**
      * Checks that the specified object reference is not <code>null</code> and and throws {@link IllegalArgumentException} if it is. <br>
      * Essentially this is very much the same as {@link Objects#requireNonNull(Object)} but throws an {@link IllegalArgumentException} as opposed to the
      * {@link NullPointerException} the SDK class throws.
