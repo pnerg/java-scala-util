@@ -41,7 +41,10 @@ package javascalautils;
  * @author Peter Nerg
  * @since 1.3
  */
-public class TryCompanion {
+public final class TryCompanion {
+
+    private TryCompanion() {
+    }
 
     /**
      * Creates an instance of {@link Try} wrapping the result of the provided function. <br>
