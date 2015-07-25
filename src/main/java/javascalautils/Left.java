@@ -16,6 +16,8 @@
 
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Right;
+
 import java.io.Serializable;
 import java.util.function.Function;
 
@@ -64,7 +66,7 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
      */
     @Override
     public Either<R, L> swap() {
-        return new Right<>(value);
+        return Right(value);
     }
 
     /**

@@ -15,6 +15,8 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.concurrent.PromiseCompanion.Promise;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -45,7 +47,7 @@ final class ExecutorImpl implements Executor {
      */
     @Override
     public <T> Future<T> execute(final Executable<T> executable) {
-        final Promise<T> promise = Promise.apply();
+        final Promise<T> promise = Promise();
         return execute(promise, () -> {
             try {
                 executable.execute(promise);
@@ -66,7 +68,7 @@ final class ExecutorImpl implements Executor {
      */
     @Override
     public <T> Future<T> execute(final Callable<T> callable) {
-        final Promise<T> promise = Promise.apply();
+        final Promise<T> promise = Promise();
         return execute(promise, () -> {
             try {
                 promise.success(callable.call());

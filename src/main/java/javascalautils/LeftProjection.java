@@ -16,6 +16,8 @@
 
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Left;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -98,7 +100,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      */
     @SuppressWarnings("unchecked")
     public <T> Either<T, R> map(Function<L, T> function) {
-        return either.isLeft() ? new Left<>(function.apply(get())) : (Either<T, R>) either;
+        return either.isLeft() ? Left(function.apply(get())) : (Either<T, R>) either;
     }
 
     /**

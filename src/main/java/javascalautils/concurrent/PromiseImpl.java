@@ -15,11 +15,12 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.TryCompanion.Failure;
+import static javascalautils.TryCompanion.Success;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
-import javascalautils.Failure;
-import javascalautils.Success;
 import javascalautils.Try;
 import javascalautils.Validator;
 
@@ -47,12 +48,12 @@ final class PromiseImpl<T> implements Promise<T> {
 
     @Override
     public void success(T object) {
-        complete(new Success<>(object));
+        complete(Success(object));
     }
 
     @Override
     public void failure(Throwable throwable) {
-        complete(new Failure<>(throwable));
+        complete(Failure(throwable));
     }
 
     @Override
@@ -82,12 +83,12 @@ final class PromiseImpl<T> implements Promise<T> {
 
     @Override
     public boolean trySuccess(T result) {
-        return tryComplete(new Success<>(result));
+        return tryComplete(Success(result));
     }
 
     @Override
     public boolean tryFailure(Throwable throwable) {
-        return tryComplete(new Failure<>(throwable));
+        return tryComplete(Failure(throwable));
     }
 
     /**

@@ -16,6 +16,8 @@
 
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Right;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -98,7 +100,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      */
     @SuppressWarnings("unchecked")
     public <T> Either<L, T> map(Function<R, T> function) {
-        return either.isRight() ? new Right<>(function.apply(get())) : (Either<L, T>) either;
+        return either.isRight() ? Right(function.apply(get())) : (Either<L, T>) either;
     }
 
     /**

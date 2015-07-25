@@ -15,6 +15,8 @@
  */
 package javascalautils;
 
+import static javascalautils.TryCompanion.Try;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -92,7 +94,7 @@ public final class Success<T> implements Try<T>, Serializable {
      */
     @Override
     public <R> Try<R> map(Function<T, R> function) {
-        return Try.apply(function.apply(value));
+        return Try(() -> function.apply(value));
     }
 
     /**
