@@ -84,7 +84,7 @@ public interface Future<T> {
      * </blockquote>
      * 
      * @param <T>
-     *            The type for the Try
+     *            The type for the Future
      * @param function
      *            The function to render either the value <i>T</i> or raise an exception.
      * @return The future that will hold the result provided by the function
