@@ -44,7 +44,14 @@ package javascalautils;
 public class TryCompanion {
 
     /**
-     * Creates an instance of {@link Try} wrapping the result of the provided function.
+     * Creates an instance of {@link Try} wrapping the result of the provided function. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <pre>
+     * import static javascalautils.TryCompanion.Try;
+     * 
+     * Try&lt;Integer&gt; t = Try(() -&gt; 9 / 3);
+     * </pre>
      * 
      * @param <T>
      *            The type for the Try
@@ -58,7 +65,14 @@ public class TryCompanion {
     }
 
     /**
-     * Creates an instance of {@link Failure} wrapping the provided throwable.
+     * Creates an instance of {@link Failure} wrapping the provided throwable. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <pre>
+     * import static javascalautils.TryCompanion.Failure;
+     * 
+     * Try&lt;String&gt; tf = Failure(new Exception("Bad mojo!"));
+     * </pre>
      * 
      * @param <T>
      *            The type for the Try
@@ -72,7 +86,14 @@ public class TryCompanion {
     }
 
     /**
-     * Creates an instance of {@link Success} wrapping the provided value.
+     * Creates an instance of {@link Success} wrapping the provided value. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <pre>
+     * import static javascalautils.TryCompanion.Success;
+     * 
+     * Try&lt;String&gt; ts = Success("Peter was here");
+     * </pre>
      * 
      * @param <T>
      *            The type for the Try
