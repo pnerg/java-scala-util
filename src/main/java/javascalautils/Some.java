@@ -30,7 +30,8 @@ import java.util.stream.Stream;
  * Either use the implementation directly: <br>
  * <blockquote>Option&#60;String&#62; option = new Some&#60;&#62;("Peter is Great!");</blockquote> <br>
  * or use the factory/apply method from Option: <br>
- * <blockquote>Option&#60;String&#62; option = Option.apply("Peter is Great!");</blockquote>
+ * <blockquote>Option&#60;String&#62; option = Option.apply("Peter is Great!");</blockquote> For examples on usage refer to the documentation for {@link Option}
+ * .
  * 
  * @author Peter Nerg
  * @since 1.0

@@ -31,8 +31,9 @@ import java.util.stream.Stream;
  * <li>{@link Option#empty()}</li>
  * <li>{@link Option#None()}</li>
  * </ul>
- * Since {@link None} anyways cannot represent a value it is preferable to use it as a singleton saving unnecessary instance creation.
- *
+ * Since {@link None} anyways cannot represent a value it is preferable to use it as a singleton saving unnecessary instance creation. <br>
+ * For examples on usage refer to the documentation for {@link Option}.
+ * 
  * @author Peter Nerg
  * @since 1.0
  * @param <T>

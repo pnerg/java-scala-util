@@ -20,7 +20,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * Represents the 'successful' implementation of {@link Try}.
+ * Represents the 'successful' implementation of {@link Try}. <br>
+ * For examples on usage refer to the documentation for {@link Try}.
  * 
  * @author Peter Nerg
  * @since 1.0
