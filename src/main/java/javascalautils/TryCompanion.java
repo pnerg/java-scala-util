@@ -1,0 +1,88 @@
+/**
+ *  Copyright 2015 Peter Nerg
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package javascalautils;
+
+/**
+ * Acts as a Scala type companion object for {@link Try}/{@link Success}/{@link Failure}. <br>
+ * The primary purpose is to get the Scala feel of instantiating classes. <br>
+ * In Scala you can define a companion object for a class, acting as a static reference/singleton for that class allowing you do define factory methods.<br>
+ * One use case is to define methods with the same name as the class and let these methods invoke the constructor thus creating a nice way to create instances
+ * without using the word "new". <br>
+ * This can be achieved in java by statically importing a method and then using it. <br>
+ * The limitation is that classes may not have method with the same name as the class itself hence new companion classes have to be created. <br>
+ * To be able to use it in a neat concise way one needs to statically import the method. <blockquote>
+ * 
+ * <pre>
+ * import static javascalautils.TryCompanion.Failure;
+ * import static javascalautils.TryCompanion.Success;
+ * import static javascalautils.TryCompanion.Try;
+ * 
+ * Try&lt;Integer&gt; t = Try(() -&gt; 9 / 3);
+ * Try&lt;String&gt; ts = Success("Peter was here");
+ * Try&lt;String&gt; tf = Failure(new Exception("Bad mojo!"));
+ * </pre>
+ * 
+ * </blockquote>
+ * 
+ * @author Peter Nerg
+ * @since 1.3
+ */
+public class TryCompanion {
+
+    /**
+     * Creates an instance of {@link Try} wrapping the result of the provided function.
+     * 
+     * @param <T>
+     *            The type for the Try
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @return The resulting Try instance wrapping what the function resulted in
+     * @see Try#apply(ThrowableFunction0)
+     */
+    public static <T> Try<T> Try(ThrowableFunction0<T> function) {
+        return Try.apply(function);
+    }
+
+    /**
+     * Creates an instance of {@link Failure} wrapping the provided throwable.
+     * 
+     * @param <T>
+     *            The type for the Try
+     * @param throwable
+     *            The throwable to wrap
+     * @return The failure instance
+     * @see Failure#Failure(Throwable)
+     */
+    public static <T> Failure<T> Failure(Throwable throwable) {
+        return new Failure<>(throwable);
+    }
+
+    /**
+     * Creates an instance of {@link Success} wrapping the provided value.
+     * 
+     * @param <T>
+     *            The type for the Try
+     * @param value
+     *            The value to wrap
+     * @return The failure instance
+     * @see Success#Success(Object)
+     */
+    public static <T> Success<T> Success(T value) {
+        return new Success<>(value);
+    }
+
+}
