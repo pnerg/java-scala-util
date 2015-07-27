@@ -92,7 +92,7 @@ public interface Option<T> extends Iterable<T> {
      * @return The Option representing the provided value
      */
     static <T> Option<T> apply(T value) {
-        return value != null ? new Some<T>(value) : empty();
+        return value != null ? new Some<T>(value) : None();
     }
 
     /**
@@ -172,7 +172,7 @@ public interface Option<T> extends Iterable<T> {
      * @return The Option representing the match
      */
     default Option<T> filter(Predicate<T> p) {
-        return exists(p) ? this : empty();
+        return exists(p) ? this : None();
     }
 
     /**
@@ -292,6 +292,16 @@ public interface Option<T> extends Iterable<T> {
      * @return The stream for the Option
      */
     Stream<T> stream();
+
+    /**
+     * Returns the value of this {@link Some} as a {@link Left}, or in case of {@link None} a {@link Right} containing the value from the provided supplier.
+     * 
+     * @param right
+     *            The supplier to use in case this is a {@link None}
+     * @return The {@link Either} instance
+     * @since 1.4
+     */
+    <R> Either<T, R> toLeft(Supplier<R> right);
 
     /**
      * Converts this {@link Option} to a corresponding {@link Optional}.

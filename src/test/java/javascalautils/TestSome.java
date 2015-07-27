@@ -150,6 +150,13 @@ public class TestSome extends BaseAssert {
     }
 
     @Test
+    public void toLeft() {
+        Either<String, String> either = option.toLeft(() -> "right");
+        assertTrue(either.isLeft());
+        assertEquals(TEXT_VALUE, either.left().get());
+    }
+
+    @Test
     public void orNull() {
         assertEquals(TEXT_VALUE, option.orNull());
     }

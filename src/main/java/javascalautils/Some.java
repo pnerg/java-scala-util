@@ -15,6 +15,8 @@
  */
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Left;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -109,6 +111,16 @@ public final class Some<T> implements Option<T>, Serializable {
     @Override
     public Stream<T> stream() {
         return Stream.of(value);
+    }
+
+    /**
+     * Returns a {@link Left} containing the value of this instance.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public <R> Either<T, R> toLeft(Supplier<R> right) {
+        return Left(value);
     }
 
     /**

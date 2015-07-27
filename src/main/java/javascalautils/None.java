@@ -15,6 +15,8 @@
  */
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Right;
+
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
@@ -103,6 +105,16 @@ public final class None<T> implements Option<T>, Serializable {
      */
     public Stream<T> stream() {
         return Stream.empty();
+    }
+
+    /**
+     * Returns a {@link Right} containing the value from the provided supplier.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public <R> Either<T, R> toLeft(Supplier<R> right) {
+        return Right(right.get());
     }
 
     /**
