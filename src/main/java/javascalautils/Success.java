@@ -119,6 +119,17 @@ public final class Success<T> implements Try<T>, Serializable {
     }
 
     /**
+     * Always returns <i>this</i> . <br>
+     * As per definition this is a success and will not need to be recovered.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public Try<T> recoverWith(Function<Throwable, Try<T>> function) {
+        return this;
+    }
+
+    /**
      * Returns a String representation of the instance.
      */
     @Override

@@ -88,4 +88,10 @@ public class TestSuccess extends BaseAssert {
         // should be exactly the same instance
         assertEquals(t, t.recover(ex -> ex.toString()));
     }
+
+    @Test
+    public void recoverWith() {
+        // should be exactly the same instance
+        assertEquals(t, t.recoverWith(ex -> new Success<>(ex.toString())));
+    }
 }

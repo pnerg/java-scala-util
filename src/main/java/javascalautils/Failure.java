@@ -119,6 +119,16 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
+     * Applies the provided function to the Throwable of this {@link Failure} and returns the result.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public Try<T> recoverWith(Function<Throwable, Try<T>> function) {
+        return function.apply(throwable);
+    }
+
+    /**
      * Returns a String representation of the instance.
      */
     @Override

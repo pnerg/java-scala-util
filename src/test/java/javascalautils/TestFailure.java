@@ -93,4 +93,10 @@ public class TestFailure extends BaseAssert {
         // should recover to contain the exception message
         assertEquals(exception.getMessage(), t.recover(ex -> ex.getMessage()).get());
     }
+
+    @Test
+    public void recoverWith() throws Throwable {
+        // should recover to contain the exception message
+        assertEquals(exception.getMessage(), t.recoverWith(ex -> new Success<>(ex.getMessage())).get());
+    }
 }
