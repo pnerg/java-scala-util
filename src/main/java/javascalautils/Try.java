@@ -219,6 +219,32 @@ public interface Try<T> extends Iterable<T> {
     <R> Try<R> flatMap(Function<T, Try<R>> function);
 
     /**
+     * Creates a new {@link Try} that in case <i>this</i> {@link Try} is a {@link Failure} will apply the function to recover to a {@link Success}. <br>
+     * Should <i>this</i> be a {@link Success} the value is propagated as-is. <br>
+     * This is a kind of {@link #map(Function)} for failures only.<br>
+     * E.g.
+     * 
+     * <blockquote>
+     * 
+     * <pre>
+     * Try&lt;String&gt; t = ...
+     * Try&lt;String&gt; recovered = t.recover(t -&gt; t.getMessage());
+     * </pre>
+     * 
+     * </blockquote>
+     * 
+     * In case of <i>t</i> being successful then that value is passed on to <i>recovered</i>, in case of failure then the recover function kicks in and returns
+     * the message from the throwable.
+     * 
+     * 
+     * @param function
+     *            The function to apply in case of a {@link Failure}
+     * @return The recovered Try
+     * @since 1.4
+     */
+    Try<T> recover(Function<Throwable, T> function);
+
+    /**
      * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}. <br>
      * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
      * 

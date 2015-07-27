@@ -87,4 +87,10 @@ public class TestFailure extends BaseAssert {
         // mapping a failure only returns itself anyways
         assertTrue(t.flatMap(v -> null).isFailure());
     }
+
+    @Test
+    public void recover() throws Throwable {
+        // should recover to contain the exception message
+        assertEquals(exception.getMessage(), t.recover(ex -> ex.getMessage()).get());
+    }
 }

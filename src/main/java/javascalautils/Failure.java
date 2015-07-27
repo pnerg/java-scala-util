@@ -53,7 +53,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns the value provided by the supplier.
+     * Always returns the value provided by the supplier. <br>
+     * As per definition this is a failure without any data to map.
      */
     @Override
     public T getOrElse(Supplier<T> supplier) {
@@ -61,7 +62,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns the value provided by the supplier.
+     * Always returns the value provided by the supplier. <br>
+     * As per definition this is a failure without any data to return.
      */
     @Override
     public Try<T> orElse(Supplier<Try<T>> supplier) {
@@ -69,7 +71,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always throws the {@link Throwable} this instance represents.
+     * Always throws the {@link Throwable} this instance represents. <br>
+     * As per definition this is a failure without any data to map.
      */
     @Override
     public T get() throws Throwable {
@@ -85,7 +88,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns <i>this</i>
+     * Always returns <i>this</i>. <br>
+     * As per definition this is a failure without any data to map.
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -94,11 +98,24 @@ public final class Failure<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Always returns <i>this</i>
+     * Always returns <i>this</i>. <br>
+     * As per definition this is a failure without any data to map.
+     * 
+     * @since 1.2
      */
     @Override
     public <R> Try<R> flatMap(Function<T, Try<R>> function) {
         return map(null);
+    }
+
+    /**
+     * Applies the provided function to the Throwable of this {@link Failure} and returns a {@link Success} with the result.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public Try<T> recover(Function<Throwable, T> function) {
+        return new Success<>(function.apply(throwable));
     }
 
     /**

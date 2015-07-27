@@ -82,4 +82,10 @@ public class TestSuccess extends BaseAssert {
     public void flatMap() {
         assertEquals(message.toUpperCase(), t.flatMap(v -> new Success<>(v.toUpperCase())).orNull());
     }
+
+    @Test
+    public void recover() {
+        // should be exactly the same instance
+        assertEquals(t, t.recover(ex -> ex.toString()));
+    }
 }
