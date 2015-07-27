@@ -18,7 +18,9 @@ package javascalautils;
 import static javascalautils.TryCompanion.Try;
 
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -105,6 +107,16 @@ public final class Success<T> implements Try<T>, Serializable {
     @Override
     public <R> Try<R> flatMap(Function<T, Try<R>> function) {
         return function.apply(value);
+    }
+
+    /**
+     * Applies the predicate to the value of this instance, if it matches <i>this</i> is returned else a {@link Failure}.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public Try<T> filter(Predicate<T> predicate) {
+        return predicate.test(value) ? this : new Failure<>(new NoSuchElementException("Predicate did not match value, now empty result"));
     }
 
     /**

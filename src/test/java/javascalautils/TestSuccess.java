@@ -59,6 +59,18 @@ public class TestSuccess extends BaseAssert {
     }
 
     @Test
+    public void filter_match() {
+        // always true filter -> this
+        assertEquals(t, t.filter(s -> true));
+    }
+
+    @Test
+    public void filter_nomatch() {
+        // always false filter -> Failure
+        assertTrue(t.filter(s -> false).isFailure());
+    }
+
+    @Test
     public void toString_withValue() {
         assertNotNull(t.toString());
     }

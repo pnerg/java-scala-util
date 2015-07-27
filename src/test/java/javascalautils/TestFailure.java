@@ -67,6 +67,12 @@ public class TestFailure extends BaseAssert {
     }
 
     @Test
+    public void filter() {
+        // the filter doesn't matter as we're anyways a failure
+        assertEquals(t, t.filter(s -> true));
+    }
+
+    @Test
     public void toString_withValue() {
         assertNotNull(t.toString());
     }

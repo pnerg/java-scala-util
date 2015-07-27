@@ -17,6 +17,7 @@ package javascalautils;
 
 import java.util.Iterator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -184,6 +185,22 @@ public interface Try<T> extends Iterable<T> {
      * @return The value of the {@link Failure} in a {@link Success}
      */
     Try<Throwable> failed();
+
+    /**
+     * Applies the predicate to the value of the {@link Try} and either returns the Try if the predicate matched or a {@link Failure}. <br>
+     * One of the three outcomes are applicable:
+     * <ul>
+     * <li>Instance is {@link Success} and predicate matches -&gt; return <i>this</i></li>
+     * <li>Instance is {@link Success} and predicate does not match -&gt; return {@link Failure}</li>
+     * <li>Instance is {@link Failure} -&gt; return <i>this</i></li>
+     * <li></li>
+     * </ul>
+     * 
+     * @param predicate
+     * @return
+     * @since 1.4
+     */
+    Try<T> filter(Predicate<T> predicate);
 
     /**
      * Returns the Try's value in an {@link Iterator} if it is a {@link Success}, or an empty {@link Iterator} if it is Failure. <br>

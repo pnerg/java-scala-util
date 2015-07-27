@@ -17,6 +17,7 @@ package javascalautils;
 
 import java.io.Serializable;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -106,6 +107,17 @@ public final class Failure<T> implements Try<T>, Serializable {
     @Override
     public <R> Try<R> flatMap(Function<T, Try<R>> function) {
         return map(null);
+    }
+
+    /**
+     * Always returns <i>this</i>. <br>
+     * As per definition this is a failure without any data to filter.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public Try<T> filter(Predicate<T> predicate) {
+        return this;
     }
 
     /**
