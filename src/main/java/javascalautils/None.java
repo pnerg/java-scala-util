@@ -78,6 +78,8 @@ public final class None<T> implements Option<T>, Serializable {
     /**
      * Always returns <code>this</code>. <br>
      * I.e. the function is never used as {@link None} represents nothing/no value.
+     * 
+     * @since 1.2
      */
     @Override
     public <R> Option<R> flatMap(Function<T, Option<R>> function) {

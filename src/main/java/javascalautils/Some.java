@@ -87,6 +87,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns an Option consisting of the result of applying the given function to the current value.
+     * 
+     * @since 1.2
      */
     @Override
     public <R> Option<R> flatMap(Function<T, Option<R>> function) {

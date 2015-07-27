@@ -238,7 +238,7 @@ public interface Future<T> {
      * 
      * @param recoverFunction
      *            The function to apply in case of a 'failure'
-     * @return The recover Future
+     * @return The recovered Future
      * @since 1.3
      */
     Future<T> recover(Function<Throwable, T> recoverFunction);
