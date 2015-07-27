@@ -190,10 +190,10 @@ final class FutureImpl<T> implements Future<T> {
         Validator.requireNonNull(recoverFunction, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<T> future = new FutureImpl<>();
-        // install success handler that will pass the value as-is
-        onSuccess(value -> future.success(value));
-        // install failure handler that will map the error to a value passed to the success function
-        onFailure(t -> future.success(recoverFunction.apply(t)));
+
+        // installs a handler that will automatically recover the result/Try should it be needed
+        onComplete(t -> future.complete(t.recover(recoverFunction)));
+
         return future;
     }
 

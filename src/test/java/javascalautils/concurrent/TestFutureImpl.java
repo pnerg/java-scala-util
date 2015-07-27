@@ -380,7 +380,7 @@ public class TestFutureImpl extends BaseAssert {
 
     @Test
     public void recover_failed() throws TimeoutException, Throwable {
-        Future<String> recovered = future.recover(t -> "This is the recovery message");
+        Future<String> recovered = future.recover(ex -> "This is the recovery message");
         future.complete(new Failure<>(new DummyException()));
         assertTrue(recovered.isCompleted());
         assertEquals("This is the recovery message", recovered.result(1, TimeUnit.SECONDS));
