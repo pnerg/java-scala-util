@@ -123,6 +123,13 @@ public class TestNone extends BaseAssert {
     }
 
     @Test
+    public void toRight() {
+        Either<String, String> either = option.toRight(() -> "left");
+        assertTrue(either.isLeft());
+        assertEquals("left", either.left().get());
+    }
+
+    @Test
     public void orNull() {
         assertNull(option.orNull());
     }

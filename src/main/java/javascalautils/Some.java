@@ -16,6 +16,7 @@
 package javascalautils;
 
 import static javascalautils.EitherCompanion.Left;
+import static javascalautils.EitherCompanion.Right;
 
 import java.io.Serializable;
 import java.util.function.Function;
@@ -121,6 +122,16 @@ public final class Some<T> implements Option<T>, Serializable {
     @Override
     public <R> Either<T, R> toLeft(Supplier<R> right) {
         return Left(value);
+    }
+
+    /**
+     * Returns a {@link Right} containing the value of this instance.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public <L> Either<L, T> toRight(Supplier<L> left) {
+        return Right(value);
     }
 
     /**

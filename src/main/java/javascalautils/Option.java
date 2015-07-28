@@ -296,12 +296,25 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns the value of this {@link Some} as a {@link Left}, or in case of {@link None} a {@link Right} containing the value from the provided supplier.
      * 
+     * @param <R>
+     *            The type in case {@link Right} returned
      * @param right
      *            The supplier to use in case this is a {@link None}
      * @return The {@link Either} instance
      * @since 1.4
      */
     <R> Either<T, R> toLeft(Supplier<R> right);
+
+    /**
+     * Returns the value of this {@link Some} as a {@link Right}, or in case of {@link None} a {@link Left} containing the value from the provided supplier.
+     * 
+     * @param <L>
+     *            The type in case {@link Left} returned
+     * @param left
+     *            The supplier to use in case this is a {@link None}
+     * @return The {@link Either} instance
+     */
+    <L> Either<L, T> toRight(Supplier<L> left);
 
     /**
      * Converts this {@link Option} to a corresponding {@link Optional}.

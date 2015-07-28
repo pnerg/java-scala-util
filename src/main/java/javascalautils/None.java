@@ -15,6 +15,7 @@
  */
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Left;
 import static javascalautils.EitherCompanion.Right;
 
 import java.io.Serializable;
@@ -94,8 +95,8 @@ public final class None<T> implements Option<T>, Serializable {
      * 
      * @return The value provided by the supplier
      */
-    public Option<T> orElse(Supplier<Option<T>> s) {
-        return s.get();
+    public Option<T> orElse(Supplier<Option<T>> supplier) {
+        return supplier.get();
     }
 
     /**
@@ -115,6 +116,16 @@ public final class None<T> implements Option<T>, Serializable {
     @Override
     public <R> Either<T, R> toLeft(Supplier<R> right) {
         return Right(right.get());
+    }
+
+    /**
+     * Returns a {@link Left} containing the value from the provided supplier.
+     * 
+     * @since 1.4
+     */
+    @Override
+    public <L> Either<L, T> toRight(Supplier<L> left) {
+        return Left(left.get());
     }
 
     /**
