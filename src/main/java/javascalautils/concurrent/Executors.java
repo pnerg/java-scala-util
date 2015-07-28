@@ -16,7 +16,11 @@
 
 package javascalautils.concurrent;
 
+import static javascalautils.TryCompanion.Try;
+
 import java.util.concurrent.ThreadFactory;
+
+import javascalautils.Try;
 
 /**
  * Factory for creating {@link Executor} instances.
@@ -27,7 +31,7 @@ import java.util.concurrent.ThreadFactory;
 public final class Executors {
 
     /** The default executor. */
-    private static Executor Default = createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default"));
+    private static final Executor DefaultExecutor = createDefaultExecutor();
 
     /**
      * Inhibitive constructor.
@@ -43,7 +47,7 @@ public final class Executors {
      * @since 1.3
      */
     public static Executor getDefault() {
-        return Default;
+        return DefaultExecutor;
     }
 
     /**
@@ -84,4 +88,14 @@ public final class Executors {
         return new ExecutorImpl(threadPool);
     }
 
+    /**
+     * Creates the default {@link Executor} instance. <br>
+     * Either by getting the provider class from the system property or using the default.
+     * 
+     * @return
+     */
+    private static Executor createDefaultExecutor() {
+        Try<Executor> t = Try(() -> (Executor) Class.forName(System.getProperty("javascalautils.concurrent.executorprovider")).newInstance());
+        return t.getOrElse(() -> createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default")));
+    }
 }
