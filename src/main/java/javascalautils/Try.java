@@ -196,11 +196,12 @@ public interface Try<T> extends Iterable<T> {
      * <li></li>
      * </ul>
      * 
-     * @param predicate
-     * @return
+     * @param filter
+     *            The filter to apply
+     * @return The try matching the filter, either <i>this</i> if matching or a {@link Failure} in case no match
      * @since 1.4
      */
-    Try<T> filter(Predicate<T> predicate);
+    Try<T> filter(Predicate<T> filter);
 
     /**
      * Returns the Try's value in an {@link Iterator} if it is a {@link Success}, or an empty {@link Iterator} if it is Failure. <br>
