@@ -38,6 +38,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * 
      * @param either
      *            The instance to wrap.
+     * @since 1.1
      */
     RightProjection(Either<L, R> either) {
         this.either = either;
@@ -49,6 +50,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @param predicate
      *            The predicate to apply
      * @return If this is a {@link Right} and the predicate matches the value
+     * @since 1.1
      */
     public boolean exists(Predicate<R> predicate) {
         return either.isRight() ? predicate.test(orNull()) : false;
@@ -60,6 +62,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @param supplier
      *            The supplier
      * @return The value
+     * @since 1.1
      */
     @Override
     public R getOrElse(Supplier<R> supplier) {
@@ -72,6 +75,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @param predicate
      *            The predicate to apply
      * @return The resulting Option of the filter operation
+     * @since 1.1
      */
     public Option<Either<L, R>> filter(Predicate<R> predicate) {
         return Option.apply(exists(predicate) ? either : null);
@@ -83,6 +87,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @param predicate
      *            The predicate to apply
      * @return If it is a match
+     * @since 1.1
      */
     public boolean forAll(Predicate<R> predicate) {
         return either.isRight() ? predicate.test(orNull()) : true;
@@ -97,6 +102,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @param function
      *            The function
      * @return Mapped Either
+     * @since 1.1
      */
     @SuppressWarnings("unchecked")
     public <T> Either<L, T> map(Function<R, T> function) {

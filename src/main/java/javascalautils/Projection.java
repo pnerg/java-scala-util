@@ -39,6 +39,7 @@ abstract class Projection<T> implements Iterable<T> {
      * Any other case, return {@link None}.
      * 
      * @return The Option
+     * @since 1.1
      */
     public Option<T> asOption() {
         return Option.apply(orNull());
@@ -54,6 +55,7 @@ abstract class Projection<T> implements Iterable<T> {
      * Any other case, throw {@link NoSuchElementException}.
      * 
      * @return The value
+     * @since 1.1
      */
     public T get() {
         return asOption().get();
@@ -69,6 +71,7 @@ abstract class Projection<T> implements Iterable<T> {
      * Else return an empty iterator
      * 
      * @return The iterator
+     * @since 1.1
      */
     @Override
     public Iterator<T> iterator() {
@@ -85,6 +88,7 @@ abstract class Projection<T> implements Iterable<T> {
      * Else return an empty stream
      * 
      * @return The stream
+     * @since 1.1
      */
     public Stream<T> stream() {
         return asOption().stream();
@@ -102,6 +106,7 @@ abstract class Projection<T> implements Iterable<T> {
      * <blockquote>getOrElse(() -&#62; null)</blockquote>
      * 
      * @return The value or <code>null</code>
+     * @since 1.1
      */
     public T orNull() {
         return getOrElse(() -> null);
@@ -119,6 +124,7 @@ abstract class Projection<T> implements Iterable<T> {
      * @param supplier
      *            The supplier to use if else becomes used
      * @return The value or <code>null</code>
+     * @since 1.1
      */
     public abstract T getOrElse(Supplier<T> supplier);
 }

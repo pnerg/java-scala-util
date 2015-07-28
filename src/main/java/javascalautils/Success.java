@@ -43,6 +43,7 @@ public final class Success<T> implements Try<T>, Serializable {
      * 
      * @param value
      *            The value represented by this instance
+     * @since 1.0
      */
     public Success(T value) {
         this.value = value;
@@ -50,6 +51,8 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Always returns <code>true</code>.
+     * 
+     * @since 1.0
      */
     @Override
     public boolean isSuccess() {
@@ -59,6 +62,8 @@ public final class Success<T> implements Try<T>, Serializable {
     /**
      * Returns the value provided in the constructor. <br>
      * I.e. the provided supplier is never use.
+     * 
+     * @since 1.0
      */
     @Override
     public T getOrElse(Supplier<T> supplier) {
@@ -68,6 +73,8 @@ public final class Success<T> implements Try<T>, Serializable {
     /**
      * Always returns <i>this</i>. <br>
      * I.e. the provided supplier is never use.
+     * 
+     * @since 1.0
      */
     @Override
     public Try<T> orElse(Supplier<Try<T>> supplier) {
@@ -75,7 +82,9 @@ public final class Success<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Returns the value provided in the constructor.
+     * Returns the value held by this instance.
+     * 
+     * @since 1.0
      */
     @Override
     public T get() {
@@ -85,6 +94,8 @@ public final class Success<T> implements Try<T>, Serializable {
     /**
      * Returns a {@link Failure} with an {@link UnsupportedOperationException}. <br>
      * Since this is a 'success' it cannot be mapped to a 'failure'
+     * 
+     * @since 1.0
      */
     @Override
     public Try<Throwable> failed() {
@@ -93,6 +104,8 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Applies the value to the function and returns the {@link Try} representing the mapped value.
+     * 
+     * @since 1.0
      */
     @Override
     public <R> Try<R> map(Function<T, R> function) {
@@ -143,6 +156,8 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.0
      */
     @Override
     public String toString() {

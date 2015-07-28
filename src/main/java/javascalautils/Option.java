@@ -90,6 +90,7 @@ public interface Option<T> extends Iterable<T> {
      * @param value
      *            The value this Option shall represent
      * @return The Option representing the provided value
+     * @since 1.0
      */
     static <T> Option<T> apply(T value) {
         return value != null ? new Some<T>(value) : None();
@@ -102,6 +103,7 @@ public interface Option<T> extends Iterable<T> {
      * @param <T>
      *            The type for the value this Option represents
      * @return The default {@link None} instance
+     * @since 1.0
      */
     static <T> Option<T> empty() {
         return None();
@@ -140,6 +142,7 @@ public interface Option<T> extends Iterable<T> {
      * @param other
      *            The other object to compare to
      * @return If this {@link Some} contains the provided object
+     * @since 1.0
      */
     default boolean contains(final T other) {
         return exists(value -> value.equals(other));
@@ -149,6 +152,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns the count which means <code>1</code> for nonempty Option's and <code>0</code> for empty.
      * 
      * @return The count
+     * @since 1.0
      */
     default int count() {
         // map will either return Some(1) or None upon which the else(0) will be returned.
@@ -161,6 +165,7 @@ public interface Option<T> extends Iterable<T> {
      * @param p
      *            The predicate
      * @return If the predicate matches
+     * @since 1.0
      */
     boolean exists(Predicate<T> p);
 
@@ -170,6 +175,7 @@ public interface Option<T> extends Iterable<T> {
      * @param p
      *            The predicate
      * @return The Option representing the match
+     * @since 1.0
      */
     default Option<T> filter(Predicate<T> p) {
         return exists(p) ? this : None();
@@ -181,6 +187,7 @@ public interface Option<T> extends Iterable<T> {
      * @param p
      *            The predicate
      * @return The Option representing the match
+     * @since 1.0
      */
     default Option<T> filterNot(final Predicate<T> p) {
         // filter not is in practice just negating the result of the provided predicate
@@ -194,6 +201,7 @@ public interface Option<T> extends Iterable<T> {
      * @param p
      *            The predicate
      * @return If the predicate matches
+     * @since 1.0
      */
     default boolean forall(Predicate<T> p) {
         return exists(p);
@@ -203,6 +211,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns this Option's value if such exists, else {@link NoSuchElementException} is raised.
      * 
      * @return The value of the Option
+     * @since 1.0
      */
     T get();
 
@@ -212,6 +221,7 @@ public interface Option<T> extends Iterable<T> {
      * @param supplier
      *            The supplier to use in case this is a {@link None}
      * @return The value of the Option or the value provided by the supplier
+     * @since 1.0
      */
     T getOrElse(Supplier<T> supplier);
 
@@ -219,6 +229,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns <code>true</code> if the option is an instance of {@link Some}, <code>false</code> otherwise.
      * 
      * @return If this Option is a {@link Some}
+     * @since 1.0
      */
     default boolean isDefined() {
         return exists(t -> true);
@@ -228,6 +239,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns <code>true</code> if the option is an instance of {@link None}, <code>false</code> otherwise
      * 
      * @return If this Option is a {@link None}
+     * @since 1.0
      */
     default boolean isEmpty() {
         return !isDefined();
@@ -237,6 +249,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns the Option's value in an {@link Iterator} if it is nonempty, or an empty {@link Iterator} if it is empty.
      * 
      * @return The iterator for the Option
+     * @since 1.0
      */
     @Override
     default Iterator<T> iterator() {
@@ -252,6 +265,7 @@ public interface Option<T> extends Iterable<T> {
      * @param function
      *            The function to use
      * @return The Option containing the mapped value
+     * @since 1.0
      */
     <R> Option<R> map(Function<T, R> function);
 
@@ -274,6 +288,7 @@ public interface Option<T> extends Iterable<T> {
      * @param supplier
      *            The supplier to use in case of {@link None}
      * @return This Option or the one provided by the supplier
+     * @since 1.0
      */
     Option<T> orElse(Supplier<Option<T>> supplier);
 
@@ -281,6 +296,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns the Option's value if it is nonempty, or <code>null</code> if it is empty.
      * 
      * @return The value of the Option or <code>null</code> in case of {@link None}
+     * @since 1.0
      */
     default T orNull() {
         return getOrElse(() -> null);
@@ -290,6 +306,7 @@ public interface Option<T> extends Iterable<T> {
      * Returns the Option's value in a Stream if it is nonempty, or an empty Stream if it is empty.
      * 
      * @return The stream for the Option
+     * @since 1.0
      */
     Stream<T> stream();
 
@@ -313,6 +330,7 @@ public interface Option<T> extends Iterable<T> {
      * @param left
      *            The supplier to use in case this is a {@link None}
      * @return The {@link Either} instance
+     * @since 1.0
      */
     <L> Either<L, T> toRight(Supplier<L> left);
 
@@ -320,6 +338,7 @@ public interface Option<T> extends Iterable<T> {
      * Converts this {@link Option} to a corresponding {@link Optional}.
      * 
      * @return The Optional instance
+     * @since 1.0
      */
     default Optional<T> asOptional() {
         return Optional.ofNullable(orNull());
@@ -333,6 +352,7 @@ public interface Option<T> extends Iterable<T> {
      * @param optional
      *            The Optional to convert
      * @return The Option for the provided Optional
+     * @since 1.0
      */
     static <T> Option<T> ofOptional(Optional<T> optional) {
         return apply(optional.orElse(null));

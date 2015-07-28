@@ -37,6 +37,7 @@ public interface Executor {
      * @param executable
      *            The executable to execute
      * @return The future acting as a place holder for a response-to-be
+     * @since 1.2
      */
     <T> Future<T> execute(Executable<T> executable);
 
@@ -48,6 +49,7 @@ public interface Executor {
      * @param callable
      *            The callable to execute
      * @return The future acting as a place holder for a response-to-be
+     * @since 1.2
      */
     <T> Future<T> execute(Callable<T> callable);
 
@@ -59,6 +61,7 @@ public interface Executor {
      * @param executables
      *            The list of executables to execute
      * @return List of futures acting as a place holder for a response-to-be
+     * @since 1.2
      */
     <T> List<Future<T>> executeAll(@SuppressWarnings("unchecked") Executable<T>... executables);
 
@@ -70,6 +73,7 @@ public interface Executor {
      * @param callables
      *            The list of callables to execute
      * @return List of futures acting as a place holder for a response-to-be
+     * @since 1.2
      */
     <T> List<Future<T>> executeAll(@SuppressWarnings("unchecked") Callable<T>... callables);
 
@@ -77,6 +81,7 @@ public interface Executor {
      * Initiates an orderly shutdown in which previously submitted tasks are executed, but no new tasks will be accepted. Invocation has no additional effect if
      * already shut down.
      * 
+     * @since 1.2
      */
     void shutdown();
 
@@ -91,6 +96,7 @@ public interface Executor {
      * @return <tt>true</tt> if this executor terminated and <tt>false</tt> if the timeout elapsed before termination
      * @throws InterruptedException
      *             if interrupted while waiting
+     * @since 1.2
      */
     boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
 }

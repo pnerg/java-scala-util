@@ -52,6 +52,7 @@ public final class Executors {
      * @param threadFactory
      *            The thread factory to use.
      * @return An instance of this Executor
+     * @since 1.2
      */
     public static Executor createCachedThreadPoolExecutor(ThreadFactory threadFactory) {
         return create(java.util.concurrent.Executors.newCachedThreadPool(threadFactory));
@@ -65,6 +66,7 @@ public final class Executors {
      * @param threadFactory
      *            The thread factory to use.
      * @return An instance of this Executor
+     * @since 1.2
      */
     public static Executor createFixedThreadPoolExecutor(int threads, ThreadFactory threadFactory) {
         return create(java.util.concurrent.Executors.newFixedThreadPool(threads, threadFactory));
@@ -76,6 +78,7 @@ public final class Executors {
      * @param threadPool
      *            The java.util.Concurrent executor to use as thread pool
      * @return An instance of this Executor
+     * @since 1.2
      */
     public static Executor create(java.util.concurrent.Executor threadPool) {
         return new ExecutorImpl(threadPool);

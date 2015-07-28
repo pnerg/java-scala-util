@@ -38,6 +38,7 @@ public interface ThrowableFunction0<T> {
      * @return the function result
      * @throws Throwable
      *             Any error that may occur when applying the function
+     * @since 1.3
      */
     T apply() throws Throwable;
 }

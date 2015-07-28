@@ -40,6 +40,7 @@ public final class Failure<T> implements Try<T>, Serializable {
      * 
      * @param throwable
      *            The throwable
+     * @since 1.0
      */
     public Failure(Throwable throwable) {
         this.throwable = Validator.requireNonNull(throwable, "Null values are not allowed for Failure");
@@ -47,6 +48,8 @@ public final class Failure<T> implements Try<T>, Serializable {
 
     /**
      * Always returns <code>false</code>.
+     * 
+     * @since 1.0
      */
     @Override
     public boolean isSuccess() {
@@ -56,6 +59,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     /**
      * Always returns the value provided by the supplier. <br>
      * As per definition this is a failure without any data to map.
+     * 
+     * @since 1.0
      */
     @Override
     public T getOrElse(Supplier<T> supplier) {
@@ -65,6 +70,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     /**
      * Always returns the value provided by the supplier. <br>
      * As per definition this is a failure without any data to return.
+     * 
+     * @since 1.0
      */
     @Override
     public Try<T> orElse(Supplier<Try<T>> supplier) {
@@ -74,6 +81,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     /**
      * Always throws the {@link Throwable} this instance represents. <br>
      * As per definition this is a failure without any data to map.
+     * 
+     * @since 1.0
      */
     @Override
     public T get() throws Throwable {
@@ -82,6 +91,8 @@ public final class Failure<T> implements Try<T>, Serializable {
 
     /**
      * Returns a {@link Success} with the {@link Throwable} this instance represents.
+     * 
+     * @since 1.0
      */
     @Override
     public Try<Throwable> failed() {
@@ -91,6 +102,8 @@ public final class Failure<T> implements Try<T>, Serializable {
     /**
      * Always returns <i>this</i>. <br>
      * As per definition this is a failure without any data to map.
+     * 
+     * @since 1.0
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -142,6 +155,8 @@ public final class Failure<T> implements Try<T>, Serializable {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.0
      */
     @Override
     public String toString() {

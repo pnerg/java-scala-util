@@ -48,6 +48,8 @@ public final class None<T> implements Option<T>, Serializable {
 
     /**
      * Always throws {@link NoSuchElementException} since None cannot per definition hold any value.
+     * 
+     * @since 1.0
      */
     @Override
     public T get() {
@@ -56,6 +58,8 @@ public final class None<T> implements Option<T>, Serializable {
 
     /**
      * Always the value provided by the supplier.
+     * 
+     * @since 1.0
      */
     public T getOrElse(Supplier<T> supplier) {
         return supplier.get();
@@ -64,6 +68,8 @@ public final class None<T> implements Option<T>, Serializable {
     /**
      * Always returns <code>false</code>. <br>
      * I.e. the predicate is never used as {@link None} represents nothing/no value.
+     * 
+     * @since 1.0
      */
     public boolean exists(Predicate<T> predicate) {
         return false;
@@ -72,6 +78,8 @@ public final class None<T> implements Option<T>, Serializable {
     /**
      * Always returns <code>this</code>. <br>
      * I.e. the function is never used as {@link None} represents nothing/no value.
+     * 
+     * @since 1.0
      */
     @SuppressWarnings("unchecked")
     public <R> Option<R> map(Function<T, R> function) {
@@ -83,6 +91,7 @@ public final class None<T> implements Option<T>, Serializable {
      * I.e. the function is never used as {@link None} represents nothing/no value.
      * 
      * @since 1.2
+     * @since 1.0
      */
     @Override
     public <R> Option<R> flatMap(Function<T, Option<R>> function) {
@@ -94,6 +103,7 @@ public final class None<T> implements Option<T>, Serializable {
      * Always the value provided by the supplier.
      * 
      * @return The value provided by the supplier
+     * @since 1.0
      */
     public Option<T> orElse(Supplier<Option<T>> supplier) {
         return supplier.get();
@@ -103,6 +113,7 @@ public final class None<T> implements Option<T>, Serializable {
      * Always returns an empty stream.
      * 
      * @return Empty stream
+     * @since 1.0
      */
     public Stream<T> stream() {
         return Stream.empty();
@@ -112,6 +123,7 @@ public final class None<T> implements Option<T>, Serializable {
      * Returns a {@link Right} containing the value from the provided supplier.
      * 
      * @since 1.4
+     * @since 1.0
      */
     @Override
     public <R> Either<T, R> toLeft(Supplier<R> right) {
@@ -122,6 +134,7 @@ public final class None<T> implements Option<T>, Serializable {
      * Returns a {@link Left} containing the value from the provided supplier.
      * 
      * @since 1.4
+     * @since 1.0
      */
     @Override
     public <L> Either<L, T> toRight(Supplier<L> left) {
@@ -135,6 +148,7 @@ public final class None<T> implements Option<T>, Serializable {
      * @param other
      *            The other object to compare to
      * @return <code>true</code> if other is {@link None}, <code>false</code> otherwise
+     * @since 1.0
      */
     @Override
     public boolean equals(Object other) {
@@ -145,6 +159,7 @@ public final class None<T> implements Option<T>, Serializable {
      * Always returns <code>0</code> as None is stateless and has no value.
      * 
      * @return 0
+     * @since 1.0
      */
     @Override
     public int hashCode() {
@@ -153,6 +168,8 @@ public final class None<T> implements Option<T>, Serializable {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.0
      */
     @Override
     public String toString() {

@@ -64,6 +64,7 @@ public final class EitherCompanion {
      *            The value represented by this Left
      * @return The Left representing the value
      * @see Left#Left(Object)
+     * @since 1.3
      */
     public static <L, R> Left<L, R> Left(L value) {
         return new Left<>(value);
@@ -89,6 +90,7 @@ public final class EitherCompanion {
      *            The value represented by this Right
      * @return The Right representing the value
      * @see Right#Right(Object)
+     * @since 1.3
      */
     public static <L, R> Right<L, R> Right(R value) {
         return new Right<>(value);

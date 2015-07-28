@@ -51,6 +51,7 @@ public final class Some<T> implements Option<T>, Serializable {
      * 
      * @param value
      *            The value represented by this Some
+     * @since 1.0
      */
     public Some(T value) {
         this.value = Validator.requireNonNull(value, "Null values are not allowed for Some");
@@ -58,6 +59,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns <code>true</code> if the predicate matches the value.
+     * 
+     * @since 1.0
      */
     @Override
     public boolean exists(Predicate<T> p) {
@@ -65,7 +68,9 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Always returns the value.
+     * Always returns the value for this instance.
+     * 
+     * @since 1.0
      */
     @Override
     public T get() {
@@ -73,7 +78,9 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Always returns the value.
+     * Always returns the value for this instance.
+     * 
+     * @since 1.0
      */
     @Override
     public T getOrElse(Supplier<T> s) {
@@ -81,7 +88,9 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Returns an Option consisting of the result of applying the given function to the current value.
+     * Returns an {@link Option} containing the value of applying the given function to the current value.
+     * 
+     * @since 1.0
      */
     @Override
     public <R> Option<R> map(Function<T, R> f) {
@@ -100,6 +109,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Always returns <code>this</code>.
+     * 
+     * @since 1.0
      */
     @Override
     public Option<T> orElse(Supplier<Option<T>> s) {
@@ -108,6 +119,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns a stream of size one containing the value of this instance.
+     * 
+     * @since 1.0
      */
     @Override
     public Stream<T> stream() {
@@ -136,6 +149,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns <code>true</code> if the other object is {@link Some} containing a value that equals the value of this {@link Some}, else <code>false</code>.
+     * 
+     * @since 1.0
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -145,6 +160,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns the hashCode based on the value of this {@link Some}.
+     * 
+     * @since 1.0
      */
     @Override
     public int hashCode() {
@@ -154,6 +171,8 @@ public final class Some<T> implements Option<T>, Serializable {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.0
      */
     @Override
     public String toString() {

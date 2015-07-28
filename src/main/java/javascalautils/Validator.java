@@ -44,6 +44,7 @@ public final class Validator {
      * @return The provided object in case it was non-null
      * @throws IllegalArgumentException
      *             If the provided object was <code>null</code>
+     * @since 1.3
      */
     public static <T> T requireNonNull(T obj) {
         return requireNonNull(obj, "Failed validation, the validated parameter was null");
@@ -63,6 +64,7 @@ public final class Validator {
      * @return The provided object in case it was non-null
      * @throws IllegalArgumentException
      *             If the provided object was <code>null</code>
+     * @since 1.3
      */
     public static <T> T requireNonNull(T obj, String message) {
         if (obj == null) {

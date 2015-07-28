@@ -52,6 +52,7 @@ public interface Promise<T> {
      * @param <T>
      *            The type the Promise is expected to deliver
      * @return The Promise instance
+     * @since 1.2
      */
     public static <T> Promise<T> apply() {
         return new PromiseImpl<T>();
@@ -62,6 +63,7 @@ public interface Promise<T> {
      * Each {@link Promise} is connected to a single {@link Future}, invoking this method multiple times will always return the same {@link Future} instance.
      * 
      * @return A Future that will hold the value once this Promise is completed.
+     * @since 1.2
      */
     Future<T> future();
 
@@ -69,6 +71,7 @@ public interface Promise<T> {
      * Check if the {@link Promise} have been completed, with a value or an exception.
      * 
      * @return <code>true</code> if the {@link Promise} has been completed. <code>false</code> otherwise.
+     * @since 1.2
      */
     boolean isCompleted();
 
@@ -101,7 +104,7 @@ public interface Promise<T> {
      *            The value to complete with.
      * @throws IllegalStateException
      *             Thrown if the Promise is already completed.
-     * 
+     * @since 1.2
      */
     void success(T result);
 
@@ -112,6 +115,7 @@ public interface Promise<T> {
      *            The Throwable to complete with.
      * @throws IllegalStateException
      *             Thrown if the Promise is already completed.
+     * @since 1.2
      */
     void failure(Throwable throwable);
 

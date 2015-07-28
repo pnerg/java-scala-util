@@ -36,6 +36,12 @@ final class ExecutorImpl implements Executor {
     /** The internal Java concurrent executor to perform the actual work. */
     private final java.util.concurrent.Executor executor;
 
+    /**
+     * Creates an instance using the provided SDK {@link java.util.concurrent.Executor} for thread management.
+     * 
+     * @param executor
+     * @since 1.2
+     */
     ExecutorImpl(java.util.concurrent.Executor executor) {
         this.executor = executor;
     }

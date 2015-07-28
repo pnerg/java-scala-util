@@ -51,6 +51,7 @@ public interface Either<L, R> {
      * Returns<code>true</code> if this instance is {@link Right}, else <code>false</code>.
      * 
      * @return <code>true</code> if this instance is {@link Right}.
+     * @since 1.1
      */
     boolean isRight();
 
@@ -58,6 +59,7 @@ public interface Either<L, R> {
      * Returns<code>true</code> if this instance is {@link Left}, else <code>false</code>
      * 
      * @return <code>true</code> if this instance is {@link Left}.
+     * @since 1.1
      */
     default boolean isLeft() {
         return !isRight();
@@ -73,6 +75,7 @@ public interface Either<L, R> {
      * @param func_right
      *            The function to apply in case this is a {@link Right}
      * @return The result from applying either func_left or func_right
+     * @since 1.1
      */
     <T> T fold(Function<L, T> func_left, Function<R, T> func_right);
 
@@ -80,6 +83,7 @@ public interface Either<L, R> {
      * Returns a {@link RightProjection} for this instance.
      * 
      * @return The projection
+     * @since 1.1
      */
     default RightProjection<L, R> right() {
         return new RightProjection<>(this);
@@ -89,6 +93,7 @@ public interface Either<L, R> {
      * Returns a {@link LeftProjection} for this instance.
      * 
      * @return The projection
+     * @since 1.1
      */
     default LeftProjection<L, R> left() {
         return new LeftProjection<>(this);
@@ -98,6 +103,7 @@ public interface Either<L, R> {
      * If this is a {@link Left}, then return the left value in {@link Right} or vice versa.
      * 
      * @return The swapped version of this instance
+     * @since 1.1
      */
     Either<R, L> swap();
 }

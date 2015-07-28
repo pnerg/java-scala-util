@@ -54,16 +54,31 @@ final class FutureImpl<T> implements Future<T> {
     /** The complete handlers set by the user. */
     private final List<EventHandler<Try<T>>> completeHandlers = new ArrayList<>();
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#isCompleted()
+     */
     @Override
     public boolean isCompleted() {
         return response.isDefined();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#value()
+     */
     @Override
     public Option<Try<T>> value() {
         return response;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#onFailure(java.util.function.Consumer)
+     */
     @Override
     public void onFailure(Consumer<Throwable> c) {
         Validator.requireNonNull(c, "Null is not a valid consumer");
@@ -71,6 +86,11 @@ final class FutureImpl<T> implements Future<T> {
         response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> notifyHandlers(failureHandlers, t));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Future#onSuccess(java.util.function.Consumer)
+     */
     @Override
     public void onSuccess(Consumer<T> c) {
         Validator.requireNonNull(c, "Null is not a valid consumer");
@@ -223,6 +243,8 @@ final class FutureImpl<T> implements Future<T> {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.2
      */
     @Override
     public String toString() {

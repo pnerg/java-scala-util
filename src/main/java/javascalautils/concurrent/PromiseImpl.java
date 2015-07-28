@@ -36,26 +36,51 @@ final class PromiseImpl<T> implements Promise<T> {
     private final FutureImpl<T> future = new FutureImpl<>();
     private final AtomicBoolean completed = new AtomicBoolean(false);
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#future()
+     */
     @Override
     public Future<T> future() {
         return future;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#isCompleted()
+     */
     @Override
     public boolean isCompleted() {
         return completed.get();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#success(java.lang.Object)
+     */
     @Override
     public void success(T object) {
         complete(Success(object));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#failure(java.lang.Throwable)
+     */
     @Override
     public void failure(Throwable throwable) {
         complete(Failure(throwable));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#complete(javascalautils.Try)
+     */
     @Override
     public void complete(Try<T> result) {
         if (!tryComplete(result)) {
@@ -63,6 +88,11 @@ final class PromiseImpl<T> implements Promise<T> {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#completeWith(javascalautils.concurrent.Future)
+     */
     @Override
     public void completeWith(Future<T> result) {
         if (!tryCompleteWith(result)) {
@@ -70,22 +100,42 @@ final class PromiseImpl<T> implements Promise<T> {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#tryComplete(javascalautils.Try)
+     */
     @Override
     public boolean tryComplete(Try<T> result) {
         Validator.requireNonNull(result, "Must provide a valid result");
         return tryComplete(future -> future.complete(result));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#tryCompleteWith(javascalautils.concurrent.Future)
+     */
     @Override
     public boolean tryCompleteWith(Future<T> result) {
         return tryComplete(future -> result.onComplete(response -> future.complete(response)));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#trySuccess(java.lang.Object)
+     */
     @Override
     public boolean trySuccess(T result) {
         return tryComplete(Success(result));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javascalautils.concurrent.Promise#tryFailure(java.lang.Throwable)
+     */
     @Override
     public boolean tryFailure(Throwable throwable) {
         return tryComplete(Failure(throwable));
@@ -93,6 +143,8 @@ final class PromiseImpl<T> implements Promise<T> {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.2
      */
     @Override
     public String toString() {

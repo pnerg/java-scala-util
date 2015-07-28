@@ -39,6 +39,7 @@ public interface Executable<T> {
      * 
      * @param promise
      *            The promise to report the response to
+     * @since 1.2
      */
     void execute(Promise<T> promise);
 

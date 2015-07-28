@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * The counter starts at 1, thus the naming series will be <i>threadName-[1-n]</i>
  * 
  * @author Peter Nerg
+ * @since 1.2
  */
 public final class NamedSequenceThreadFactory implements ThreadFactory {
     /** Counter for creating unique thread names. */
@@ -38,6 +39,7 @@ public final class NamedSequenceThreadFactory implements ThreadFactory {
      * 
      * @param threadName
      *            The name of the threads to be created.
+     * @since 1.2
      */
     public NamedSequenceThreadFactory(String threadName) {
         this.threadName = threadName;
@@ -46,6 +48,8 @@ public final class NamedSequenceThreadFactory implements ThreadFactory {
     /**
      * Creates a new thread using the provided name and sequence counter. <br>
      * E.g. <i>threadName-nnn</i>
+     * 
+     * @since 1.2
      */
     @Override
     public Thread newThread(Runnable runnable) {

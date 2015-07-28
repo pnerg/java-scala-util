@@ -38,6 +38,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * 
      * @param either
      *            The instance to wrap.
+     * @since 1.1
      */
     LeftProjection(Either<L, R> either) {
         this.either = either;
@@ -49,6 +50,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @param predicate
      *            The predicate to apply
      * @return If this is a {@link Left} and the predicate matches the value
+     * @since 1.1
      */
     public boolean exists(Predicate<L> predicate) {
         return either.isLeft() ? predicate.test(orNull()) : false;
@@ -60,6 +62,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @param supplier
      *            The supplier
      * @return The value
+     * @since 1.1
      */
     @Override
     public L getOrElse(Supplier<L> supplier) {
@@ -72,6 +75,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @param predicate
      *            The predicate to apply
      * @return The resulting Option of the filter operation
+     * @since 1.1
      */
     public Option<Either<L, R>> filter(Predicate<L> predicate) {
         return Option.apply(exists(predicate) ? either : null);
@@ -83,6 +87,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @param predicate
      *            The predicate to apply
      * @return If it is a match
+     * @since 1.1
      */
     public boolean forAll(Predicate<L> predicate) {
         return either.isLeft() ? predicate.test(orNull()) : true;
@@ -97,6 +102,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @param function
      *            The function
      * @return Mapped Either
+     * @since 1.1
      */
     @SuppressWarnings("unchecked")
     public <T> Either<T, R> map(Function<L, T> function) {

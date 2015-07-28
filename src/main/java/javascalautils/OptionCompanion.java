@@ -65,6 +65,7 @@ public final class OptionCompanion {
      *            The value this Option shall represent
      * @return The Option representing the provided value
      * @see Option#apply(Object)
+     * @since 1.3
      */
     public static <T> Option<T> Option(T value) {
         return Option.apply(value);
@@ -88,6 +89,7 @@ public final class OptionCompanion {
      *            The value represented by this Some
      * @return The Some representing the value
      * @see Some#Some(Object)
+     * @since 1.3
      */
     public static <T> Some<T> Some(T value) {
         return new Some<>(value);
@@ -113,6 +115,7 @@ public final class OptionCompanion {
      * @see Option#None()
      * @see Option#empty()
      * @see Option#DEFAULT_NONE
+     * @since 1.3
      */
     @SuppressWarnings("unchecked")
     public static <T> None<T> None() {

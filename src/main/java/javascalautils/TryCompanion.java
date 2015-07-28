@@ -64,6 +64,7 @@ public final class TryCompanion {
      *            The function to render either the value <i>T</i> or raise an exception.
      * @return The resulting Try instance wrapping what the function resulted in
      * @see Try#apply(ThrowableFunction0)
+     * @since 1.3
      */
     public static <T> Try<T> Try(ThrowableFunction0<T> function) {
         return Try.apply(function);
@@ -87,6 +88,7 @@ public final class TryCompanion {
      *            The throwable to wrap
      * @return The failure instance
      * @see Failure#Failure(Throwable)
+     * @since 1.3
      */
     public static <T> Failure<T> Failure(Throwable throwable) {
         return new Failure<>(throwable);
@@ -110,6 +112,7 @@ public final class TryCompanion {
      *            The value to wrap
      * @return The failure instance
      * @see Success#Success(Object)
+     * @since 1.3
      */
     public static <T> Success<T> Success(T value) {
         return new Success<>(value);

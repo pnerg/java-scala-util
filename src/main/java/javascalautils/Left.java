@@ -40,6 +40,7 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
      * 
      * @param value
      *            The value wrapped by this instance
+     * @since 1.1
      */
     public Left(L value) {
         this.value = value;
@@ -47,6 +48,8 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
 
     /**
      * Applies the provided <code>func_left</code> to the wrapped value and returns the result.
+     * 
+     * @since 1.1
      */
     @Override
     public <T> T fold(Function<L, T> func_left, Function<R, T> func_right) {
@@ -55,6 +58,8 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
 
     /**
      * Always returns <code>false</code>.
+     * 
+     * @since 1.1
      */
     @Override
     public boolean isRight() {
@@ -63,6 +68,8 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
 
     /**
      * Returns a {@link Right} containing the value for this instance.
+     * 
+     * @since 1.1
      */
     @Override
     public Either<R, L> swap() {
@@ -71,6 +78,8 @@ public final class Left<L, R> implements Either<L, R>, Serializable {
 
     /**
      * Returns a String representation of the instance.
+     * 
+     * @since 1.1
      */
     @Override
     public String toString() {

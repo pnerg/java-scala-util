@@ -87,6 +87,7 @@ public interface Try<T> extends Iterable<T> {
      * @param value
      *            The value for this to create a Try
      * @return The Try instance
+     * @since 1.0
      */
     static <T> Try<T> apply(T value) {
         return value instanceof Throwable ? new Failure<T>((Throwable) value) : new Success<T>(value);
@@ -130,6 +131,7 @@ public interface Try<T> extends Iterable<T> {
      * Returns <code>true</code> if the 'Try' is a {@link Failure}, <code>false</code> otherwise.
      * 
      * @return If the Try is a {@link Failure}
+     * @since 1.0
      */
     default boolean isFailure() {
         return !isSuccess();
@@ -139,6 +141,7 @@ public interface Try<T> extends Iterable<T> {
      * Returns <code>true</code> if the 'Try' is a {@link Success}, <code>false</code> otherwise.
      * 
      * @return If the Try is a {@link Success}
+     * @since 1.0
      */
     boolean isSuccess();
 
@@ -148,6 +151,7 @@ public interface Try<T> extends Iterable<T> {
      * @param supplier
      *            The supplier to return the value in case of a {@link Failure}
      * @return The value from the Try or the supplier
+     * @since 1.0
      */
     T getOrElse(Supplier<T> supplier);
 
@@ -155,6 +159,7 @@ public interface Try<T> extends Iterable<T> {
      * Returns the value if it is a {@link Success}, else <code>null</code>.
      * 
      * @return The value of the Try or <code>null</code>.
+     * @since 1.0
      */
     default T orNull() {
         return getOrElse(() -> null);
@@ -175,6 +180,7 @@ public interface Try<T> extends Iterable<T> {
      * @return The value of the {@link Success}
      * @throws Throwable
      *             The Throwable in case of a {@link Failure}
+     * @since 1.0
      */
     T get() throws Throwable;
 
@@ -183,6 +189,7 @@ public interface Try<T> extends Iterable<T> {
      * The exception is either the exception that the 'Try' failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
      * 
      * @return The value of the {@link Failure} in a {@link Success}
+     * @since 1.0
      */
     Try<Throwable> failed();
 
@@ -208,6 +215,7 @@ public interface Try<T> extends Iterable<T> {
      * Should it be a {@link Success} containing a <code>null</code> value then the iterator will also be empty.
      * 
      * @return The iterator for the Try
+     * @since 1.0
      */
     default Iterator<T> iterator() {
         return stream().iterator();
@@ -221,6 +229,7 @@ public interface Try<T> extends Iterable<T> {
      * @param function
      *            The function to use
      * @return The Option containing the mapped value
+     * @since 1.0
      */
     <R> Try<R> map(Function<T, R> function);
 
@@ -294,6 +303,7 @@ public interface Try<T> extends Iterable<T> {
      * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
      * 
      * @return The stream for the Try
+     * @since 1.0
      */
     default Stream<T> stream() {
         return asOption().stream();
@@ -306,6 +316,7 @@ public interface Try<T> extends Iterable<T> {
      * <i>none/nothing</i>.
      * 
      * @return The {@link Option} representing this Try
+     * @since 1.0
      */
     default Option<T> asOption() {
         return Option.apply(orNull());

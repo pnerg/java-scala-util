@@ -58,6 +58,7 @@ public final class PromiseCompanion {
      * @param <T>
      *            The type the Promise is expected to deliver
      * @return The Promise instance
+     * @since 1.3
      */
     public static <T> Promise<T> Promise() {
         return Promise.apply();
