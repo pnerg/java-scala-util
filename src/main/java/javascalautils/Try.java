@@ -22,12 +22,12 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * The 'Try' type represents a computation that may either result in an exception, or return a successfully computed value. <br>
+ * The <i>Try</i> type represents a computation that may either result in an exception, or return a successfully computed value. <br>
  * Typical use case is situations where parallel computation takes place resulting in more than one response where it's possible that one or more computations
  * fail. <br>
  * Though it might not be desirable to raise an exception for failed computations hence the Try acts a place holder for a response that is either failed or
  * successful. <br>
- * Instances of 'Try', are either an instance of {@link Success} or {@link Failure}. <br>
+ * Instances of <i>Try</i>, are either an instance of {@link Success} or {@link Failure}. <br>
  * Example of usage: <br>
  * 
  * <blockquote>
@@ -70,6 +70,23 @@ import java.util.stream.Stream;
  * 
  * </blockquote>
  * 
+ * To make it even more concise we can create <i>Try</i> instances just by using {@link TryCompanion#Try(ThrowableFunction0) Try(ThrowableFunction0)}. <br>
+ * This however requires you to statically import the proper methods from the {@link TryCompanion companion class} related to <i>Try</i>.
+ * 
+ * <blockquote>
+ * 
+ * <pre>
+ * import static javascalautils.TryCompanion.Try;
+ * 
+ * Try&lt;SomeData&gt; getSomeData(SomeInput input) {
+ *     // readUserFromDB throws if no user exists
+ *     Try(() -&gt; readUserFromDB(input));
+ * }
+ * </pre>
+ * 
+ * </blockquote>
+ * 
+ * 
  * @author Peter Nerg
  * @since 1.0
  * @param <T>
@@ -90,7 +107,7 @@ public interface Try<T> extends Iterable<T> {
      * @since 1.0
      */
     static <T> Try<T> apply(T value) {
-        return value instanceof Throwable ? new Failure<T>((Throwable) value) : new Success<T>(value);
+        return value instanceof Throwable ? new Failure<>((Throwable) value) : new Success<>(value);
     }
 
     /**
@@ -123,12 +140,12 @@ public interface Try<T> extends Iterable<T> {
         try {
             return new Success<>(function.apply());
         } catch (Throwable ex) {
-            return new Failure<T>(ex);
+            return new Failure<>(ex);
         }
     }
 
     /**
-     * Returns <code>true</code> if the 'Try' is a {@link Failure}, <code>false</code> otherwise.
+     * Returns <code>true</code> if the <i>Try</i> is a {@link Failure}, <code>false</code> otherwise.
      * 
      * @return If the Try is a {@link Failure}
      * @since 1.0
@@ -138,7 +155,7 @@ public interface Try<T> extends Iterable<T> {
     }
 
     /**
-     * Returns <code>true</code> if the 'Try' is a {@link Success}, <code>false</code> otherwise.
+     * Returns <code>true</code> if the <i>Try</i> is a {@link Success}, <code>false</code> otherwise.
      * 
      * @return If the Try is a {@link Success}
      * @since 1.0
@@ -166,7 +183,7 @@ public interface Try<T> extends Iterable<T> {
     }
 
     /**
-     * Returns this 'Try' if it's a {@link Success} or the value provided by the supplier if this is a {@link Failure}.
+     * Returns this <i>Try</i> if it's a {@link Success} or the value provided by the supplier if this is a {@link Failure}.
      * 
      * @param supplier
      *            The supplier to return the value in case of a {@link Failure}
@@ -185,8 +202,8 @@ public interface Try<T> extends Iterable<T> {
     T get() throws Throwable;
 
     /**
-     * Completes this 'Try' with an exception wrapped in a {@link Success}. <br>
-     * The exception is either the exception that the 'Try' failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
+     * Completes this <i>Try</i> with an exception wrapped in a {@link Success}. <br>
+     * The exception is either the exception that the <i>Try</i> failed with (if a {@link Failure}) or an 'UnsupportedOperationException'.
      * 
      * @return The value of the {@link Failure} in a {@link Success}
      * @since 1.0
@@ -222,7 +239,16 @@ public interface Try<T> extends Iterable<T> {
     }
 
     /**
-     * Maps the given function to the value from this {@link Success} or returns <code>this</code> if this is a {@link Failure}.
+     * Maps the given function to the value from this {@link Success} or returns <i>this</i> if this is a {@link Failure}. <br>
+     * This allows for mapping a {@link Try} containing some type to some completely different type. <br>
+     * The example converts a {@link Try} of type String to Integer.<blockquote>
+     * 
+     * <pre>
+     * Try&lt;String&gt; t = ...
+     * Try&lt;Integer&gt; t2 = t.map(v -&gt; v.length);
+     * </pre>
+     * 
+     * </blockquote>
      * 
      * @param <R>
      *            The type for the return value from the function
@@ -234,7 +260,7 @@ public interface Try<T> extends Iterable<T> {
     <R> Try<R> map(Function<T, R> function);
 
     /**
-     * Maps the given function to the value from this {@link Success} or returns <code>this</code> if this is a {@link Failure}.
+     * Maps the given function to the value from this {@link Success} or returns <i>this</i> if this is a {@link Failure}.
      * 
      * @param <R>
      *            The type for the return value from the function
@@ -247,21 +273,25 @@ public interface Try<T> extends Iterable<T> {
 
     /**
      * Creates a new {@link Try} that in case <i>this</i> {@link Try} is a {@link Failure} will apply the function to recover to a {@link Success}. <br>
-     * Should <i>this</i> be a {@link Success} the value is propagated as-is. <br>
+     * Should <i>this</i> be a {@link Success} then <i>this</i> is returned, i.e. no new instance is created. <br>
      * This is a kind of {@link #map(Function)} for failures only.<br>
-     * E.g.
+     * E.g.<br>
+     * In case of <i>t</i> being successful then that value is passed on to <i>recovered</i>, in case of failure then the recover function kicks in and returns
+     * the message from the throwable.
      * 
      * <blockquote>
      * 
      * <pre>
      * Try&lt;String&gt; t = ...
      * Try&lt;String&gt; recovered = t.recover(t -&gt; t.getMessage());
+     * 
      * </pre>
      * 
      * </blockquote>
      * 
-     * In case of <i>t</i> being successful then that value is passed on to <i>recovered</i>, in case of failure then the recover function kicks in and returns
-     * the message from the throwable.
+     * This statement will be <code>Success(3)</code> <blockquote>Try&lt;Integer&gt; t = Try(() -&gt; 9/3).recover(t -&gt; 0)</blockquote> <br>
+     * Whilst this statement will be <code>Success(0)</code> as it is division-by-zero <blockquote>Try&lt;Integer&gt; t = Try(() -&gt; 9/0).recover(t -&gt;
+     * 0)</blockquote>
      * 
      * 
      * @param function

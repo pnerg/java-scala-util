@@ -68,7 +68,8 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Always returns the value for this instance.
+     * Always returns the value for this instance. <br>
+     * Guaranteed to return a non-null value.
      * 
      * @since 1.0
      */
@@ -108,7 +109,7 @@ public final class Some<T> implements Option<T>, Serializable {
     }
 
     /**
-     * Always returns <code>this</code>.
+     * Always returns <i>this</i>.
      * 
      * @since 1.0
      */
@@ -152,10 +153,10 @@ public final class Some<T> implements Option<T>, Serializable {
      * 
      * @since 1.0
      */
-    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object other) {
-        return (other instanceof Some) ? value.equals(((Some) other).orNull()) : false;
+        // get is safe to invoke as it must be a Some and shall therefore always have a value
+        return (other instanceof Some) && ((Option<?>) other).exists(o -> o.equals(value));
     }
 
     /**

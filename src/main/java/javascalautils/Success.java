@@ -24,7 +24,8 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * Represents the 'successful' implementation of {@link Try}. <br>
+ * Represents the <i>successful</i> implementation of {@link Try}. <br>
+ * Acts as a carrier for the result of a successful computation. <br>
  * For examples on usage refer to the documentation for {@link Try}.
  * 
  * @author Peter Nerg
@@ -82,7 +83,8 @@ public final class Success<T> implements Try<T>, Serializable {
     }
 
     /**
-     * Returns the value held by this instance.
+     * Returns the value held by this instance. <br>
+     * Never throws an exception as this is a <i>success</i>
      * 
      * @since 1.0
      */
@@ -93,7 +95,7 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Returns a {@link Failure} with an {@link UnsupportedOperationException}. <br>
-     * Since this is a 'success' it cannot be mapped to a 'failure'
+     * Since this is a <i>success</i> there is no <i>failure</i> to map to a <i>success</i> i.e. this is a illegal operation.
      * 
      * @since 1.0
      */
@@ -134,7 +136,7 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Always returns <i>this</i> . <br>
-     * As per definition this is a success and will not need to be recovered.
+     * As per definition this is a <i>success</i> and will not need to be recovered.
      * 
      * @since 1.4
      */
@@ -145,7 +147,7 @@ public final class Success<T> implements Try<T>, Serializable {
 
     /**
      * Always returns <i>this</i> . <br>
-     * As per definition this is a success and will not need to be recovered.
+     * As per definition this is a <i>success</i> and will not need to be recovered.
      * 
      * @since 1.4
      */

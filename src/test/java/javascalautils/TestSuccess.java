@@ -87,7 +87,7 @@ public class TestSuccess extends BaseAssert {
 
     @Test
     public void map() {
-        assertEquals(message.toUpperCase(), t.map(v -> v.toUpperCase()).orNull());
+        assertEquals(message.length(), t.map(v -> v.length()).orNull().intValue());
     }
 
     @Test

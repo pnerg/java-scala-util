@@ -174,18 +174,23 @@ public class TestSome extends BaseAssert {
     }
 
     @Test
-    public void equals_true() {
+    public void equals_true_sameInstance() {
+        assertTrue(option.equals(option));
+    }
+
+    @Test
+    public void equals_true_sameTypeRightValue() {
         assertTrue(option.equals(new Some<String>(TEXT_VALUE)));
     }
 
     @Test
-    public void equals_false() {
+    public void equals_false_sameTypeWrongValue() {
         assertFalse(option.equals(new Some<String>("NOT-THE-SAME-VALUE")));
     }
 
     @Test
-    public void equals_false2() {
-        assertFalse(option.equals(new None<String>()));
+    public void equals_false_wrongType() {
+        assertFalse(option.equals(new Object()));
     }
 
     @Test

@@ -15,13 +15,16 @@
  */
 package javascalautils;
 
+import static javascalautils.TryCompanion.Success;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * Represents the 'failed' implementation of {@link Try}. <br>
+ * Represents the <i>failure</i> implementation of {@link Try}. <br>
+ * Acts as a carrier for the result/throwable of a unsuccessful computation. <br>
  * For examples on usage refer to the documentation for {@link Try}.
  * 
  * @author Peter Nerg
@@ -58,7 +61,7 @@ public final class Failure<T> implements Try<T>, Serializable {
 
     /**
      * Always returns the value provided by the supplier. <br>
-     * As per definition this is a failure without any data to map.
+     * As per definition this is a failure without any data to return.
      * 
      * @since 1.0
      */
@@ -80,7 +83,7 @@ public final class Failure<T> implements Try<T>, Serializable {
 
     /**
      * Always throws the {@link Throwable} this instance represents. <br>
-     * As per definition this is a failure without any data to map.
+     * As per definition this is a failure without any data to return.
      * 
      * @since 1.0
      */
@@ -96,7 +99,7 @@ public final class Failure<T> implements Try<T>, Serializable {
      */
     @Override
     public Try<Throwable> failed() {
-        return new Success<Throwable>(throwable);
+        return Success(throwable);
     }
 
     /**
@@ -140,7 +143,7 @@ public final class Failure<T> implements Try<T>, Serializable {
      */
     @Override
     public Try<T> recover(Function<Throwable, T> function) {
-        return new Success<>(function.apply(throwable));
+        return Success(function.apply(throwable));
     }
 
     /**

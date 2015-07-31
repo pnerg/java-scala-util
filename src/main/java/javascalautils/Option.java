@@ -65,7 +65,17 @@ import java.util.stream.Stream;
  * <blockquote>Map&#60;String, SomeData&#62; map = ....</blockquote> <br>
  * To avoid null checks one could do like so: <br>
  * <blockquote>Option&#60;SomeData&#62; option = Option.apply(map.get("someKey"));</blockquote> Now you have a guaranteed non-null value with which you can work
- * with without performing constant null-checks.
+ * with without performing constant null-checks. <br>
+ * Statically importing methods from the companion class ({@link OptionCompanion}) to Option one can get that Scala feel of declaration. <br>
+ * <blockquote>
+ * 
+ * <pre>
+ * import static javascalautils.OptionCompanion.Option;
+ * 
+ * Option&lt;String&gt; option = Option(map.get("someKey"));
+ * </pre>
+ * 
+ * </blockquote>
  * 
  * @author Peter Nerg
  * @since 1.0
@@ -162,49 +172,49 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns <code>true</code> if this option is nonempty and the predicate p returns <code>true</code> when applied to this Option's value.
      * 
-     * @param p
+     * @param predicate
      *            The predicate
      * @return If the predicate matches
      * @since 1.0
      */
-    boolean exists(Predicate<T> p);
+    boolean exists(Predicate<T> predicate);
 
     /**
      * Returns this Option if it is nonempty and applying the predicate p to this Option's value returns <code>true</code>.
      * 
-     * @param p
+     * @param predicate
      *            The predicate
      * @return The Option representing the match
      * @since 1.0
      */
-    default Option<T> filter(Predicate<T> p) {
-        return exists(p) ? this : None();
+    default Option<T> filter(Predicate<T> predicate) {
+        return exists(predicate) ? this : None();
     }
 
     /**
      * Returns this Option if it is nonempty and applying the predicate p to this Option's value returns <code>false</code>.
      * 
-     * @param p
+     * @param predicate
      *            The predicate
      * @return The Option representing the match
      * @since 1.0
      */
-    default Option<T> filterNot(final Predicate<T> p) {
+    default Option<T> filterNot(final Predicate<T> predicate) {
         // filter not is in practice just negating the result of the provided predicate
-        return filter(value -> !p.test(value));
+        return filter(value -> !predicate.test(value));
     }
 
     /**
      * Returns <code>true</code> if the Option is nonempty and the predicate holds <code>true</code>, else <code>false</code>. <br>
-     * In an essence exactly the same as {@link #exists(Predicate)}.
+     * As an {@link Option} is a zero-or-one sized collection this is in an essence exactly the same as {@link #exists(Predicate)}.
      * 
-     * @param p
+     * @param predicate
      *            The predicate
      * @return If the predicate matches
      * @since 1.0
      */
-    default boolean forall(Predicate<T> p) {
-        return exists(p);
+    default boolean forall(Predicate<T> predicate) {
+        return exists(predicate);
     }
 
     /**
@@ -228,7 +238,7 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns <code>true</code> if the option is an instance of {@link Some}, <code>false</code> otherwise.
      * 
-     * @return If this Option is a {@link Some}
+     * @return <code>true</code> this Option is a {@link Some}, else <code>false</code>
      * @since 1.0
      */
     default boolean isDefined() {
@@ -238,7 +248,7 @@ public interface Option<T> extends Iterable<T> {
     /**
      * Returns <code>true</code> if the option is an instance of {@link None}, <code>false</code> otherwise
      * 
-     * @return If this Option is a {@link None}
+     * @return <code>true</code> this Option is a {@link None}, else <code>false</code>
      * @since 1.0
      */
     default boolean isEmpty() {
