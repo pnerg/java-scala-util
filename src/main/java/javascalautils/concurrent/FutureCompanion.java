@@ -54,8 +54,8 @@ public final class FutureCompanion {
      * <pre>
      * import static javascalautils.concurrent.FutureCompanion.Future;
      * 
-     * Future&lt;Integer&gt; resultSuccess = Future.(() -&gt; 9 / 3); // The Future will at some point contain: Success(3)
-     * Future&lt;Integer&gt; resultFailure = Future.(() -&gt; 9 / 0); // The Future will at some point contain: Failure(ArithmeticException)
+     * Future&lt;Integer&gt; resultSuccess = Future(() -&gt; 9 / 3); // The Future will at some point contain: Success(3)
+     * Future&lt;Integer&gt; resultFailure = Future(() -&gt; 9 / 0); // The Future will at some point contain: Failure(ArithmeticException)
      * </pre>
      * 
      * </blockquote>

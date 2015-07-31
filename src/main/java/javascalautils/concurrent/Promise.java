@@ -20,9 +20,16 @@ import javascalautils.Success;
 import javascalautils.Try;
 
 /**
- * A Promise that can be completed once with a value or failed once with an exception. <br>
+ * The Promise is the promise to deliver a value at some time in the future.<br>
+ * This is the handle the actual computation side of of the job uses. <br>
+ * Once a job is finished it will report the outcome to the Promise which in turn relays it to the Future the client/application is monitoring.<br>
+ * A promise can be fulfilled either by invoking success or failure but not both. <br>
+ * Nor can {@link #success(Object) success}/{@link #failure(Throwable) failure} be invoked twice. <br>
+ * The principle is that a {@link Promise} will deliver exactly one <i>successful</i> or <i>failure</i> response. <br>
+ * The successful response is of any type whilst the failure is expected to be of type (or subclass of) {@link Throwable}. <br>
+ * <br>
  * Together with a {@link Future} this allows a safe publication of asynchronously calculated results into another thread. <br>
- * The basic principle is to first create a Promise. <br>
+ * The basic principle is to first create a {@link Promise}. <br>
  * <blockquote>Promise&#60;String&#62; promise = Promise.apply();</blockquote> Using that instance one can get hold of the {@link Future} that is the container
  * for the value-to-be. <br>
  * <blockquote>Future&#60;String&#62; future = promise.future();</blockquote> To complete the Promise and by extension completing the Future one can use any of
