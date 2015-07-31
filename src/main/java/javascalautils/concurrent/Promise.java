@@ -20,7 +20,7 @@ import javascalautils.Success;
 import javascalautils.Try;
 
 /**
- * The Promise is the promise to deliver a value at some time in the future.<br>
+ * The Promise is the promise to deliver a value at some time in the future. <br>
  * This is the handle the actual computation side of of the job uses. <br>
  * Once a job is finished it will report the outcome to the Promise which in turn relays it to the Future the client/application is monitoring.<br>
  * A promise can be fulfilled either by invoking success or failure but not both. <br>
