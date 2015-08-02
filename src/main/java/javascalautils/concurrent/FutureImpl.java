@@ -16,6 +16,9 @@
 package javascalautils.concurrent;
 
 import static javascalautils.Option.None;
+import static javascalautils.OptionCompanion.Some;
+import static javascalautils.TryCompanion.Failure;
+import static javascalautils.TryCompanion.Success;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +31,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import javascalautils.Failure;
 import javascalautils.Option;
-import javascalautils.Success;
 import javascalautils.Try;
 import javascalautils.Validator;
 
@@ -44,14 +45,8 @@ final class FutureImpl<T> implements Future<T> {
     /** Will contain the result once {@link #complete(Try)} is invoked. */
     private Option<Try<T>> response = None();
 
-    /** The success handlers set by the user. */
-    private final List<EventHandler<T>> successHandlers = new ArrayList<>();
-
-    /** The failure handlers set by the user. */
-    private final List<EventHandler<Throwable>> failureHandlers = new ArrayList<>();
-
-    /** The complete handlers set by the user. */
-    private final List<EventHandler<Try<T>>> completeHandlers = new ArrayList<>();
+    /** The success/failure/complete handlers set by the user. */
+    private final List<EventHandler> eventHandlers = new ArrayList<>();
 
     /*
      * (non-Javadoc)
@@ -79,10 +74,13 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#onFailure(java.util.function.Consumer)
      */
     @Override
-    public void onFailure(Consumer<Throwable> c) {
-        Validator.requireNonNull(c, "Null is not a valid consumer");
-        failureHandlers.add(new EventHandler<>(c));
-        response.filter(Try::isFailure).map(Try::failed).map(Try::orNull).forEach(t -> notifyHandlers(failureHandlers, t));
+    public void onFailure(Consumer<Throwable> consumer) {
+        Validator.requireNonNull(consumer, "Null is not a valid consumer");
+        onComplete(t -> {
+            if (t.isFailure()) {
+                consumer.accept(t.failed().orNull());
+            }
+        });
     }
 
     /*
@@ -91,10 +89,13 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#onSuccess(java.util.function.Consumer)
      */
     @Override
-    public void onSuccess(Consumer<T> c) {
-        Validator.requireNonNull(c, "Null is not a valid consumer");
-        successHandlers.add(new EventHandler<>(c));
-        response.filter(Try::isSuccess).map(Try::orNull).forEach(r -> notifyHandlers(successHandlers, r));
+    public void onSuccess(Consumer<T> consumer) {
+        Validator.requireNonNull(consumer, "Null is not a valid consumer");
+        onComplete(t -> {
+            if (t.isSuccess()) {
+                consumer.accept(t.orNull());
+            }
+        });
     }
 
     /*
@@ -105,8 +106,9 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void onComplete(Consumer<Try<T>> c) {
         Validator.requireNonNull(c, "Null is not a valid consumer");
-        completeHandlers.add(new EventHandler<>(c));
-        response.forEach(t -> notifyHandlers(completeHandlers, t));
+        eventHandlers.add(new EventHandler(c));
+        // invoke all new handlers in case this Future is already completed
+        notifyHandlers();
     }
 
     /*
@@ -255,15 +257,11 @@ final class FutureImpl<T> implements Future<T> {
      * @param result
      */
     void complete(Try<T> result) {
-        this.response = Option.apply(result);
-        if (result.isSuccess()) {
-            // the orNull is just to skip the exception handling otherwise forced by get()
-            notifyHandlers(successHandlers, result.orNull());
-        } else {
-            // the orNull is just to skip the exception handling otherwise forced by get()
-            notifyHandlers(failureHandlers, result.failed().orNull());
-        }
-        notifyHandlers(completeHandlers, result);
+        // save the result
+        this.response = Some(result);
+
+        // notify all potential handlers
+        notifyHandlers();
     }
 
     /**
@@ -273,7 +271,7 @@ final class FutureImpl<T> implements Future<T> {
      *            The response value
      */
     private void success(T value) {
-        complete(new Success<>(value));
+        complete(Success(value));
     }
 
     /**
@@ -283,20 +281,21 @@ final class FutureImpl<T> implements Future<T> {
      *            The failure Throwable
      */
     private void failure(Throwable throwable) {
-        complete(new Failure<>(throwable));
+        complete(Failure(throwable));
     }
 
     /**
-     * Invoke all provided handlers with the provided value. <br>
+     * Invoke all handlers with the value of this Future. <br>
+     * The response may or may not exist at this point. <br>
      * A filter is applied to make sure we only notify handlers that have not been notified before.
      * 
-     * @param handlers
-     *            The handlers to notify.
      * @param value
+     *            The value/result to notify
      */
-    private <R> void notifyHandlers(List<EventHandler<R>> handlers, R value) {
+    private <R> void notifyHandlers() {
+        // the response may or may not exist at this point
         // The filter is to make sure we only respond/notify once
-        handlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(value));
+        response.forEach(t -> eventHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(t)));
     }
 
     /**
@@ -308,11 +307,11 @@ final class FutureImpl<T> implements Future<T> {
      *
      * @param <R>
      */
-    private static final class EventHandler<R> {
-        private final Consumer<R> consumer;
-        private AtomicBoolean notified = new AtomicBoolean(false);
+    private final class EventHandler {
+        private final AtomicBoolean notified = new AtomicBoolean(false);
+        private final Consumer<Try<T>> consumer;
 
-        private EventHandler(Consumer<R> consumer) {
+        private EventHandler(Consumer<Try<T>> consumer) {
             this.consumer = consumer;
         }
 
@@ -330,7 +329,7 @@ final class FutureImpl<T> implements Future<T> {
          * 
          * @param response
          */
-        private void notify(R response) {
+        private void notify(Try<T> response) {
             if (notified.compareAndSet(false, true)) {
                 consumer.accept(response);
             }
