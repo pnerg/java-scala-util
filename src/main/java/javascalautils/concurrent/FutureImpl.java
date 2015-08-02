@@ -76,10 +76,11 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void onFailure(Consumer<Throwable> consumer) {
         Validator.requireNonNull(consumer, "Null is not a valid consumer");
-        onComplete(t -> {
-            if (t.isFailure()) {
-                consumer.accept(t.failed().orNull());
-            }
+        // register a complete handler and ignore any Success responses
+        onComplete(result -> {
+            // transform Failure to a Success with the Throwable
+            // should it be a Success it will be transformed into a Failure and forEach will do nothing
+            result.failed().forEach(consumer);
         });
     }
 
@@ -91,10 +92,10 @@ final class FutureImpl<T> implements Future<T> {
     @Override
     public void onSuccess(Consumer<T> consumer) {
         Validator.requireNonNull(consumer, "Null is not a valid consumer");
-        onComplete(t -> {
-            if (t.isSuccess()) {
-                consumer.accept(t.orNull());
-            }
+        // register a complete handler and ignore any Failure responses
+        onComplete(result -> {
+            // should it be a Failure the forEach will do nothing
+            result.forEach(consumer);
         });
     }
 
