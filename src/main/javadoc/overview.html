@@ -9,29 +9,17 @@
    <p>One might ask the question why bother to map some of the features in Scala to Java.</p>
 
 	<p>Why not use Scala?
-	If you like me walk between the Java/Scala you'll miss some of Scala's features when programming in pure Java. 
+	If you like many others walk between the Java/Scala you'll miss some of Scala's features when programming in pure Java. 
 	It's for these situations this project has been created. To allow plain Java users use some of goodies in Scala but without actually using Scala. </p>
 	
-	<p>The project will supply features such as:</p>
-	<ul>
-		<li><a href="javascalautils/Option.html">Option</a>/<a href="javascalautils/Some.html">Some</a>/<a href="javascalautils/None.html">None</a></li>
-		<li><a href="javascalautils/Try.html">Try</a>/<a href="javascalautils/Success.html">Success</a>/<a href="javascalautils/Failure.html">Failure</a></li>
-		<li><a href="javascalautils/Either.html">Either</a>/<a href="javascalautils/Left.html">Left</a>/<a href="javascalautils/Right.html">Right</a></li>
-		<li><a href="javascalautils/concurrent/Future.html">Future</a>/<a href="javascalautils/concurrent/Promise.html">Promise</a></li>
-	</ul>
-
   	<h2>Containers</h2>
-  	The following three types are all what is known as container types.<br>
-	They represent various use cases, such as containing one or zero value (Option), one of two values (Either) and value/successful or exception/failure (Try) <br>
+  	The <a href="javascalautils/package-summary.html">javascalautils package</a> contains utilities for writing concise concurrent programming constructs. <br>
+  	The package contains various utility classes translated from the Scala language, such as: 
 	<ul>
 		<li><a href="javascalautils/Option.html">Option</a>/<a href="javascalautils/Some.html">Some</a>/<a href="javascalautils/None.html">None</a></li>
 		<li><a href="javascalautils/Try.html">Try</a>/<a href="javascalautils/Success.html">Success</a>/<a href="javascalautils/Failure.html">Failure</a></li>
 		<li><a href="javascalautils/Either.html">Either</a>/<a href="javascalautils/Left.html">Left</a>/<a href="javascalautils/Right.html">Right</a></li>
 	</ul>
-	It is possible to make transitions between the container types. <br>
-	This image below aims to illustrate the transitions that can be made and where they lead. <br>
-	<br>
-	<img src="./doc-files/transitions.png" alt="transitions" /><br>
 
   	<h2>Concurrent/Asynchronous Computations</h2>
   	The <a href="javascalautils/concurrent/package-summary.html">concurrent package</a> contains utilities for writing concise concurrent computations utilizing the <a href="javascalautils/concurrent/Future.html">Future</a>/<a href="javascalautils/concurrent/Promise.html">Promise</a> pattern.

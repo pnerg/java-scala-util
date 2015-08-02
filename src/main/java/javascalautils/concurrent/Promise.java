@@ -57,7 +57,7 @@ public interface Promise<T> {
      * E.g. <code>Promise&#60;String&#62; p = Promise.apply();</code>
      * 
      * @param <T>
-     *            The type the Promise is expected to deliver
+     *            The type this Promise will produce as result
      * @return The Promise instance
      * @since 1.2
      */
@@ -94,7 +94,7 @@ public interface Promise<T> {
     void complete(Try<T> result);
 
     /**
-     * Completes this {@link Promise} with the value from the provided {@link Future} once that is completed.
+     * Completes the {@link Promise} with the value from the provided {@link Future} once that is completed.
      * 
      * @param future
      *            The future whose value will complete this Promise

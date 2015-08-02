@@ -23,6 +23,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -40,9 +41,7 @@ import javascalautils.Validator;
  * @since 1.2
  */
 final class FutureImpl<T> implements Future<T> {
-    /**
-     * Contains either a {@link Success} as a result of {@link #success(Object)} or a {@link Failure} as a result of {@link #failure(Throwable)}
-     */
+    /** Will contain the result once {@link #complete(Try)} is invoked. */
     private Option<Try<T>> response = None();
 
     /** The success handlers set by the user. */
@@ -117,7 +116,6 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public void forEach(Consumer<T> c) {
-        Validator.requireNonNull(c, "Null is not a valid consumer");
         onSuccess(c);
     }
 
@@ -149,8 +147,7 @@ final class FutureImpl<T> implements Future<T> {
             Future<R> mapped = function.apply(value);
             // install success/failure handlers on the mapped future to bridge between this instance
             // and the one created a few lines above
-            mapped.onSuccess(v -> future.success(v));
-            mapped.onFailure(t -> future.failure(t));
+            mapped.onComplete(t -> future.complete(t));
         });
 
         // install failure handler that just passes the result through
@@ -313,7 +310,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     private static final class EventHandler<R> {
         private final Consumer<R> consumer;
-        private boolean notified = false;
+        private AtomicBoolean notified = new AtomicBoolean(false);
 
         private EventHandler(Consumer<R> consumer) {
             this.consumer = consumer;
@@ -325,7 +322,7 @@ final class FutureImpl<T> implements Future<T> {
          * @return
          */
         private boolean notified() {
-            return notified;
+            return notified.get();
         }
 
         /**
@@ -334,8 +331,9 @@ final class FutureImpl<T> implements Future<T> {
          * @param response
          */
         private void notify(R response) {
-            notified = true;
-            consumer.accept(response);
+            if (notified.compareAndSet(false, true)) {
+                consumer.accept(response);
+            }
         }
     }
 }

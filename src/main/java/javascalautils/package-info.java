@@ -16,10 +16,21 @@
 
 /**
  * Contains various utility classes translated from the Scala language. <br>
+ * The following three types are all what is known as container types.<br>
  * They represent various use cases, such as containing one or zero value ({@link javascalautils.Option}), one of two values ({@link javascalautils.Either}) and value or exception ({@link javascalautils.Try})
  * The aim with these utility classes is to provide neat and concise programming patterns. <br>
- * Details and Wiki can be found at: <br>
- * <a href="https://github.com/pnerg/java-scala-util">https://github.com/pnerg/java-scala-util</a>
+ * <ul>
+ *     <li>{@link javascalautils.Option}/{@link javascalautils.Some}/{@link javascalautils.None}</li>
+ *     <li>{@link javascalautils.Try}/{@link javascalautils.Success}/{@link javascalautils.Failure}</li>
+ *     <li>{@link javascalautils.Either}/{@link javascalautils.Left}/{@link javascalautils.Right}</li>
+ * </ul>
+ * It is possible to make transitions between the container types. <br>
+ * This image below aims to illustrate the transitions that can be made and where they lead. <br>
+ * <br>
+ * <img src="../doc-files/transitions.png" alt="transitions"><br>
+ * <br>
+ * Refer to the Javadoc for the classes or the Wiki for more details and examples:<br>
+ * <a href="https://github.com/pnerg/java-scala-util">https://github.com/pnerg/java-scala-util</a><br>
  * @author Peter Nerg
  */
 package javascalautils;

@@ -204,8 +204,8 @@ public interface Future<T> {
     Future<T> filter(Predicate<T> predicate);
 
     /**
-     * Creates a new {@link Future} that will hold the mapped successful value of this instance once it is completed. <br>
-     * Successful futures are mapped with the <i>onSuccess</i> function and unsuccessful/failure futures are mapped with <i>onFailure</i>.
+     * Creates a new {@link Future} that will hold the transformed successful value of this instance once it is completed. <br>
+     * Successful futures are transformed with the <i>onSuccess</i> function and unsuccessful/failure futures are transformed with <i>onFailure</i>.
      * 
      * @param <R>
      *            The type for the value held by the mapped future
