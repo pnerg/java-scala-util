@@ -57,7 +57,7 @@ public class TestTry extends BaseAssert {
 
     @Test
     public void iterator_success_null() {
-        assertFalse(Try.apply(null).iterator().hasNext());
+        assertTrue(Try.apply(null).iterator().hasNext());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TestTry extends BaseAssert {
 
     @Test
     public void stream_success_null() {
-        assertEquals(0, Try.apply(null).stream().count());
+        assertEquals(1, Try.apply(null).stream().count());
     }
 
     @Test

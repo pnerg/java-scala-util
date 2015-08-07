@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 /**
  * Represents an {@link Option} holding a value. <br>
@@ -41,7 +40,7 @@ import java.util.stream.Stream;
  * @param <T>
  *            The type of the value represented by this instance
  */
-public final class Some<T> implements Option<T>, Serializable {
+public final class Some<T> extends SingleItemContainer<T> implements Option<T>, Serializable {
     private static final long serialVersionUID = -17186529545151493L;
     private final T value;
 
@@ -116,16 +115,6 @@ public final class Some<T> implements Option<T>, Serializable {
     @Override
     public Option<T> orElse(Supplier<Option<T>> s) {
         return this;
-    }
-
-    /**
-     * Returns a stream of size one containing the value of this instance.
-     * 
-     * @since 1.0
-     */
-    @Override
-    public Stream<T> stream() {
-        return Stream.of(value);
     }
 
     /**

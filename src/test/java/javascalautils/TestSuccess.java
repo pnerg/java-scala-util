@@ -15,6 +15,8 @@
  */
 package javascalautils;
 
+import java.util.stream.Stream;
+
 import org.junit.Test;
 
 /**
@@ -105,5 +107,16 @@ public class TestSuccess extends BaseAssert {
     public void recoverWith() {
         // should be exactly the same instance
         assertEquals(t, t.recoverWith(ex -> new Success<>(ex.toString())));
+    }
+
+    @Test
+    public void stream() {
+        assertEquals(1, t.stream().count());
+    }
+
+    @Test
+    public void stream_ofNull() {
+        Stream<String> stream = new Success<String>(null).stream();
+        assertEquals(1, stream.count());
     }
 }

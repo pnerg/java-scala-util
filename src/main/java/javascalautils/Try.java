@@ -229,14 +229,11 @@ public interface Try<T> extends Iterable<T> {
 
     /**
      * Returns the Try's value in an {@link Iterator} if it is a {@link Success}, or an empty {@link Iterator} if it is Failure. <br>
-     * Should it be a {@link Success} containing a <code>null</code> value then the iterator will also be empty.
      * 
      * @return The iterator for the Try
      * @since 1.0
      */
-    default Iterator<T> iterator() {
-        return stream().iterator();
-    }
+    Iterator<T> iterator();
 
     /**
      * Maps the given function to the value from this {@link Success} or returns <i>this</i> if this is a {@link Failure}. <br>
@@ -329,15 +326,12 @@ public interface Try<T> extends Iterable<T> {
     Try<T> recoverWith(Function<Throwable, Try<T>> function);
 
     /**
-     * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}. <br>
-     * Should it be a {@link Success} containing a <code>null</code> value then the stream will also be empty.
+     * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.
      * 
      * @return The stream for the Try
      * @since 1.0
      */
-    default Stream<T> stream() {
-        return asOption().stream();
-    }
+    Stream<T> stream();
 
     /**
      * Returns this {@link Try} as an {@link Option}. <br>

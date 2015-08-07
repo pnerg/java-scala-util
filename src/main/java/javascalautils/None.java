@@ -23,7 +23,6 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 /**
  * Represents an empty {@link Option}. <br>
@@ -42,7 +41,7 @@ import java.util.stream.Stream;
  * @param <T>
  *            The type of the value represented by this instance
  */
-public final class None<T> implements Option<T>, Serializable {
+public final class None<T> extends EmptyContainer<T> implements Option<T>, Serializable {
 
     private static final long serialVersionUID = -5169653193196761412L;
 
@@ -107,16 +106,6 @@ public final class None<T> implements Option<T>, Serializable {
      */
     public Option<T> orElse(Supplier<Option<T>> supplier) {
         return supplier.get();
-    }
-
-    /**
-     * Always returns an empty stream.
-     * 
-     * @return Empty stream
-     * @since 1.0
-     */
-    public Stream<T> stream() {
-        return Stream.empty();
     }
 
     /**

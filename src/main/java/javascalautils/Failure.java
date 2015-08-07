@@ -32,7 +32,7 @@ import java.util.function.Supplier;
  * @param <T>
  *            The type of the exception represented by this instance
  */
-public final class Failure<T> implements Try<T>, Serializable {
+public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Serializable {
 
     private static final long serialVersionUID = -3153874073796965428L;
     private final Throwable throwable;

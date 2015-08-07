@@ -105,4 +105,10 @@ public class TestFailure extends BaseAssert {
         // should recover to contain the exception message
         assertEquals(exception.getMessage(), t.recoverWith(ex -> new Success<>(ex.getMessage())).get());
     }
+
+    @Test
+    public void stream() {
+        assertEquals(0, t.stream().count());
+    }
+
 }

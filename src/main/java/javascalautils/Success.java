@@ -33,7 +33,7 @@ import java.util.function.Supplier;
  * @param <T>
  *            The type of the value represented by this instance
  */
-public final class Success<T> implements Try<T>, Serializable {
+public final class Success<T> extends SingleItemContainer<T> implements Try<T>, Serializable {
 
     private static final long serialVersionUID = -5588727176438040926L;
     private final T value;

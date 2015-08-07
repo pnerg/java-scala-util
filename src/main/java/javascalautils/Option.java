@@ -262,9 +262,7 @@ public interface Option<T> extends Iterable<T> {
      * @since 1.0
      */
     @Override
-    default Iterator<T> iterator() {
-        return stream().iterator();
-    }
+    Iterator<T> iterator();
 
     /**
      * Returns an Option consisting of the result of applying the given function to the current {@link Some}. <br>
