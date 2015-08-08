@@ -15,6 +15,8 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.TryCompanion.Try;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
@@ -118,13 +120,7 @@ public interface Future<T> {
      * @since 1.4
      */
     static <T> Future<T> apply(ThrowableFunction0<T> function, Executor executor) {
-        return executor.execute(promise -> {
-            try {
-                promise.success(function.apply());
-            } catch (Throwable t) {
-                promise.failure(t);
-            }
-        });
+        return executor.execute(promise -> promise.complete(Try(function)));
     }
 
     /**
