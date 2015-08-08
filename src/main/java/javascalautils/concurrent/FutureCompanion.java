@@ -72,4 +72,33 @@ public final class FutureCompanion {
         return Future.apply(function);
     }
 
+    /**
+     * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
+     * The method relay the execution to {@link Future#apply(ThrowableFunction0)}. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <blockquote>
+     * 
+     * <pre>
+     * import static javascalautils.concurrent.FutureCompanion.Future;
+     * 
+     * Future&lt;Integer&gt; resultSuccess = Future(() -&gt; 9 / 3, someExecutor); // The Future will at some point contain: Success(3)
+     * Future&lt;Integer&gt; resultFailure = Future(() -&gt; 9 / 0, someExecutor); // The Future will at some point contain: Failure(ArithmeticException)
+     * </pre>
+     * 
+     * </blockquote>
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @param executor
+     *            The executor to use to compute/execute the Future holding the provided function
+     * @return The future that will hold the result provided by the function
+     * @since 1.4
+     * @see Future#apply(ThrowableFunction0, Executor)
+     */
+    public static <T> Future<T> Future(ThrowableFunction0<T> function, Executor executor) {
+        return Future.apply(function, executor);
+    }
 }

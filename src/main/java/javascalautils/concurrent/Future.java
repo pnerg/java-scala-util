@@ -91,7 +91,34 @@ public interface Future<T> {
      * @since 1.3
      */
     static <T> Future<T> apply(ThrowableFunction0<T> function) {
-        return Executors.getDefault().execute(promise -> {
+        return apply(function, Executors.getDefault());
+    }
+
+    /**
+     * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
+     * The method will use the provided {@link Executor} for executing the provided job. <br>
+     * Simple examples:
+     * 
+     * <blockquote>
+     * 
+     * <pre>
+     * Future&lt;Integer&gt; resultSuccess = Future.apply(() -&gt; 9 / 3, someExecutor); // The Future will at some point contain: Success(3)
+     * Future&lt;Integer&gt; resultFailure = Future.apply(() -&gt; 9 / 0, someExecutor); // The Future will at some point contain: Failure(ArithmeticException)
+     * </pre>
+     * 
+     * </blockquote>
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @param executor
+     *            The executor to use to compute/execute the Future holding the provided function
+     * @return The future that will hold the result provided by the function
+     * @since 1.4
+     */
+    static <T> Future<T> apply(ThrowableFunction0<T> function, Executor executor) {
+        return executor.execute(promise -> {
             try {
                 promise.success(function.apply());
             } catch (Throwable t) {

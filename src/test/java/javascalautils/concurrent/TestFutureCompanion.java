@@ -38,4 +38,9 @@ public class TestFutureCompanion extends BaseAssert {
         assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
     }
 
+    @Test
+    public void future_withExector() throws TimeoutException, Throwable {
+        Future<Integer> future = FutureCompanion.Future(() -> 9 / 3, new ExecutorImpl(r -> r.run()));
+        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+    }
 }
