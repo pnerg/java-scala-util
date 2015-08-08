@@ -20,12 +20,12 @@ package javascalautils.concurrent;
  * Allows for creating a custom {@link Executor} for {@link Executors#getDefault()}. <br>
  * This is done by creating a class that implements this interface and then set the fully qualified class name in the system property
  * <i>javascalautils.concurrent.executorprovider</i>. <br>
- * The implementing class <b>must</b>:
+ * The implementing class <u>must</u>:
  * <ul>
  * <li>be declared public</li>
  * <li>have a public (default) non-argument constructor</li>
  * </ul>
- * 
+ * This property must be set <u>before</u> invoking any method in {@link Executors} as the default pool is then created.
  * 
  * @author Peter Nerg
  * @since 1.4

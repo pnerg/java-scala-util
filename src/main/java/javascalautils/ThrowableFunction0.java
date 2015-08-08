@@ -33,9 +33,9 @@ import javascalautils.concurrent.Future;
 @FunctionalInterface
 public interface ThrowableFunction0<T> {
     /**
-     * Applies this returning a result.
+     * Applies this function returning a result.
      *
-     * @return the function result
+     * @return The function result
      * @throws Throwable
      *             Any error that may occur when applying the function
      * @since 1.3

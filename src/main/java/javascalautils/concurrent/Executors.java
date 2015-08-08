@@ -16,10 +16,9 @@
 
 package javascalautils.concurrent;
 
-import static javascalautils.TryCompanion.Try;
-
 import java.util.concurrent.ThreadFactory;
 
+import javascalautils.ReflectionUtil;
 import javascalautils.Try;
 
 /**
@@ -95,7 +94,7 @@ public final class Executors {
      * @return
      */
     private static Executor createDefaultExecutor() {
-        Try<Executor> t = Try(() -> (Executor) Class.forName(System.getProperty("javascalautils.concurrent.executorprovider")).newInstance());
+        Try<Executor> t = ReflectionUtil.newInstance(System.getProperty("javascalautils.concurrent.executorprovider"));
         return t.getOrElse(() -> createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default")));
     }
 }
