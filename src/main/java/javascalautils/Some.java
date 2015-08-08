@@ -149,7 +149,7 @@ public final class Some<T> extends SingleItemContainer<T> implements Option<T>, 
     }
 
     /**
-     * Returns the hashCode based on the value of this {@link Some}.
+     * Returns the hashCode based on the value of this instance.
      * 
      * @since 1.0
      */
