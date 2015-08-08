@@ -14,17 +14,21 @@
  *  limitations under the License.
  */
 
-package javascalautils;
+package javascalautils.concurrent;
 
 import static javascalautils.TryCompanion.Try;
+import javascalautils.Failure;
+import javascalautils.Success;
+import javascalautils.Try;
 
 /**
- * Class with utilities for reflective operations.
+ * Class with utilities for reflective operations. <br>
+ * This class is not intended for public usage, it's a library internal helper. <br>
  * 
  * @author Peter Nerg
  * @since 1.4
  */
-public final class ReflectionUtil {
+final class ReflectionUtil {
 
     /**
      * Inhibitive constructor.
@@ -44,7 +48,7 @@ public final class ReflectionUtil {
      * @since 1.4
      */
     @SuppressWarnings("unchecked")
-    public static <T> Try<T> newInstance(String className) {
+    static <T> Try<T> newInstance(String className) {
         return Try(() -> (T) Class.forName(className).newInstance());
     }
 

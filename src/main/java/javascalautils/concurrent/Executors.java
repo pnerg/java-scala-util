@@ -18,7 +18,6 @@ package javascalautils.concurrent;
 
 import java.util.concurrent.ThreadFactory;
 
-import javascalautils.ReflectionUtil;
 import javascalautils.Try;
 
 /**

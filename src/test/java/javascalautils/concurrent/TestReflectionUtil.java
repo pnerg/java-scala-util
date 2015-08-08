@@ -14,7 +14,11 @@
  *  limitations under the License.
  */
 
-package javascalautils;
+package javascalautils.concurrent;
+
+import javascalautils.BaseAssert;
+import javascalautils.Try;
+import javascalautils.concurrent.ReflectionUtil;
 
 import org.junit.Test;
 
