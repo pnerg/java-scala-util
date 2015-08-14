@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.dmonix.functional</groupId>
 	<artifactId>java-scala-utils</artifactId>
 	<name>Java Scala Utils</name>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.4</version>
 	<packaging>jar</packaging>
 	<description>Java implementation of some of the core utilities from Scala</description>
 	<url>https://github.com/pnerg/java-scala-util</url>
@@ -41,7 +40,7 @@
 		<connection>scm:git:git@github.com:pnerg/java-scala-util.git</connection>
 		<developerConnection>scm:git:git@github.com:pnerg/java-scala-util.git</developerConnection>
 		<url>git@github.com:pnerg/java-scala-util.git</url>
-		<tag>HEAD</tag>
+		<tag>v1.4</tag>
 	</scm>
 
 	<dependencies>
