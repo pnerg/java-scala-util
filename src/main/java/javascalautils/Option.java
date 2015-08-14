@@ -338,7 +338,7 @@ public interface Option<T> extends Iterable<T> {
      * @param left
      *            The supplier to use in case this is a {@link None}
      * @return The {@link Either} instance
-     * @since 1.0
+     * @since 1.4
      */
     <L> Either<L, T> toRight(Supplier<L> left);
 
