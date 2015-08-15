@@ -31,6 +31,8 @@ import org.junit.Test;
  */
 public class TestFuture extends BaseAssert {
 
+    private final Executor executor = Executors.create(r -> r.run());
+
     @Test
     public void apply_success() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 3);
@@ -40,6 +42,18 @@ public class TestFuture extends BaseAssert {
     @Test(expected = ArithmeticException.class)
     public void apply_failure() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 0);
+        future.result(1, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void apply_withExecutor_success() throws TimeoutException, Throwable {
+        Future<Integer> future = Future.apply(() -> 9 / 3, executor);
+        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void apply_withExecutor_failure() throws TimeoutException, Throwable {
+        Future<Integer> future = Future.apply(() -> 9 / 0, executor);
         future.result(1, TimeUnit.SECONDS);
     }
 }
