@@ -124,6 +124,22 @@ public interface Future<T> {
     }
 
     /**
+     * Creates a failed Future with the provided Throwable.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param throwable
+     *            The throwable to complete the Future with.
+     * @return The completed Future holding the provided Throwable
+     * @since 1.5
+     */
+    static <T> Future<T> failed(Throwable throwable) {
+        FutureImpl<T> f = new FutureImpl<T>();
+        f.complete(new Failure<T>(throwable));
+        return f;
+    }
+
+    /**
      * Check if this Future is completed, with a value or an exception.
      * 
      * @return <code>true</code> if completed, <code>false</code> otherwise.

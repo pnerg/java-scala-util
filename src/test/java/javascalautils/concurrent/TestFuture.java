@@ -16,10 +16,12 @@
 
 package javascalautils.concurrent;
 
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.util.concurrent.TimeoutException;
 
 import javascalautils.BaseAssert;
+import javascalautils.DummyException;
 
 import org.junit.Test;
 
@@ -36,24 +38,29 @@ public class TestFuture extends BaseAssert {
     @Test
     public void apply_success() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 3);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(1, SECONDS).intValue());
     }
 
     @Test(expected = ArithmeticException.class)
     public void apply_failure() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 0);
-        future.result(1, TimeUnit.SECONDS);
+        future.result(1, SECONDS);
     }
 
     @Test
     public void apply_withExecutor_success() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 3, executor);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(1, SECONDS).intValue());
     }
 
     @Test(expected = ArithmeticException.class)
     public void apply_withExecutor_failure() throws TimeoutException, Throwable {
         Future<Integer> future = Future.apply(() -> 9 / 0, executor);
-        future.result(1, TimeUnit.SECONDS);
+        future.result(1, SECONDS);
+    }
+
+    @Test(expected = DummyException.class)
+    public void failed() throws TimeoutException, Throwable {
+        Future.failed(new DummyException()).result(1, SECONDS);
     }
 }
