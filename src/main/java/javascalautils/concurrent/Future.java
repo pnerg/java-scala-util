@@ -140,6 +140,23 @@ public interface Future<T> {
     }
 
     /**
+     * Creates a completed Future with the provided Try. <br>
+     * The Future can therefore be either {@link Success} or {@link Failure}.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param result
+     *            The {@link Success}/{@link Failure} to complete the Future with.
+     * @return The completed Future holding the provided result
+     * @since 1.5
+     */
+    static <T> Future<T> fromTry(Try<T> result) {
+        FutureImpl<T> f = new FutureImpl<T>();
+        f.complete(result);
+        return f;
+    }
+
+    /**
      * Check if this Future is completed, with a value or an exception.
      * 
      * @return <code>true</code> if completed, <code>false</code> otherwise.

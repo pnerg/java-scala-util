@@ -22,6 +22,8 @@ import java.util.concurrent.TimeoutException;
 
 import javascalautils.BaseAssert;
 import javascalautils.DummyException;
+import javascalautils.Failure;
+import javascalautils.Success;
 
 import org.junit.Test;
 
@@ -61,6 +63,19 @@ public class TestFuture extends BaseAssert {
 
     @Test(expected = DummyException.class)
     public void failed() throws TimeoutException, Throwable {
-        Future.failed(new DummyException()).result(1, SECONDS);
+        Future<String> future = Future.failed(new DummyException());
+        future.result(1, SECONDS);
+    }
+
+    @Test
+    public void fromTry_successful() throws TimeoutException, Throwable {
+        Future<String> future = Future.fromTry(new Success<>("Peter was here"));
+        assertEquals("Peter was here", future.result(1, SECONDS));
+    }
+
+    @Test(expected = DummyException.class)
+    public void fromTry_failure() throws TimeoutException, Throwable {
+        Future<String> future = Future.fromTry(new Failure<>(new DummyException()));
+        future.result(1, SECONDS);
     }
 }
