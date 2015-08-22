@@ -15,6 +15,8 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.TryCompanion.Failure;
+import static javascalautils.TryCompanion.Success;
 import static javascalautils.TryCompanion.Try;
 
 import java.util.concurrent.TimeUnit;
@@ -134,9 +136,21 @@ public interface Future<T> {
      * @since 1.5
      */
     static <T> Future<T> failed(Throwable throwable) {
-        FutureImpl<T> f = new FutureImpl<T>();
-        f.complete(new Failure<T>(throwable));
-        return f;
+        return fromTry(Failure(throwable));
+    }
+
+    /**
+     * Creates a successful Future with the provided value.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param value
+     *            The value to complete the Future with.
+     * @return The completed Future holding the provided value
+     * @since 1.5
+     */
+    static <T> Future<T> successful(T value) {
+        return fromTry(Success(value));
     }
 
     /**

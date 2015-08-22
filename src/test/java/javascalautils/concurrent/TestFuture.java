@@ -68,6 +68,12 @@ public class TestFuture extends BaseAssert {
     }
 
     @Test
+    public void successful() throws TimeoutException, Throwable {
+        Future<String> future = Future.successful("Peter was here");
+        assertEquals("Peter was here", future.result(1, SECONDS));
+    }
+
+    @Test
     public void fromTry_successful() throws TimeoutException, Throwable {
         Future<String> future = Future.fromTry(new Success<>("Peter was here"));
         assertEquals("Peter was here", future.result(1, SECONDS));
