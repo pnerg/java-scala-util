@@ -165,9 +165,7 @@ public interface Future<T> {
      * @since 1.5
      */
     static <T> Future<T> fromTry(Try<T> result) {
-        FutureImpl<T> f = new FutureImpl<T>();
-        f.complete(result);
-        return f;
+        return new FutureImpl<T>().complete(result);
     }
 
     /**

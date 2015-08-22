@@ -256,13 +256,15 @@ final class FutureImpl<T> implements Future<T> {
      * Invoked by the Promise owning this instance.
      * 
      * @param result
+     * @return Returns itself
      */
-    void complete(Try<T> result) {
+    Future<T> complete(Try<T> result) {
         // save the result
         this.response = Some(result);
 
         // notify all potential handlers
         notifyHandlers();
+        return this;
     }
 
     /**
