@@ -187,7 +187,7 @@ public interface Future<T> {
     }
 
     /**
-     * Takes a Stream of values and applies the provided function to them in parallel resulting in a Future containing all a Stream with the mapped values. <br>
+     * Takes a Stream of values and applies the provided function to them in parallel resulting in a Future containing a Stream with the mapped values. <br>
      * Can be used to run a mapping operation in parallel e.g.: <blockquote>
      * 
      * <pre>
