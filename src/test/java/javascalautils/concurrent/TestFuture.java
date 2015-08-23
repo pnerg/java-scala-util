@@ -17,8 +17,10 @@
 package javascalautils.concurrent;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static javascalautils.concurrent.Future.apply;
 
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Stream;
 
 import javascalautils.BaseAssert;
 import javascalautils.DummyException;
@@ -39,25 +41,25 @@ public class TestFuture extends BaseAssert {
 
     @Test
     public void apply_success() throws TimeoutException, Throwable {
-        Future<Integer> future = Future.apply(() -> 9 / 3);
+        Future<Integer> future = apply(() -> 9 / 3);
         assertEquals(3, future.result(1, SECONDS).intValue());
     }
 
     @Test(expected = ArithmeticException.class)
     public void apply_failure() throws TimeoutException, Throwable {
-        Future<Integer> future = Future.apply(() -> 9 / 0);
+        Future<Integer> future = apply(() -> 9 / 0);
         future.result(1, SECONDS);
     }
 
     @Test
     public void apply_withExecutor_success() throws TimeoutException, Throwable {
-        Future<Integer> future = Future.apply(() -> 9 / 3, executor);
+        Future<Integer> future = apply(() -> 9 / 3, executor);
         assertEquals(3, future.result(1, SECONDS).intValue());
     }
 
     @Test(expected = ArithmeticException.class)
     public void apply_withExecutor_failure() throws TimeoutException, Throwable {
-        Future<Integer> future = Future.apply(() -> 9 / 0, executor);
+        Future<Integer> future = apply(() -> 9 / 0, executor);
         future.result(1, SECONDS);
     }
 
@@ -82,6 +84,37 @@ public class TestFuture extends BaseAssert {
     @Test(expected = DummyException.class)
     public void fromTry_failure() throws TimeoutException, Throwable {
         Future<String> future = Future.fromTry(new Failure<>(new DummyException()));
+        future.result(1, SECONDS);
+    }
+
+    @Test
+    public void sequence_success() throws TimeoutException, Throwable {
+        Stream<Future<Integer>> stream = Stream.of(apply(() -> 9 / 3), apply(() -> 12 / 3));
+
+        Future<Stream<Integer>> future = Future.sequence(stream);
+        Stream<Integer> result = future.result(1, SECONDS);
+
+        // assert by summing up all the results, 9/3 + 12/3 = 7
+        assertEquals(7, result.mapToInt(Integer::intValue).sum());
+    }
+
+    @Test
+    public void sequence_emptyInput() throws TimeoutException, Throwable {
+        Stream<Future<Integer>> stream = Stream.empty();
+
+        Future<Stream<Integer>> future = Future.sequence(stream);
+        Stream<Integer> result = future.result(1, SECONDS);
+
+        // resulting stream shall be empty
+        assertEquals(0, result.count());
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void sequence_failure() throws TimeoutException, Throwable {
+        Stream<Future<Integer>> stream = Stream.of(apply(() -> 9 / 3), apply(() -> 12 / 0));
+
+        // the result will fail due to one of the Futures results in division by zero
+        Future<Stream<Integer>> future = Future.sequence(stream);
         future.result(1, SECONDS);
     }
 }

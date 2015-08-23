@@ -24,6 +24,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import javascalautils.Failure;
 import javascalautils.None;
@@ -166,6 +167,33 @@ public interface Future<T> {
      */
     static <T> Future<T> fromTry(Try<T> result) {
         return new FutureImpl<T>().complete(result);
+    }
+
+    /**
+     * Turns a Stream of Futures into a single Future containing a Stream with all the results from the Futures. <br>
+     * Allows for easy management of multiple Futures. <br>
+     * Note, should any Future in the Stream fail the entire sequence fails. <br>
+     * An empty input Stream will result in a Future containing an empty result Stream.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param stream
+     *            The Stream with Futures
+     * @return A single Future containing the Stream of results
+     * @since 1.5
+     */
+    static <T> Future<Stream<T>> sequence(Stream<Future<T>> stream) {
+        // map all Future<T> to Future<Stream<T>>
+        Stream<Future<Stream<T>>> mappedStream = stream.map(f -> f.map(v -> Stream.of(v)));
+
+        // create the initial (complete) Future used by the reduction
+        // the Future is completed with an empty stream
+        // this is used as the base for the reduction, it will also be the result in case the input stream was empty
+        Future<Stream<T>> initial = successful(Stream.empty());
+
+        // now it's a simple reduction of the stream
+        // for each found Future<Stream<T>> we perform a flatMap with a map of the left/right Future creating a new single Future
+        return mappedStream.reduce(initial, (f1, f2) -> f1.flatMap(f1v -> f2.map(f2v -> Stream.concat(f1v, f2v))));
     }
 
     /**
