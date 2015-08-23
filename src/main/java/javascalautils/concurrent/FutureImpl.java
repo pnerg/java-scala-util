@@ -20,9 +20,9 @@ import static javascalautils.OptionCompanion.Some;
 import static javascalautils.TryCompanion.Failure;
 import static javascalautils.TryCompanion.Success;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,7 +46,7 @@ final class FutureImpl<T> implements Future<T> {
     private Option<Try<T>> response = None();
 
     /** The success/failure/complete handlers set by the user. */
-    private final List<EventHandler> eventHandlers = new ArrayList<>();
+    private final List<EventHandler> eventHandlers = new CopyOnWriteArrayList<>();
 
     /*
      * (non-Javadoc)
