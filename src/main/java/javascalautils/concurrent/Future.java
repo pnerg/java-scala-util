@@ -176,7 +176,7 @@ public interface Future<T> {
      * An empty input Stream will result in a Future containing an empty result Stream.
      * 
      * @param <T>
-     *            The type for the Future
+     *            The type for the Stream in the resulting Future
      * @param stream
      *            The Stream with Futures
      * @return A single Future containing the Stream of results
@@ -190,6 +190,44 @@ public interface Future<T> {
         // the Future is completed with an empty stream
         // this is used as the base for the reduction, it will also be the result in case the input stream was empty
         Future<Stream<T>> initial = successful(Stream.empty());
+
+        // now it's a simple reduction of the stream
+        // for each found Future<Stream<T>> we perform a flatMap with a map of the left/right Future creating a new single Future
+        return mappedStream.reduce(initial, (f1, f2) -> f1.flatMap(f1v -> f2.map(f2v -> Stream.concat(f1v, f2v))));
+    }
+
+    /**
+     * Takes a Stream of values and applies the provided function to them in parallel resulting in a Future containing all a Stream with the mapped values. <br>
+     * Can be used to run a mapping operation in parallel e.g.: <blockquote>
+     * 
+     * <pre>
+     * import static javascalautils.FutureCompanion.Future;
+     * 
+     * Stream&lt;String&gt; stream = ...; // Stream with strings
+     * Future&lt;Stream&lt;Integer&gt;&gt; future = Future.traverse(stream, v -&gt; Future(() -&gt; v.length()));
+     * </pre>
+     * 
+     * </blockquote>
+     * 
+     * @param <T>
+     *            The type for the input Stream
+     * @param <R>
+     *            The type for the Stream in the resulting Future
+     * @param stream
+     *            The Stream with values
+     * @param function
+     *            The function to be applied to all values of the Stream
+     * @return A single Future containing the Stream of results
+     * @since 1.5
+     */
+    static <T, R> Future<Stream<R>> traverse(Stream<T> stream, Function<T, Future<R>> function) {
+        // map all Future<T> to Future<Stream<T>>
+        Stream<Future<Stream<R>>> mappedStream = stream.map(v -> function.apply(v)).map(f -> f.map(v -> Stream.of(v)));
+
+        // create the initial (complete) Future used by the reduction
+        // the Future is completed with an empty stream
+        // this is used as the base for the reduction, it will also be the result in case the input stream was empty
+        Future<Stream<R>> initial = successful(Stream.empty());
 
         // now it's a simple reduction of the stream
         // for each found Future<Stream<T>> we perform a flatMap with a map of the left/right Future creating a new single Future

@@ -117,4 +117,38 @@ public class TestFuture extends BaseAssert {
         Future<Stream<Integer>> future = Future.sequence(stream);
         future.result(1, SECONDS);
     }
+
+    @Test
+    public void traverse_success() throws TimeoutException, Throwable {
+        Stream<String> stream = Stream.of("Peter", "was", "here");
+
+        Future<Stream<Integer>> future = Future.traverse(stream, v -> apply(() -> v.length()));
+
+        Stream<Integer> result = future.result(1, SECONDS);
+
+        // assert by summing up all the results, 5 + 3 + 4 = 12
+        assertEquals(12, result.mapToInt(Integer::intValue).sum());
+    }
+
+    @Test
+    public void traverse_emptyInput() throws TimeoutException, Throwable {
+        Stream<String> stream = Stream.empty();
+
+        Future<Stream<Integer>> future = Future.traverse(stream, v -> apply(() -> v.length()));
+
+        Stream<Integer> result = future.result(1, SECONDS);
+
+        // resulting stream shall be empty
+        assertEquals(0, result.count());
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void traverse_failure() throws TimeoutException, Throwable {
+        Stream<Integer> stream = Stream.of(9, 12, 20);
+
+        // division-by-zero will cause an ArithmeticException
+        Future<Stream<Integer>> future = Future.traverse(stream, v -> apply(() -> v / 0));
+
+        future.result(1, SECONDS);
+    }
 }
