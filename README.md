@@ -2,8 +2,8 @@
 
 [![Join the chat at https://gitter.im/pnerg/java-scala-util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/pnerg/java-scala-util.svg)](https://travis-ci.org/pnerg/java-scala-util)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils)  
-
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils)
+[![Javadoc](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils.svg?label=javadoc)](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils)  
 
 One might ask the question why bother to map some of the features in Scala to Java.
 
