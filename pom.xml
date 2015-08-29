@@ -10,7 +10,7 @@
 	<description>Java implementation of some of the core utilities from Scala</description>
 	<url>https://github.com/pnerg/java-scala-util</url>
 	<issueManagement>
-		<system>github</system>
+		<system>teamforge tracker</system>
 		<url>https://github.com/pnerg/java-scala-util/issues</url>
 	</issueManagement>
 
@@ -33,7 +33,9 @@
 	</licenses>
 	<developers>
 		<developer>
+		    <id>pnerg</id>
 			<name>Peter Nerg</name>
+			<url>http://github.com/pnerg</url>
 		</developer>
 	</developers>
 	<scm>
