@@ -152,4 +152,8 @@
 
 		</plugins>
 	</build>
+	<ciManagement>
+		<system>Travis-CI</system>
+		<url>https://travis-ci.org/pnerg/java-scala-util</url>
+	</ciManagement>
 </project>
