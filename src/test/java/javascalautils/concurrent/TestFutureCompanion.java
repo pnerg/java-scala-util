@@ -18,6 +18,8 @@ package javascalautils.concurrent;
 
 import static javascalautils.concurrent.FutureCompanion.Future;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -32,6 +34,9 @@ import org.junit.Test;
  */
 public class TestFutureCompanion extends BaseAssert {
 
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final Executor executor = new ExecutorImpl(r -> r.run());
+
     @Test
     public void future() throws TimeoutException, Throwable {
         Future<Integer> future = Future(() -> 9 / 3);
@@ -40,7 +45,21 @@ public class TestFutureCompanion extends BaseAssert {
 
     @Test
     public void future_withExector() throws TimeoutException, Throwable {
-        Future<Integer> future = FutureCompanion.Future(() -> 9 / 3, new ExecutorImpl(r -> r.run()));
+        Future<Integer> future = FutureCompanion.Future(() -> 9 / 3, executor);
+        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+    }
+
+    @Test
+    public void future_ofJDKFuture() throws TimeoutException, Throwable {
+        java.util.concurrent.Future<Integer> jfuture = executorService.submit(() -> 9 / 3);
+        Future<Integer> future = FutureCompanion.Future(jfuture);
+        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+    }
+
+    @Test
+    public void future_ofJDKFuture_withExector() throws TimeoutException, Throwable {
+        java.util.concurrent.Future<Integer> jfuture = executorService.submit(() -> 9 / 3);
+        Future<Integer> future = FutureCompanion.Future(jfuture, executor);
         assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
     }
 }

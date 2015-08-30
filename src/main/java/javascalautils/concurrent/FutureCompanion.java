@@ -101,4 +101,35 @@ public final class FutureCompanion {
     public static <T> Future<T> Future(ThrowableFunction0<T> function, Executor executor) {
         return Future.apply(function, executor);
     }
+
+    /**
+     * Allows for converting a blocking JDK {@link java.util.concurrent.Future Future} into a non-blocking future. <br>
+     * This will use the default executor to wait/block on the provided future.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param future
+     *            The blocking future
+     * @return The future that will hold the result provided by the future
+     * @since 1.5
+     */
+    public static <T> Future<T> Future(java.util.concurrent.Future<T> future) {
+        return Future.apply(() -> future.get());
+    }
+
+    /**
+     * Allows for converting a blocking JDK {@link java.util.concurrent.Future Future} into a non-blocking future.
+     * 
+     * @param <T>
+     *            The type for the Future
+     * @param future
+     *            The blocking future
+     * @param executor
+     *            The executor to use to compute/execute the Future holding the provided function
+     * @return The future that will hold the result provided by the future
+     * @since 1.5
+     */
+    public static <T> Future<T> Future(java.util.concurrent.Future<T> future, Executor executor) {
+        return Future.apply(() -> future.get(), executor);
+    }
 }
