@@ -5,7 +5,7 @@
 	<groupId>org.dmonix.functional</groupId>
 	<artifactId>java-scala-utils</artifactId>
 	<name>Java Scala Utils</name>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
 	<packaging>jar</packaging>
 	<description>Java implementation of some of the core utilities from Scala</description>
 	<url>https://github.com/pnerg/java-scala-util</url>
@@ -42,7 +42,7 @@
 		<connection>scm:git:git@github.com:pnerg/java-scala-util.git</connection>
 		<developerConnection>scm:git:git@github.com:pnerg/java-scala-util.git</developerConnection>
 		<url>git@github.com:pnerg/java-scala-util.git</url>
-		<tag>HEAD</tag>
+		<tag>v1.5</tag>
 	</scm>
 
 	<dependencies>
