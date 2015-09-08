@@ -27,6 +27,11 @@ public class TestValidator extends BaseAssert {
     private final Object validObject = new Object();
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(Validator.class);
+    }
+
+    @Test
     public void requireNonNull_success() {
         assertEquals(validObject, Validator.requireNonNull(validObject));
     }
