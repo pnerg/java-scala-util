@@ -31,6 +31,11 @@ import org.junit.Test;
 public class TestTryCompanion extends BaseAssert {
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(TryCompanion.class);
+    }
+
+    @Test
     public void t_try() throws Throwable {
         Try<Integer> t = Try(() -> 9 / 3);
         assertEquals(3, t.get().intValue());

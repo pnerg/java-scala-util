@@ -18,7 +18,6 @@ package javascalautils.concurrent;
 
 import javascalautils.BaseAssert;
 import javascalautils.Try;
-import javascalautils.concurrent.ReflectionUtil;
 
 import org.junit.Test;
 
@@ -29,6 +28,11 @@ import org.junit.Test;
  *
  */
 public class TestReflectionUtil extends BaseAssert {
+
+    @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(ReflectionUtil.class);
+    }
 
     @Test
     public void newInstance_success() throws Throwable {

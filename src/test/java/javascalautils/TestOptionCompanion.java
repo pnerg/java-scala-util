@@ -31,6 +31,11 @@ import org.junit.Test;
 public class TestOptionCompanion extends BaseAssert {
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(OptionCompanion.class);
+    }
+
+    @Test
     public void option() {
         Option<String> option = Option("Life is full of options");
         assertEquals("Life is full of options", option.get());

@@ -30,6 +30,11 @@ import org.junit.Test;
 public class TestEitherCompanion extends BaseAssert {
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(EitherCompanion.class);
+    }
+
+    @Test
     public void left() {
         Either<Integer, String> either = Left(69);
         assertTrue(either.isLeft());

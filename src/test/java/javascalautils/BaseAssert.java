@@ -15,6 +15,9 @@
  */
 package javascalautils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -45,6 +48,29 @@ public class BaseAssert extends Assert {
     @AfterClass
     public final static void resetTempDirectoryToTarget() {
         System.clearProperty("java.io.tmpdir");
+    }
+
+    /**
+     * Asserts that the provided class has a private default (non-argument) constructor. <br>
+     * This is a stupid workaround to please the coverage tools that otherwise whine about not covering private constructors.
+     * 
+     * @param clazz
+     * @throws NoSuchMethodException
+     * @throws SecurityException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException
+     */
+    public static <T extends Object> void assertPrivateConstructor(Class<T> clazz) throws ReflectiveOperationException {
+        Constructor<T> constructor = clazz.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        try {
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        } finally {
+            constructor.setAccessible(false);
+        }
     }
 
     /**

@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 import javascalautils.BaseAssert;
 
-import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -29,28 +28,31 @@ import org.junit.Test;
  * 
  */
 public class TestExecutors extends BaseAssert {
-    private Executor executor;
+    @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(Executors.class);
+    }
 
-    @After
-    public void after() throws InterruptedException {
-        assertNotNull(executor);
+    @Test
+    public void createCachedThreadPoolExecutor() throws InterruptedException {
+        Executor executor = Executors.createCachedThreadPoolExecutor(r -> new Thread(r, "createCachedThreadPoolExecutor"));
+        destroyExecutor(executor);
+    }
+
+    @Test
+    public void createFixedThreadPoolExecutor() throws InterruptedException {
+        Executor executor = Executors.createFixedThreadPoolExecutor(5, r -> new Thread(r, "createFixedThreadPoolExecutor"));
+        destroyExecutor(executor);
+    }
+
+    @Test
+    public void create() throws InterruptedException {
+        Executor executor = Executors.create(r -> r.run());
+        destroyExecutor(executor);
+    }
+
+    private void destroyExecutor(Executor executor) throws InterruptedException {
         executor.shutdown();
         executor.awaitTermination(666, TimeUnit.MILLISECONDS);
     }
-
-    @Test
-    public void createCachedThreadPoolExecutor() {
-        executor = Executors.createCachedThreadPoolExecutor(r -> new Thread(r, "createCachedThreadPoolExecutor"));
-    }
-
-    @Test
-    public void createFixedThreadPoolExecutor() {
-        executor = Executors.createFixedThreadPoolExecutor(5, r -> new Thread(r, "createFixedThreadPoolExecutor"));
-    }
-
-    @Test
-    public void create() {
-        executor = Executors.create(r -> r.run());
-    }
-
 }

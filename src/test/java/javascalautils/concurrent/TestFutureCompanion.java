@@ -38,6 +38,11 @@ public class TestFutureCompanion extends BaseAssert {
     private final Executor executor = new ExecutorImpl(r -> r.run());
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(FutureCompanion.class);
+    }
+
+    @Test
     public void future() throws TimeoutException, Throwable {
         Future<Integer> future = Future(() -> 9 / 3);
         assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());

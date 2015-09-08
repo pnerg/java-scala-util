@@ -29,6 +29,11 @@ import org.junit.Test;
 public class TestPromiseCompanion extends BaseAssert {
 
     @Test
+    public void createInstance() throws ReflectiveOperationException {
+        assertPrivateConstructor(PromiseCompanion.class);
+    }
+
+    @Test
     public void promise() {
         Promise<String> promise = Promise();
         assertFalse(promise.isCompleted());
