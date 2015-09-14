@@ -21,6 +21,7 @@ The project will supply features such as:
 ## Full Documentation
 
 - [Wiki](https://github.com/pnerg/java-scala-util/wiki)
+- [Javadoc (latest)](http://www.javadoc.io/doc/org.dmonix.functional/java-scala-utils/1.5)
 
 ## Discussion Forum
 
