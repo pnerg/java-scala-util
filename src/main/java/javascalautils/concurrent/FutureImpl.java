@@ -297,8 +297,7 @@ final class FutureImpl<T> implements Future<T> {
      */
     private <R> void notifyHandlers() {
         // the response may or may not exist at this point
-        // The filter is to make sure we only respond/notify once
-        response.forEach(t -> eventHandlers.stream().filter(h -> !h.notified()).forEach(h -> h.notify(t)));
+        response.forEach(t -> eventHandlers.stream().forEach(h -> h.notify(t)));
     }
 
     /**
@@ -319,16 +318,8 @@ final class FutureImpl<T> implements Future<T> {
         }
 
         /**
-         * If this event handler already has been notified.
-         * 
-         * @return
-         */
-        private boolean notified() {
-            return notified.get();
-        }
-
-        /**
-         * Notifies the response to the handler.
+         * Notifies the response to the handler.<br>
+         * Invoking this more than once makes no difference.
          * 
          * @param response
          */
