@@ -20,12 +20,12 @@ import java.io.Serializable;
 
 /**
  * Represents the type <i>scala.Unit</i>. <br>
- * The usage of <i>Unit</i> is for situations where one returns types such as {@link Try} or {@link javascalautils.Future Future} that are not meant to hold a
- * value. <br>
+ * The usage of <i>Unit</i> is for situations where one returns types such as {@link Try} or {@link javascalautils.concurrent.Future Future} that are not meant
+ * to hold a value. <br>
  * E.g.
  * 
  * <pre>
- * </code>
+ * <code>
  * Try&lt;Unit&gt; deleteSynchronous(String id)
  * Future&lt;Unit&gt; deleteAsynchronous(String id)
  * </code>
