@@ -13,10 +13,10 @@ If you like me walk between the Java/Scala you'll miss some of Scala's features 
 It's for these situations this project has been created. To allow plain Java users use some of goodies in Scala but without actually using Scala. 
 
 The project will supply features such as:
-* Option/Some/None
-* Try/Success/Failure
-* Either/Left/Right
-* Future/Promise
+* [Option/Some/None](https://github.com/pnerg/java-scala-util/wiki/option)
+* [Try/Success/Failure](https://github.com/pnerg/java-scala-util/wiki/try)
+* [Either/Left/Right](https://github.com/pnerg/java-scala-util/wiki/either)
+* [Future/Promise](https://github.com/pnerg/java-scala-util/wiki/Future)
 
 ## Full Documentation
 
