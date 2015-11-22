@@ -270,7 +270,7 @@ public class TestFutureImpl extends BaseAssert {
     @Test(expected = DummyException.class)
     public void flatMap_failureDuringMapping() throws Throwable {
         // map the future to one that counts the length of the response
-        Future<Integer> mapped = future.flatMap(s -> throwDummyException());
+        Future<Object> mapped = future.flatMap(s -> throwDummyException());
 
         // simulate success response
         future.complete(new Success<>("whatever-will-anyways-not-be-used"));
