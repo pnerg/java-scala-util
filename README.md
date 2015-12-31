@@ -23,6 +23,10 @@ The project will supply features such as:
 - [Wiki](https://github.com/pnerg/java-scala-util/wiki)
 - [Javadoc (latest)](http://www.javadoc.io/doc/org.dmonix.functional/java-scala-utils/1.6)
 
+## Related Projects
+Once you start to use this library you will most likely build test cases for your code.  
+To allow for a richer flora of asserts related (amongst others) to this project there is a side project called [junit-extensions](https://github.com/pnerg/junit-extensions)
+
 ## Discussion Forum
 
 - [java-scala-util on Gitter](https://gitter.im/pnerg/java-scala-util) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
