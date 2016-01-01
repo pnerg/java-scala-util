@@ -43,7 +43,7 @@ public final class Unit implements Serializable {
 	
 	/** 
 	 * Static singleton representing the Unit.
-	 * @since 1.6.1
+	 * @since 1.7
 	 */
 	public static final Unit Instance = new Unit();
 	
@@ -51,7 +51,7 @@ public final class Unit implements Serializable {
 
     /**
      * Always returns <tt>69</tt>.
-	 * @since 1.6.1
+	 * @since 1.7
 	 * @return Always <tt>69</tt>
      */
     @Override
@@ -62,7 +62,7 @@ public final class Unit implements Serializable {
     /**
      * Simply compares the provided object to see if it is an instance of {@link Unit}.
      * @param obj The object to compare to 
-	 * @since 1.6.1
+	 * @since 1.7
      */
     @Override
     public boolean equals(Object obj) {
@@ -78,6 +78,7 @@ public final class Unit implements Serializable {
     /**
      * Always returns the string <tt>Unit</tt>
      * @return The string <tt>Unit</tt>
+	 * @since 1.7
      */
     @Override
     public String toString() {
