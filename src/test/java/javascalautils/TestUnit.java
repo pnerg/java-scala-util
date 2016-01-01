@@ -24,9 +24,40 @@ import org.junit.Test;
  * @author Peter Nerg
  */
 public class TestUnit extends BaseAssert {
+	private final Unit unit = new Unit();
+	
+    @Test
+    public void equals_withNewUnit() {
+    	assertTrue(unit.equals(new Unit()));
+    }
 
     @Test
-    public void create() {
-        new Unit();
+    public void equals_withSingletonUnit() {
+    	assertTrue(unit.equals(Unit.Instance));
+    }
+
+    @Test
+    public void equals_withSelf() {
+    	assertTrue(unit.equals(unit));
+    }
+    
+    @Test
+    public void equals_withNull() {
+    	assertFalse(unit.equals(null));
+    }
+
+    @Test
+    public void equals_withNonUnit() {
+    	assertFalse(unit.equals(this));
+    }
+
+    @Test
+    public void hashCode_t() {
+    	assertEquals(69, unit.hashCode());
+    }
+    
+    @Test
+    public void toString_t() {
+    	assertEquals("Unit", unit.toString());
     }
 }

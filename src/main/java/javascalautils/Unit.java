@@ -33,11 +33,54 @@ import java.io.Serializable;
  * 
  * The example illustrates deleting something but the only thing we care of is if the operation was successful.<br>
  * This becomes very apparent with the asynchronous method. In that case we only care if the operation is finished and successful.<br>
- * One can of course return dummy objects/values but providing Unit is more concise as it clearly marks a non-value.
+ * One can of course return dummy objects/values but providing Unit is more concise as it clearly marks a non-value. <br>
+ * Instead of creating new instances it is recommended to use the {@link #Instance singleton} instance. 
  * 
  * @author Peter Nerg
  * @since 1.6
  */
 public final class Unit implements Serializable {
+	
+	/** 
+	 * Static singleton representing the Unit.
+	 * @since 1.6.1
+	 */
+	public static final Unit Instance = new Unit();
+	
     private static final long serialVersionUID = 75L;
+
+    /**
+     * Always returns <tt>69</tt>.
+	 * @since 1.6.1
+	 * @return Always <tt>69</tt>
+     */
+    @Override
+    public int hashCode() {
+    	return 69;
+    }
+
+    /**
+     * Simply compares the provided object to see if it is an instance of {@link Unit}.
+     * @param obj The object to compare to 
+	 * @since 1.6.1
+     */
+    @Override
+    public boolean equals(Object obj) {
+    	if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		return getClass() == obj.getClass();
+    }
+
+    /**
+     * Always returns the string <tt>Unit</tt>
+     * @return The string <tt>Unit</tt>
+     */
+    @Override
+    public String toString() {
+    	return "Unit";
+    }
 }
