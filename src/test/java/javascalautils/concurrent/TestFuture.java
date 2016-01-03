@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static javascalautils.concurrent.Future.apply;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
@@ -151,6 +152,20 @@ public class TestFuture extends BaseAssert {
         Future<Stream<Integer>> future = Future.traverse(stream, v -> apply(() -> v / 0));
 
         future.result(1, SECONDS);
+    }
+    
+    @Test
+    public void ready_successful() throws Throwable {
+    	String expected = "The Future is here";
+    	Future<String> future = Future.successful(expected);
+    	Future<String> ready = future.ready(1, TimeUnit.SECONDS);
+    	assertEquals(expected, ready.result(Duration.ZERO));
+    }
+
+    @Test(expected = TimeoutException.class)
+    public void ready_timeOut() throws TimeoutException, InterruptedException {
+    	Future<String> future = new FutureImpl<>();
+    	future.ready(5, TimeUnit.MILLISECONDS); //will never finish
     }
     
     @Test
