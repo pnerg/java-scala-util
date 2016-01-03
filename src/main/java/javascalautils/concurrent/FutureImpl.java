@@ -224,28 +224,16 @@ final class FutureImpl<T> implements Future<T> {
      */
     @Override
     public T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException {
-        Validator.requireNonNull(timeUnit, "Null is not a valid time unit");
-        CountDownLatch latch = new CountDownLatch(1);
-
-        // install a handler that releases the count down latch when notified with a result.
-        // the actual result/response is of no interest as we anyways have access to it internally in this class/instance.
-        onComplete(t -> latch.countDown());
-
-        // block for either the time to pass or the Future gets completed
-        if (!latch.await(duration, timeUnit)) {
-            throw new TimeoutException("Timeout waiting for Future to complete");
-        }
-
         // The response is now set to Some
         // return the value of the response (Try), should it be a Failure the exception is raised
-        return response.get().get();
+        return ready(duration, timeUnit).response.get().get();
     }
 
     /* (non-Javadoc)
      * @see javascalautils.concurrent.Future#ready(long, java.util.concurrent.TimeUnit)
      */
     @Override
-    public Future<T> ready(long duration, TimeUnit timeUnit) throws TimeoutException, InterruptedException {
+    public FutureImpl<T> ready(long duration, TimeUnit timeUnit) throws TimeoutException, InterruptedException {
         Validator.requireNonNull(timeUnit, "Null is not a valid time unit");
         CountDownLatch latch = new CountDownLatch(1);
 
