@@ -167,6 +167,14 @@ public class TestFuture extends BaseAssert {
     	Future<String> future = new FutureImpl<>();
     	future.ready(5, TimeUnit.MILLISECONDS); //will never finish
     }
+
+    @Test
+    public void ready_withDuration() throws Throwable {
+    	String expected = "The Future is here";
+    	Future<String> future = Future.successful(expected);
+    	Future<String> ready = future.ready(Duration.ofSeconds(1));
+    	assertEquals(expected, ready.result(Duration.ZERO));
+    }
     
     @Test
     public void result_withDuration() throws TimeoutException, Throwable {

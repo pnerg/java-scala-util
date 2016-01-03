@@ -34,6 +34,7 @@ import javascalautils.Some;
 import javascalautils.Success;
 import javascalautils.ThrowableFunction0;
 import javascalautils.Try;
+import javascalautils.Validator;
 
 /**
  * A Future that will hold the result of an asynchronous computation. <br>
@@ -399,6 +400,7 @@ public interface Future<T> {
 	 * @since 1.8
 	 */
 	default T result(Duration duration) throws Throwable, TimeoutException {
+        Validator.requireNonNull(duration, "Null is not a valid Duration");
 		return result(duration.toMillis(), TimeUnit.MILLISECONDS);
 	}
 
@@ -413,7 +415,7 @@ public interface Future<T> {
 	 *            The duration to block
 	 * @param timeUnit
 	 *            The unit for the duration
-	 * @return The result in case successful
+	 * @return <i>this</i> if the Future completes within the specified time
 	 * @throws TimeoutException
 	 *             In case the waiting time is passed
 	 * @throws InterruptedException
@@ -421,4 +423,25 @@ public interface Future<T> {
 	 * @since 1.8
 	 */
 	Future<T> ready(long duration, TimeUnit timeUnit) throws TimeoutException, InterruptedException;
+	
+	/**
+	 * Blocks and waits for this Future to complete. <br>
+	 * As opposed to {@link #result(long, TimeUnit) result} this method will not return the value or throw the exception of the Future. <br>
+	 * The method will upon completion returns <i>this</i>. <br>
+	 * The purpose of the method is to provide a blocking mechanism waiting for the Future to complete. <br>
+	 * Any action on the Future's result is then left to the developer to manage.
+	 * 
+	 * @param duration
+	 *            The duration to block
+	 * @return <i>this</i> if the Future completes within the specified time
+	 * @throws TimeoutException
+	 *             In case the waiting time is passed
+	 * @throws InterruptedException
+	 *             In case the thread gets interrupted during the wait
+	 * @since 1.8
+	 */
+	default Future<T> ready(Duration duration) throws TimeoutException, InterruptedException {
+        Validator.requireNonNull(duration, "Null is not a valid Duration");
+		return ready(duration.toMillis(), TimeUnit.MILLISECONDS);
+	}
 }
