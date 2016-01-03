@@ -19,6 +19,7 @@ package javascalautils.concurrent;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static javascalautils.concurrent.Future.apply;
 
+import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
@@ -150,5 +151,11 @@ public class TestFuture extends BaseAssert {
         Future<Stream<Integer>> future = Future.traverse(stream, v -> apply(() -> v / 0));
 
         future.result(1, SECONDS);
+    }
+    
+    @Test
+    public void result_withDuration() throws TimeoutException, Throwable {
+    	String expected = "The future is here";
+    	assertEquals(expected, Future.successful(expected).result(Duration.ofMillis(100)));
     }
 }

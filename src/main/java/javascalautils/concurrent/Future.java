@@ -19,6 +19,7 @@ import static javascalautils.TryCompanion.Failure;
 import static javascalautils.TryCompanion.Success;
 import static javascalautils.TryCompanion.Try;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
@@ -384,4 +385,23 @@ public interface Future<T> {
      *             In case the waiting time is passed
      */
     T result(long duration, TimeUnit timeUnit) throws Throwable, TimeoutException;
+
+    /**
+     * Blocks and waits for this Future to complete. <br>
+     * Returns the result of a successful Future or throws the exception in case of a failure. <br>
+     * The methods blocks for at most the provided duration. <br>
+     * If the Future is already completed the method returns immediately.
+     * 
+     * @param duration
+     *            The duration to block
+     * @return The result in case successful
+     * @throws Throwable
+     *             The error reported in case of a failure
+     * @throws TimeoutException
+     *             In case the waiting time is passed
+     * @since 1.8
+     */
+    default T result(Duration duration) throws Throwable, TimeoutException {
+    	return result(duration.toMillis(), TimeUnit.MILLISECONDS);
+    }
 }
