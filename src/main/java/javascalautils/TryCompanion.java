@@ -52,6 +52,7 @@ public final class TryCompanion {
      * E.g. deleting something from a database may not have an interesting return type. One is only interested of the outcome, {@link Success}/{@link Failure}.
      * Best used in conjunction with statically importing this method. <blockquote>
      * 
+     * <blockquote>
      * <pre>
      * import static javascalautils.TryCompanion.Try;
      * 
@@ -59,13 +60,11 @@ public final class TryCompanion {
      *    database.delete(someId);
      * });
      * </pre>
-     * 
      * </blockquote>
      * 
      * @param function
      *            The function to render either the value <i>T</i> or raise an exception.
-     * @return The resulting Try instance wrapping what the function resulted in
-     * @see Try#apply(ThrowableFunction0)
+     * @return The resulting Try instance wrapping either {@link Unit} or an exception
      * @since 1.9
      */
     public static Try<Unit> Try(VoidFunction0 function) {
@@ -79,6 +78,7 @@ public final class TryCompanion {
      * Creates an instance of {@link Try} wrapping the result of the provided function. <br>
      * Best used in conjunction with statically importing this method. <blockquote>
      * 
+     * <blockquote>
      * <pre>
      * import static javascalautils.TryCompanion.Try;
      * 
