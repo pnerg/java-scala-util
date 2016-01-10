@@ -47,6 +47,35 @@ public final class TryCompanion {
     }
 
     /**
+     * Creates an instance of {@link Try} with a {@link Unit} return type.  <br>
+     * The purpose is to allow the user to invoke a side-effecting function that may succeed/fail but has now return type. <br>
+     * E.g. deleting something from a database may not have an interesting return type. One is only interested of the outcome, {@link Success}/{@link Failure}.
+     * Best used in conjunction with statically importing this method. <blockquote>
+     * 
+     * <pre>
+     * import static javascalautils.TryCompanion.Try;
+     * 
+     * Try&lt;Unit&gt; t = Try(() -&gt; {
+     *    database.delete(someId);
+     * });
+     * </pre>
+     * 
+     * </blockquote>
+     * 
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @return The resulting Try instance wrapping what the function resulted in
+     * @see Try#apply(ThrowableFunction0)
+     * @since 1.9
+     */
+    public static Try<Unit> Try(VoidFunction0 function) {
+    	return Try.apply(() -> {
+    		function.apply();
+    		return Unit.Instance;
+    	});
+    }
+
+    /**
      * Creates an instance of {@link Try} wrapping the result of the provided function. <br>
      * Best used in conjunction with statically importing this method. <blockquote>
      * 

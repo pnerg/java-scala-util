@@ -36,11 +36,36 @@ public class TestTryCompanion extends BaseAssert {
     }
 
     @Test
-    public void t_try() throws Throwable {
+    public void try_withThrowableFunction0_success() throws Throwable {
         Try<Integer> t = Try(() -> 9 / 3);
         assertEquals(3, t.get().intValue());
     }
 
+    @Test
+    public void try_withThrowableFunction0_failure() throws Throwable {
+        Try<Integer> t = Try(() -> 9 / 0);
+        assertTrue(t.isFailure());
+    }
+    
+    @Test
+    public void try_withVoidFunction0_success() throws Throwable {
+        Try<Unit> t = Try(() -> {
+        	String s = "does nothing";
+        	s.length();
+        });
+        assertEquals(Unit.Instance, t.get());
+    }
+
+    @Test
+    public void try_withVoidFunction0_failure() throws Throwable {
+        Try<Unit> t = Try(() -> {
+        	//pointless function, but has no return type and will fail here
+        	@SuppressWarnings("unused")
+			int val = 9/0;
+        });
+        assertTrue(t.isFailure());
+    }
+    
     @Test
     public void success() throws Throwable {
         Try<Integer> t = Success(69);
