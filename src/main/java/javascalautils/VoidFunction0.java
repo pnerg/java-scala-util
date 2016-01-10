@@ -25,7 +25,7 @@ package javascalautils;
 @FunctionalInterface
 public interface VoidFunction0 {
     /**
-     * Applies this function..
+     * Applies this function.
      *
      * @throws Throwable
      *             Any error that may occur when applying the function
