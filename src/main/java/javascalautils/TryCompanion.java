@@ -50,7 +50,7 @@ public final class TryCompanion {
      * Creates an instance of {@link Try} with a {@link Unit} return type.  <br>
      * The purpose is to allow the user to invoke a side-effecting function that may succeed/fail but has now return type. <br>
      * E.g. deleting something from a database may not have an interesting return type. One is only interested of the outcome, {@link Success}/{@link Failure}.
-     * Best used in conjunction with statically importing this method. <blockquote>
+     * Best used in conjunction with statically importing this method. 
      * 
      * <blockquote>
      * <pre>
@@ -76,7 +76,7 @@ public final class TryCompanion {
 
     /**
      * Creates an instance of {@link Try} wrapping the result of the provided function. <br>
-     * Best used in conjunction with statically importing this method. <blockquote>
+     * Best used in conjunction with statically importing this method. 
      * 
      * <blockquote>
      * <pre>
@@ -101,7 +101,7 @@ public final class TryCompanion {
 
     /**
      * Creates an instance of {@link Failure} wrapping the provided throwable. <br>
-     * Best used in conjunction with statically importing this method. <blockquote>
+     * Best used in conjunction with statically importing this method. 
      * 
      * <blockquote>
      * <pre>
@@ -126,7 +126,7 @@ public final class TryCompanion {
 
     /**
      * Creates an instance of {@link Success} wrapping the provided value. <br>
-     * Best used in conjunction with statically importing this method. <blockquote>
+     * Best used in conjunction with statically importing this method. 
      * 
      * <blockquote>
      * <pre>
