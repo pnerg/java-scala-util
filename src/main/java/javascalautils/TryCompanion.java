@@ -34,6 +34,12 @@ package javascalautils;
  * Try&lt;Integer&gt; t = Try(() -&gt; 9 / 3);
  * Try&lt;String&gt; ts = Success("Peter was here");
  * Try&lt;String&gt; tf = Failure(new Exception("Bad mojo!"));
+ * 
+ * //code that performs a side effect but has not return type can be written like this
+ * Try&lt;Unit&gt; t = Try(() -&gt; {
+ *    database.delete(someId);
+ * });
+ * 
  * </pre>
  * 
  * </blockquote>

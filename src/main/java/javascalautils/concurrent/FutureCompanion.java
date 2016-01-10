@@ -37,6 +37,11 @@ import javascalautils.VoidFunction0;
  * 
  * Future&lt;Integer&gt; resultSuccess = Future(() -&gt; 9 / 3); // The Future will at some point contain: Success(3)
  * Future&lt;Integer&gt; resultFailure = Future(() -&gt; 9 / 0); // The Future will at some point contain: Failure(ArithmeticException)
+ * 
+ * //code that performs a side effect but has not return type can be written like this
+ * Future&lt;Unit&gt; t = Future(() -&gt; {
+ *    database.delete(someId);
+ * });
  * </pre>
  * 
  * </blockquote>
