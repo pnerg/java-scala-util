@@ -103,6 +103,7 @@ public final class TryCompanion {
      * Creates an instance of {@link Failure} wrapping the provided throwable. <br>
      * Best used in conjunction with statically importing this method. <blockquote>
      * 
+     * <blockquote>
      * <pre>
      * import static javascalautils.TryCompanion.Failure;
      * 
@@ -127,6 +128,7 @@ public final class TryCompanion {
      * Creates an instance of {@link Success} wrapping the provided value. <br>
      * Best used in conjunction with statically importing this method. <blockquote>
      * 
+     * <blockquote>
      * <pre>
      * import static javascalautils.TryCompanion.Success;
      * 
