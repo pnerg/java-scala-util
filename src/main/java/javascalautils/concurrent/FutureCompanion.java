@@ -16,7 +16,11 @@
 
 package javascalautils.concurrent;
 
+import javascalautils.Failure;
+import javascalautils.Success;
 import javascalautils.ThrowableFunction0;
+import javascalautils.Unit;
+import javascalautils.VoidFunction0;
 
 /**
  * Acts as a Scala type companion object for {@link Future}. <br>
@@ -46,7 +50,69 @@ public final class FutureCompanion {
 
     /**
      * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
-     * The method relay the execution to {@link Future#apply(ThrowableFunction0)}. <br>
+     * The purpose is to allow the user to invoke a side-effecting function that may succeed/fail but has now return type. <br>
+     * E.g. deleting something from a database may not have an interesting return type. One is only interested of the outcome, {@link Success}/{@link Failure}. <br>
+     * The method relays the execution to {@link Future#apply(ThrowableFunction0)}. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <blockquote>
+     * <pre>
+     * import static javascalautils.concurrent.FutureCompanion.Future;
+     * 
+     * Future&lt;Unit&gt; t = Future(() -&gt; {
+     *    database.delete(someId);
+     * });
+     * </pre>
+     * </blockquote>
+     * 
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @return The future that will hold either {@link Unit} or an exception.
+     * @since 1.9
+     * @see Future#apply(ThrowableFunction0)
+     */
+    public static Future<Unit> Future(VoidFunction0 function) {
+    	return Future(() -> {
+    		function.apply();
+    		return Unit.Instance;
+    	});
+    }
+    
+    /**
+     * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
+     * The purpose is to allow the user to invoke a side-effecting function that may succeed/fail but has now return type. <br>
+     * E.g. deleting something from a database may not have an interesting return type. One is only interested of the outcome, {@link Success}/{@link Failure}. <br>
+     * The method relays the execution to {@link Future#apply(ThrowableFunction0)}. <br>
+     * Best used in conjunction with statically importing this method.
+     * 
+     * <blockquote>
+     * <pre>
+     * import static javascalautils.concurrent.FutureCompanion.Future;
+     * 
+     * Future&lt;Unit&gt; t = Future(() -&gt; {
+     *    database.delete(someId);
+     * }, someExecutor);
+     * </pre>
+     * </blockquote>
+     * 
+     * @param function
+     *            The function to render either the value <i>T</i> or raise an exception.
+     * @param executor
+     *            The executor to use to compute/execute the Future holding the provided function
+     * @return The future that will hold either {@link Unit} or an exception.
+     * @since 1.9
+     * @see Future#apply(ThrowableFunction0)
+     */
+    public static Future<Unit> Future(VoidFunction0 function, Executor executor) {
+    	return Future(() -> {
+    		function.apply();
+    		return Unit.Instance;
+    	}, executor);
+    }
+    
+    /**
+     * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
+     * The method relays the execution to {@link Future#apply(ThrowableFunction0)}. <br>
      * Best used in conjunction with statically importing this method.
      * 
      * <blockquote>
@@ -74,7 +140,7 @@ public final class FutureCompanion {
 
     /**
      * Allows for easy creation of asynchronous computations that will be executed in the future. <br>
-     * The method relay the execution to {@link Future#apply(ThrowableFunction0)}. <br>
+     * The method relays the execution to {@link Future#apply(ThrowableFunction0)}. <br>
      * Best used in conjunction with statically importing this method.
      * 
      * <blockquote>

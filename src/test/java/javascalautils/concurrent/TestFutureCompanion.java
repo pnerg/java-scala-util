@@ -18,14 +18,15 @@ package javascalautils.concurrent;
 
 import static javascalautils.concurrent.FutureCompanion.Future;
 
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javascalautils.BaseAssert;
-
 import org.junit.Test;
+
+import javascalautils.BaseAssert;
+import javascalautils.Unit;
 
 /**
  * Test the class {@link FutureCompanion}
@@ -34,37 +35,56 @@ import org.junit.Test;
  */
 public class TestFutureCompanion extends BaseAssert {
 
+    private static final Duration duration = Duration.ofSeconds(1);
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final Executor executor = new ExecutorImpl(r -> r.run());
-
+    
     @Test
     public void createInstance() throws ReflectiveOperationException {
         assertPrivateConstructor(FutureCompanion.class);
     }
 
     @Test
-    public void future() throws TimeoutException, Throwable {
+    public void future_withTrowableFunction0_success() throws TimeoutException, Throwable {
         Future<Integer> future = Future(() -> 9 / 3);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(duration).intValue());
     }
 
     @Test
-    public void future_withExector() throws TimeoutException, Throwable {
+    public void future_withTrowableFunction0AndExecutor_success() throws TimeoutException, Throwable {
         Future<Integer> future = FutureCompanion.Future(() -> 9 / 3, executor);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(duration).intValue());
     }
 
+    @Test
+    public void future_withVoidFunction0_success() throws TimeoutException, Throwable {
+        Future<Unit> future = Future(() -> {
+        	@SuppressWarnings("unused")
+			int x = 9 / 3;
+        });
+        assertEquals(Unit.Instance, future.result(duration));
+    }
+
+    @Test
+    public void future_withVoidFunction0AndExecutor_success() throws TimeoutException, Throwable {
+        Future<Unit> future = Future(() -> {
+        	@SuppressWarnings("unused")
+			int x = 9 / 3;
+        }, executor);
+        assertEquals(Unit.Instance, future.result(duration));
+    }
+    
     @Test
     public void future_ofJDKFuture() throws TimeoutException, Throwable {
         java.util.concurrent.Future<Integer> jfuture = executorService.submit(() -> 9 / 3);
         Future<Integer> future = FutureCompanion.Future(jfuture);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(duration).intValue());
     }
 
     @Test
     public void future_ofJDKFuture_withExector() throws TimeoutException, Throwable {
         java.util.concurrent.Future<Integer> jfuture = executorService.submit(() -> 9 / 3);
         Future<Integer> future = FutureCompanion.Future(jfuture, executor);
-        assertEquals(3, future.result(1, TimeUnit.SECONDS).intValue());
+        assertEquals(3, future.result(duration).intValue());
     }
 }
