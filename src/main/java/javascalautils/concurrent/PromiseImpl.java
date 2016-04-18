@@ -16,6 +16,7 @@
 package javascalautils.concurrent;
 
 import static javascalautils.TryCompanion.Failure;
+import static javascalautils.TryCompanion.Try;
 import static javascalautils.TryCompanion.Success;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -160,7 +161,9 @@ final class PromiseImpl<T> implements Promise<T> {
      */
     private boolean tryComplete(Consumer<FutureImpl<T>> c) {
         if (completed.compareAndSet(false, true)) {
-            c.accept(future);
+        	//This Try is only here to manage any unforeseen exception raised by the Future event listener
+        	//See issue#41
+            Try(() -> c.accept(future));
             return true;
         }
         return false;
