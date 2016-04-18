@@ -268,9 +268,26 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     @Test(expected = DummyException.class)
+    public void map_failureDuringMapping() throws Throwable {
+        // map the future to one that counts the length of the response
+        Future<Object> mapped = future.map(s -> {
+        	throw new DummyException();
+        });
+
+        // simulate success response
+        future.complete(new Success<>("whatever-will-anyways-not-be-used"));
+
+        assertTrue(mapped.isCompleted());
+        // should throw an exception
+        mapped.result(5, TimeUnit.SECONDS);
+    }
+    
+    @Test(expected = DummyException.class)
     public void flatMap_failureDuringMapping() throws Throwable {
         // map the future to one that counts the length of the response
-        Future<Object> mapped = future.flatMap(s -> throwDummyException());
+        Future<Object> mapped = future.flatMap(s -> {
+        	throw new DummyException();
+        });
 
         // simulate success response
         future.complete(new Success<>("whatever-will-anyways-not-be-used"));
