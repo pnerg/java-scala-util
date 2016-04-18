@@ -166,6 +166,17 @@ public class TestPromiseImpl extends BaseAssert {
     }
 
     @Test
+    public void future_listenerThrowsExceptionOnComplete() {
+    	promise.future().onSuccess(s -> {
+    		//simulates an application that misbehaves and throws an exception when in the event/result listener
+    		throw new NullPointerException("Null sucks!!!");
+    	});
+    	
+    	//should yield nothing to us even though the result listener throws an exception
+    	promise.success("Yippikaye!!!");
+    }
+    
+    @Test
     public void t_toString() {
         assertNotNull(promise.toString());
     }
