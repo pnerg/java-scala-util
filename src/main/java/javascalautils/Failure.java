@@ -110,7 +110,7 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <R> Try<R> map(Function<T, R> function) {
+    public <R> Try<R> map(ThrowableFunction1<T, R> function) {
         return (Try<R>) this;
     }
 
@@ -121,7 +121,7 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
      * @since 1.2
      */
     @Override
-    public <R> Try<R> flatMap(Function<T, Try<R>> function) {
+    public <R> Try<R> flatMap(ThrowableFunction1<T, Try<R>> function) {
         return map(null);
     }
 
@@ -142,8 +142,13 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
      * @since 1.4
      */
     @Override
-    public Try<T> recover(Function<Throwable, T> function) {
-        return Success(function.apply(throwable));
+    public Try<T> recover(ThrowableFunction1<Throwable, T> function) {
+        try {
+            return Success(function.apply(throwable));
+        }
+        catch(Throwable t) {
+            return new Failure<>(t);
+        }
     }
 
     /**
@@ -152,8 +157,13 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
      * @since 1.4
      */
     @Override
-    public Try<T> recoverWith(Function<Throwable, Try<T>> function) {
-        return function.apply(throwable);
+    public Try<T> recoverWith(ThrowableFunction1<Throwable, Try<T>> function) {
+        try {
+            return function.apply(throwable);
+        }
+        catch(Throwable t) {
+            return new Failure<>(t);
+        }
     }
 
     /**

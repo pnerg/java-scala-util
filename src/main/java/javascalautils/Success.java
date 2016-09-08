@@ -110,7 +110,7 @@ public final class Success<T> extends SingleItemContainer<T> implements Try<T>, 
      * @since 1.0
      */
     @Override
-    public <R> Try<R> map(Function<T, R> function) {
+    public <R> Try<R> map(ThrowableFunction1<T, R> function) {
         return Try(() -> function.apply(value));
     }
 
@@ -120,8 +120,13 @@ public final class Success<T> extends SingleItemContainer<T> implements Try<T>, 
      * @since 1.2
      */
     @Override
-    public <R> Try<R> flatMap(Function<T, Try<R>> function) {
-        return function.apply(value);
+    public <R> Try<R> flatMap(ThrowableFunction1<T, Try<R>> function) {
+        try {
+            return function.apply(value);
+        }
+        catch(Throwable t) {
+            return new Failure<>(t);
+        }
     }
 
     /**
@@ -141,7 +146,7 @@ public final class Success<T> extends SingleItemContainer<T> implements Try<T>, 
      * @since 1.4
      */
     @Override
-    public Try<T> recover(Function<Throwable, T> function) {
+    public Try<T> recover(ThrowableFunction1<Throwable, T> function) {
         return this;
     }
 
@@ -152,7 +157,7 @@ public final class Success<T> extends SingleItemContainer<T> implements Try<T>, 
      * @since 1.4
      */
     @Override
-    public Try<T> recoverWith(Function<Throwable, Try<T>> function) {
+    public Try<T> recoverWith(ThrowableFunction1<Throwable, Try<T>> function) {
         return this;
     }
 

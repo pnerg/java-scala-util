@@ -27,14 +27,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import javascalautils.Failure;
-import javascalautils.None;
-import javascalautils.Option;
-import javascalautils.Some;
-import javascalautils.Success;
-import javascalautils.ThrowableFunction0;
-import javascalautils.Try;
-import javascalautils.Validator;
+import javascalautils.*;
 
 /**
  * A Future that will hold the result of an asynchronous computation. <br>
@@ -298,7 +291,7 @@ public interface Future<T> {
 	 *            The function to apply
 	 * @return The mapped Future
 	 */
-	<R> Future<R> map(Function<T, R> function);
+	<R> Future<R> map(ThrowableFunction1<T, R> function);
 
 	/**
 	 * Creates a new {@link Future} that will hold the mapped successful value of this instance once it is completed. <br>
@@ -310,7 +303,7 @@ public interface Future<T> {
 	 *            The function to apply
 	 * @return The mapped Future
 	 */
-	<R> Future<R> flatMap(Function<T, Future<R>> function);
+	<R> Future<R> flatMap(ThrowableFunction1<T, Future<R>> function);
 
 	/**
 	 * Creates a new {@link Future} that will filter the successful value of this instance once it is completed. <br>
@@ -340,7 +333,7 @@ public interface Future<T> {
 	 * @return The mapped Future
 	 * @since 1.3
 	 */
-	<R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure);
+	<R> Future<R> transform(ThrowableFunction1<T, R> onSuccess, ThrowableFunction1<Throwable, Throwable> onFailure);
 
 	/**
 	 * Creates a new {@link Future} that in case <i>this</i> {@link Future} is a 'failure' will apply the function to recover the 'failure' to a 'success'. <br>
@@ -364,7 +357,7 @@ public interface Future<T> {
 	 * @return The recovered Future
 	 * @since 1.3
 	 */
-	Future<T> recover(Function<Throwable, T> recoverFunction);
+	Future<T> recover(ThrowableFunction1<Throwable, T> recoverFunction);
 
 	/**
 	 * Blocks and waits for this Future to complete. <br>

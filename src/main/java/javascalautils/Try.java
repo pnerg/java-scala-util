@@ -254,7 +254,7 @@ public interface Try<T> extends Iterable<T> {
      * @return The Option containing the mapped value
      * @since 1.0
      */
-    <R> Try<R> map(Function<T, R> function);
+    <R> Try<R> map(ThrowableFunction1<T, R> function);
 
     /**
      * Maps the given function to the value from this {@link Success} or returns <i>this</i> if this is a {@link Failure}.
@@ -266,12 +266,12 @@ public interface Try<T> extends Iterable<T> {
      * @return The Option containing the mapped value
      * @since 1.2
      */
-    <R> Try<R> flatMap(Function<T, Try<R>> function);
+    <R> Try<R> flatMap(ThrowableFunction1<T, Try<R>> function);
 
     /**
      * Creates a new {@link Try} that in case <i>this</i> {@link Try} is a {@link Failure} will apply the function to recover to a {@link Success}. <br>
      * Should <i>this</i> be a {@link Success} then <i>this</i> is returned, i.e. no new instance is created. <br>
-     * This is a kind of {@link #map(Function)} for failures only.<br>
+     * This is a kind of {@link #map(ThrowableFunction1)} for failures only.<br>
      * E.g.<br>
      * In case of <i>t</i> being successful then that value is passed on to <i>recovered</i>, in case of failure then the recover function kicks in and returns
      * the message from the throwable.
@@ -296,13 +296,13 @@ public interface Try<T> extends Iterable<T> {
      * @return The recovered Try
      * @since 1.4
      */
-    Try<T> recover(Function<Throwable, T> function);
+    Try<T> recover(ThrowableFunction1<Throwable, T> function);
 
     /**
      * Creates a new {@link Try} that in case <i>this</i> {@link Try} is a {@link Failure} will apply the function to recover the {@link Try} rendered by the
      * function. <br>
      * Should <i>this</i> be a {@link Success} the value is propagated as-is. <br>
-     * This is a kind of {@link #map(Function)} for failures only.<br>
+     * This is a kind of {@link #map(ThrowableFunction1)} for failures only.<br>
      * E.g.
      * 
      * <blockquote>
@@ -323,7 +323,7 @@ public interface Try<T> extends Iterable<T> {
      * @return The recovered Try
      * @since 1.4
      */
-    Try<T> recoverWith(Function<Throwable, Try<T>> function);
+    Try<T> recoverWith(ThrowableFunction1<Throwable, Try<T>> function);
 
     /**
      * Returns the Try's value in a Stream if it is a {@link Success}, or an empty Stream if it is a {@link Failure}.

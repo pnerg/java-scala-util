@@ -15,10 +15,10 @@
  */
 package javascalautils.concurrent;
 
-import static javascalautils.Option.None;
-import static javascalautils.OptionCompanion.Some;
-import static javascalautils.TryCompanion.Failure;
-import static javascalautils.TryCompanion.Success;
+import javascalautils.Option;
+import javascalautils.ThrowableFunction1;
+import javascalautils.Try;
+import javascalautils.Validator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,12 +28,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
-import javascalautils.Option;
-import javascalautils.Try;
-import javascalautils.Validator;
+import static javascalautils.Option.None;
+import static javascalautils.OptionCompanion.Some;
+import static javascalautils.TryCompanion.Failure;
+import static javascalautils.TryCompanion.Success;
+import static javascalautils.TryCompanion.Try;
 
 /**
  * The future implementation.
@@ -128,7 +129,7 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#map(java.util.function.Function)
      */
     @Override
-    public <R> Future<R> map(Function<T, R> function) {
+    public <R> Future<R> map(ThrowableFunction1<T, R> function) {
         // the onFailure function just passed the error as-is without transformation
         return transform(function, t -> t);
     }
@@ -139,18 +140,22 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#flatMap(java.util.function.Function)
      */
     @Override
-    public <R> Future<R> flatMap(Function<T, Future<R>> function) {
+    public <R> Future<R> flatMap(ThrowableFunction1<T, Future<R>> function) {
         Validator.requireNonNull(function, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<R> future = new FutureImpl<>();
 
         // install success handler that will map the result before applying it
         onSuccess(value -> {
+
             // use the provided function to create a mapped future
-            Future<R> mapped = function.apply(value);
+            Try<Future<R>> mapped = Try(() -> function.apply(value));
+            mapped.recover(t -> Future.failed(t)).forEach(f -> f.onComplete(v -> future.complete(v)));
+                    
+//            Future<R> mapped = function.apply(value);
             // install success/failure handlers on the mapped future to bridge between this instance
             // and the one created a few lines above
-            mapped.onComplete(t -> future.complete(t));
+//            mapped.onComplete(t -> future.complete(t));
         });
 
         // install failure handler that just passes the result through
@@ -188,15 +193,22 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#transform(java.util.function.Function, java.util.function.Function)
      */
     @Override
-    public <R> Future<R> transform(Function<T, R> onSuccess, Function<Throwable, Throwable> onFailure) {
+    public <R> Future<R> transform(ThrowableFunction1<T, R> onSuccess, ThrowableFunction1<Throwable, Throwable> onFailure) {
         Validator.requireNonNull(onSuccess, "Null is not a valid function");
         Validator.requireNonNull(onFailure, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<R> future = new FutureImpl<>();
         // install success handler that will map the result before applying it
-        onSuccess(value -> future.success(onSuccess.apply(value)));
+        onSuccess(value -> future.complete(Try(() -> onSuccess.apply(value))));
         // install failure handler that will map the error before applying it
-        onFailure(t -> future.failure(onFailure.apply(t)));
+        onFailure(t -> {
+            try {
+                future.failure(onFailure.apply(t));
+            }
+            catch(Throwable ex) {
+                future.failure(ex);
+            }
+        });
         return future;
     }
 
@@ -206,7 +218,7 @@ final class FutureImpl<T> implements Future<T> {
      * @see javascalautils.concurrent.Future#recover(java.util.function.Function)
      */
     @Override
-    public Future<T> recover(Function<Throwable, T> recoverFunction) {
+    public Future<T> recover(ThrowableFunction1<Throwable, T> recoverFunction) {
         Validator.requireNonNull(recoverFunction, "Null is not a valid function");
         // Create new future expected to hold the value of the mapped type
         FutureImpl<T> future = new FutureImpl<>();
@@ -300,9 +312,6 @@ final class FutureImpl<T> implements Future<T> {
      * Invoke all handlers with the value of this Future. <br>
      * The response may or may not exist at this point. <br>
      * A filter is applied to make sure we only notify handlers that have not been notified before.
-     * 
-     * @param value
-     *            The value/result to notify
      */
     private <R> void notifyHandlers() {
         // the response may or may not exist at this point
@@ -315,8 +324,6 @@ final class FutureImpl<T> implements Future<T> {
      * This is to make sure the same handler won't be notified more than once.
      * 
      * @author Peter Nerg
-     *
-     * @param <R>
      */
     private final class EventHandler {
         private final AtomicBoolean notified = new AtomicBoolean(false);
