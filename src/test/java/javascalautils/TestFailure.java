@@ -22,7 +22,7 @@ import org.junit.Test;
  * 
  * @author Peter Nerg
  */
-public class TestFailure extends BaseAssert {
+public class TestFailure extends BaseAssert implements TryAsserts, OptionAsserts {
 
     private final Exception exception = new Exception("Error, terror!");
     private final Try<String> t = new Failure<>(exception);
@@ -39,7 +39,7 @@ public class TestFailure extends BaseAssert {
 
     @Test
     public void isFailure() {
-        assertTrue(t.isFailure());
+        assertIsFailure(t);
     }
 
     @Test(expected = Exception.class)
@@ -62,7 +62,7 @@ public class TestFailure extends BaseAssert {
     @Test
     public void failed() throws Throwable {
         Try<Throwable> result = t.failed();
-        assertTrue(result.isSuccess());
+        assertIsSuccess(result);
         assertEquals(exception, result.get());
     }
 
@@ -79,19 +79,19 @@ public class TestFailure extends BaseAssert {
 
     @Test
     public void asOption() {
-        assertFalse(t.asOption().isDefined());
+        assertIsNotDefined(t.asOption());
     }
 
     @Test
     public void map() {
         // mapping a failure only returns itself anyways
-        assertTrue(t.map(v -> null).isFailure());
+        assertIsFailure(t.map(v -> null));
     }
 
     @Test
     public void flatMap() {
         // mapping a failure only returns itself anyways
-        assertTrue(t.flatMap(v -> null).isFailure());
+        assertIsFailure(t.flatMap(v -> null));
     }
 
     @Test
@@ -101,9 +101,25 @@ public class TestFailure extends BaseAssert {
     }
 
     @Test
+    public void recover_failure() throws Throwable {
+        // should recover to contain the exception message
+        assertIsFailure(t.recover(ex -> {
+            throw new Exception("Oh no!");
+        }));
+    }
+
+    @Test
     public void recoverWith() throws Throwable {
         // should recover to contain the exception message
         assertEquals(exception.getMessage(), t.recoverWith(ex -> new Success<>(ex.getMessage())).get());
+    }
+
+    @Test
+    public void recoverWith_failure() throws Throwable {
+        // should recover to contain the exception message
+        assertIsFailure(t.recoverWith(ex -> {
+            throw new Exception("Oh no!");
+        }));
     }
 
     @Test
