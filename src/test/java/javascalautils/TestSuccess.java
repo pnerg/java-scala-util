@@ -24,7 +24,7 @@ import org.junit.Test;
  * 
  * @author Peter Nerg
  */
-public class TestSuccess extends BaseAssert {
+public class TestSuccess extends BaseAssert implements TryAsserts {
 
     private final String message = "Peter Rulez";
     private final Try<String> t = new Success<>(message);
@@ -56,20 +56,19 @@ public class TestSuccess extends BaseAssert {
 
     @Test
     public void failed() {
-        Try<Throwable> failed = t.failed();
-        assertTrue(failed.isFailure());
+        assertIsFailure(t.failed());
     }
 
     @Test
     public void filter_match() {
         // always true filter -> this
-        assertEquals(t, t.filter(s -> true));
+        assertIsSuccess(t.filter(s -> true));
     }
 
     @Test
     public void filter_nomatch() {
         // always false filter -> Failure
-        assertTrue(t.filter(s -> false).isFailure());
+        assertIsFailure(t.filter(s -> false));
     }
 
     @Test
@@ -93,8 +92,22 @@ public class TestSuccess extends BaseAssert {
     }
 
     @Test
+    public void map_failure() {
+        assertIsFailure(t.map(v -> {
+            throw new Exception("Oh no!!!");
+        }));
+    }
+
+    @Test
     public void flatMap() {
         assertEquals(message.toUpperCase(), t.flatMap(v -> new Success<>(v.toUpperCase())).orNull());
+    }
+
+    @Test
+    public void flatMap_failure() {
+        assertIsFailure(t.flatMap(v -> {
+            throw new Exception("Oh no!!!");
+        }));
     }
 
     @Test
