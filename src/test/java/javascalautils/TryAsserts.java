@@ -14,7 +14,7 @@ import org.junit.Assert;
 
 /**
  * Utility asserts related to the {@link javascalautils.Try} class.
- * @author epknerg.
+ * @author Peter Nerg.
  * @since 1.10
  */
 public interface TryAsserts {
