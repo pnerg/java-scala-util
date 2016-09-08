@@ -15,14 +15,11 @@
  */
 package javascalautils;
 
-import javascalautils.concurrent.Future;
-
-import java.util.function.Function;
 
 /**
  * A function that takes a single argument of type <i>R</i> and returns a value of type <i>T</i>. <br>
- * The difference with this interface and {@link Function} is that it allows for raising checked exceptions. <br>
- * Primary use case is to create concise lambda expressions such as the {@link Try#map(ThrowableFunction1)}  and {@link Future#map(ThrowableFunction1)} where the function could throw an exception.
+ * The difference with this interface and {@link java.util.function.Function} is that it allows for raising checked exceptions. <br>
+ * Primary use case is to create concise lambda expressions such as the {@link Try#map(ThrowableFunction1)}  and {@link javascalautils.concurrent.Future#map(ThrowableFunction1)} where the function could throw an exception.
  * 
  * 
  * @author Peter Nerg
