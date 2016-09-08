@@ -143,12 +143,7 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
      */
     @Override
     public Try<T> recover(ThrowableFunction1<Throwable, T> function) {
-        try {
-            return Success(function.apply(throwable));
-        }
-        catch(Throwable t) {
-            return new Failure<>(t);
-        }
+        return recoverWith(t -> Success(function.apply(t)));
     }
 
     /**
@@ -175,4 +170,5 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
     public String toString() {
         return "Failure:" + throwable.getMessage();
     }
+
 }
