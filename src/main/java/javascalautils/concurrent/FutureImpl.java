@@ -147,18 +147,14 @@ final class FutureImpl<T> implements Future<T> {
 
         // install success handler that will map the result before applying it
         onSuccess(value -> {
-
             // use the provided function to create a mapped future
+            //it might actually fail due to the provided function throws an exception, hence we wrap it with a Try
             Try<Future<R>> mapped = Try(() -> function.apply(value));
+            //add a recover function to the Try that fails this future with the error, else we complete this Future with the mapped Future
             mapped.recover(t -> Future.failed(t)).forEach(f -> f.onComplete(v -> future.complete(v)));
-                    
-//            Future<R> mapped = function.apply(value);
-            // install success/failure handlers on the mapped future to bridge between this instance
-            // and the one created a few lines above
-//            mapped.onComplete(t -> future.complete(t));
         });
 
-        // install failure handler that just passes the result through
+        // install failure handler that just passes the failure/result through
         onFailure(t -> future.failure(t));
 
         return future;
@@ -201,14 +197,7 @@ final class FutureImpl<T> implements Future<T> {
         // install success handler that will map the result before applying it
         onSuccess(value -> future.complete(Try(() -> onSuccess.apply(value))));
         // install failure handler that will map the error before applying it
-        onFailure(t -> {
-            try {
-                future.failure(onFailure.apply(t));
-            }
-            catch(Throwable ex) {
-                future.failure(ex);
-            }
-        });
+        onFailure(t -> Try(() -> onFailure.apply(t)).recover(ex -> ex).forEach(ex -> future.failure(ex)));
         return future;
     }
 

@@ -29,6 +29,7 @@ import javascalautils.Success;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 /**
  * Test the class {@link FutureImpl}.
@@ -232,7 +233,7 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     @Test
-    public void map_succesful() throws Throwable {
+    public void map_successful() throws Throwable {
         // map the future to one that counts the length of the response
         Future<Integer> mapped = future.map(s -> s.length());
 
@@ -256,6 +257,21 @@ public class TestFutureImpl extends BaseAssert {
     }
 
     @Test
+    public void map_successful_exception() throws Throwable {
+        // map the future to one that simply fails
+        Future<Integer> mapped = future.map(s -> {
+            throw new Exception("Error, terror!!!");
+        });
+
+        // simulate success response
+        future.complete(new Success<>(stringResponse));
+
+        assertTrue(mapped.isCompleted());
+        mapped.onSuccess(i -> fail("Expected a Failure"));
+        mapped.onFailure(t -> assertEquals("Error, terror!!!", t.getMessage()));
+    }
+
+    @Test
     public void flatMap_success() throws TimeoutException, Throwable {
         FutureImpl<Integer> f1 = new FutureImpl<>();
         FutureImpl<Integer> f2 = new FutureImpl<>();
@@ -265,6 +281,22 @@ public class TestFutureImpl extends BaseAssert {
 
         Future<Object> mapped = f1.flatMap(v1 -> f2.map(v2 -> v1 + v2));
         assertEquals(12, mapped.result(5, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void flatMap_success_exception() throws TimeoutException, Throwable {
+        FutureImpl<Integer> f1 = new FutureImpl<>();
+        FutureImpl<Integer> f2 = new FutureImpl<>();
+
+        f1.complete(new Success<>(5));
+        f2.complete(new Success<>(7));
+
+        Future<Object> mapped = f1.flatMap(v1 -> f2.map(v2 -> {
+            throw new Exception("Error, terror!!!");
+        }));
+        assertTrue(mapped.isCompleted());
+        mapped.onSuccess(i -> fail("Expected a Failure"));
+        mapped.onFailure(t -> assertEquals("Error, terror!!!", t.getMessage()));
     }
 
     @Test(expected = DummyException.class)
