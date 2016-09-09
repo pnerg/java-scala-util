@@ -418,6 +418,21 @@ public class TestFutureImpl extends BaseAssert {
         assertEquals(stringResponse.toUpperCase(), transformed.result(1, TimeUnit.SECONDS));
     }
 
+    /**
+     * Attempt to transform a successful Future but the transform function throws an exception
+     */
+    @Test(expected = DummyException.class)
+    public void transform_successful_exception() throws TimeoutException, Throwable {
+        // the failure function does nothing as it anyways will not be used for this test
+        Future<String> transformed = future.transform(s -> {
+            throw new DummyException();
+        }, e -> e);
+        future.complete(new Success<>(stringResponse));
+        assertTrue(transformed.isCompleted());
+        // this should throw the DummyException from the failed transform function
+        transformed.result(1, TimeUnit.SECONDS);
+    }
+
     @Test
     public void recover_successful() throws TimeoutException, Throwable {
         // the function won't matter as this test case will not fail the Future
@@ -439,14 +454,29 @@ public class TestFutureImpl extends BaseAssert {
     public void transform_failed() throws TimeoutException, Throwable {
         // the success function does nothing as it anyways will not be used for this test
         Future<String> transformed = future.transform(s -> s, t -> new DummyException());
-        future.complete(new Failure<>(new NullPointerException("This shold be transformed")));
+        future.complete(new Failure<>(new NullPointerException("This should be transformed")));
         assertTrue(transformed.isCompleted());
         // this should throw the transformed DummyException
         transformed.result(1, TimeUnit.SECONDS);
     }
 
+    /**
+     * Attempt to transform a failed Future but the transform function throws an exception
+     */
+    @Test(expected = DummyException.class)
+    public void transform_failed_exception() throws TimeoutException, Throwable {
+        // the success function does nothing as it anyways will not be used for this test
+        Future<String> transformed = future.transform(s -> s, t -> {
+            throw new DummyException();
+        });
+        future.complete(new Failure<>(new NullPointerException("This should be transformed")));
+        assertTrue(transformed.isCompleted());
+        // this should throw the DummyException from the failed transform function
+        transformed.result(1, TimeUnit.SECONDS);
+    }
+
     @Test
-    public void result_succesful() throws TimeoutException, Throwable {
+    public void result_successful() throws TimeoutException, Throwable {
         future.complete(new Success<>(stringResponse));
         assertEquals(stringResponse, future.result(5, TimeUnit.SECONDS));
     }
