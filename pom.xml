@@ -5,7 +5,7 @@
 	<groupId>org.dmonix.functional</groupId>
 	<artifactId>java-scala-utils</artifactId>
 	<name>Java Scala Utils</name>
-	<version>1.10</version>
+	<version>1.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>Java implementation of some of the core utilities from Scala</description>
 	<url>https://github.com/pnerg/java-scala-util</url>
