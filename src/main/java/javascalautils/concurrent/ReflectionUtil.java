@@ -16,10 +16,11 @@
 
 package javascalautils.concurrent;
 
-import static javascalautils.TryCompanion.Try;
 import javascalautils.Failure;
 import javascalautils.Success;
 import javascalautils.Try;
+
+import static javascalautils.TryCompanion.Try;
 
 /**
  * Class with utilities for reflective operations. <br>

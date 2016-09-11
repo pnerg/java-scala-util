@@ -15,9 +15,7 @@
  */
 package javascalautils.concurrent;
 
-import static javascalautils.TryCompanion.Failure;
-import static javascalautils.TryCompanion.Success;
-import static javascalautils.TryCompanion.Try;
+import javascalautils.*;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +25,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import javascalautils.*;
+import static javascalautils.TryCompanion.*;
 
 /**
  * A Future that will hold the result of an asynchronous computation. <br>

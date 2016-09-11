@@ -18,7 +18,6 @@ package javascalautils.concurrent;
 
 import javascalautils.BaseAssert;
 import javascalautils.Try;
-
 import org.junit.Test;
 
 /**

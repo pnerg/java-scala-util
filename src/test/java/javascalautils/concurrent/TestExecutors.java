@@ -15,11 +15,10 @@
  */
 package javascalautils.concurrent;
 
-import java.util.concurrent.TimeUnit;
-
 import javascalautils.BaseAssert;
-
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Test the class {@link Executors}.

@@ -15,12 +15,11 @@
  */
 package javascalautils.concurrent;
 
+import javascalautils.BaseAssert;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.util.concurrent.ThreadFactory;
-
-import javascalautils.BaseAssert;
-
-import org.junit.Test;
 
 /**
  * Test the class {@link NamedSequenceThreadFactory}.

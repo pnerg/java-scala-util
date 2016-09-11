@@ -16,10 +16,10 @@
 
 package javascalautils;
 
-import static javascalautils.EitherCompanion.Left;
-
 import java.io.Serializable;
 import java.util.function.Function;
+
+import static javascalautils.EitherCompanion.Left;
 
 /**
  * Represents the {@link Right} side of an {@link Either}.

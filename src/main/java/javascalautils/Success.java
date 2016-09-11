@@ -15,13 +15,12 @@
  */
 package javascalautils;
 
-import static javascalautils.TryCompanion.Try;
-
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import static javascalautils.TryCompanion.Try;
 
 /**
  * Represents the <i>successful</i> implementation of {@link Try}. <br>

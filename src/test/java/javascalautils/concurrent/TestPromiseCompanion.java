@@ -16,10 +16,10 @@
 
 package javascalautils.concurrent;
 
-import static javascalautils.concurrent.PromiseCompanion.Promise;
 import javascalautils.BaseAssert;
-
 import org.junit.Test;
+
+import static javascalautils.concurrent.PromiseCompanion.Promise;
 
 /**
  * Test the class {@link PromiseCompanion}

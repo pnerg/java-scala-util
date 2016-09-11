@@ -15,12 +15,11 @@
  */
 package javascalautils;
 
-import static javascalautils.TryCompanion.Success;
-
 import java.io.Serializable;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import static javascalautils.TryCompanion.Success;
 
 /**
  * Represents the <i>failure</i> implementation of {@link Try}. <br>

@@ -32,9 +32,7 @@ import java.util.function.Predicate;
 
 import static javascalautils.Option.None;
 import static javascalautils.OptionCompanion.Some;
-import static javascalautils.TryCompanion.Failure;
-import static javascalautils.TryCompanion.Success;
-import static javascalautils.TryCompanion.Try;
+import static javascalautils.TryCompanion.*;
 
 /**
  * The future implementation.

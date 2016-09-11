@@ -16,11 +16,11 @@
 
 package javascalautils;
 
+import org.junit.Test;
+
 import static javascalautils.TryCompanion.Failure;
 import static javascalautils.TryCompanion.Success;
 import static javascalautils.TryCompanion.Try;
-
-import org.junit.Test;
 
 /**
  * Test the class {@link TryCompanion}

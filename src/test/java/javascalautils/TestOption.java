@@ -15,9 +15,9 @@
  */
 package javascalautils;
 
-import java.util.Optional;
-
 import org.junit.Test;
+
+import java.util.Optional;
 
 /**
  * Test the class {@link Option}.

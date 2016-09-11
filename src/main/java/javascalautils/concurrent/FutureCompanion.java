@@ -16,11 +16,7 @@
 
 package javascalautils.concurrent;
 
-import javascalautils.Failure;
-import javascalautils.Success;
-import javascalautils.ThrowableFunction0;
-import javascalautils.Unit;
-import javascalautils.VoidFunction0;
+import javascalautils.*;
 
 /**
  * Acts as a Scala type companion object for {@link Future}. <br>

@@ -15,9 +15,9 @@
  */
 package javascalautils;
 
-import java.util.stream.Stream;
-
 import org.junit.Test;
+
+import java.util.stream.Stream;
 
 /**
  * Test the class {@link Success}

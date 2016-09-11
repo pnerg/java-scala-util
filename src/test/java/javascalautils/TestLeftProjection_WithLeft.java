@@ -16,9 +16,9 @@
 
 package javascalautils;
 
-import java.util.Iterator;
-
 import org.junit.Test;
+
+import java.util.Iterator;
 
 /**
  * Test the class {@link LeftProjection}
