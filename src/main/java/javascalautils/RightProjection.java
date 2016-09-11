@@ -53,7 +53,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @since 1.1
      */
     public boolean exists(Predicate<R> predicate) {
-        return either.isRight() ? predicate.test(orNull()) : false;
+        return either.isRight() && predicate.test(orNull());
     }
 
     /**
@@ -90,7 +90,7 @@ public class RightProjection<L, R> extends Projection<R> implements Serializable
      * @since 1.1
      */
     public boolean forAll(Predicate<R> predicate) {
-        return either.isRight() ? predicate.test(orNull()) : true;
+        return !either.isRight() || predicate.test(orNull());
     }
 
     /**

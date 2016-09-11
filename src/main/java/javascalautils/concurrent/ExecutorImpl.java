@@ -39,7 +39,7 @@ final class ExecutorImpl implements Executor {
     /**
      * Creates an instance using the provided SDK {@link java.util.concurrent.Executor} for thread management.
      * 
-     * @param executor
+     * @param executor The underlying executor to use
      * @since 1.2
      */
     ExecutorImpl(java.util.concurrent.Executor executor) {
@@ -91,7 +91,7 @@ final class ExecutorImpl implements Executor {
      */
     @Override
     public <T> List<Future<T>> executeAll(@SuppressWarnings("unchecked") Executable<T>... executables) {
-        List<Future<T>> responses = new ArrayList<Future<T>>();
+        List<Future<T>> responses = new ArrayList<>();
         for (Executable<T> executable : executables) {
             responses.add(execute(executable));
         }
@@ -105,7 +105,7 @@ final class ExecutorImpl implements Executor {
      */
     @Override
     public <T> List<Future<T>> executeAll(@SuppressWarnings("unchecked") Callable<T>... callables) {
-        List<Future<T>> responses = new ArrayList<Future<T>>();
+        List<Future<T>> responses = new ArrayList<>();
         for (Callable<T> callable : callables) {
             responses.add(execute(callable));
         }

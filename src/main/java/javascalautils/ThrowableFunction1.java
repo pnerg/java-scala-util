@@ -24,10 +24,10 @@ package javascalautils;
  * 
  * @author Peter Nerg
  * @since 1.10
+ * @param <T>
+ *            The type this function will consume
  * @param <R>
  *            The type this function will return
- * @param <R>
- *            The type this function will consume
  */
 @FunctionalInterface
 public interface ThrowableFunction1<T,R> {

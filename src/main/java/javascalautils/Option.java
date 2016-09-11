@@ -89,7 +89,7 @@ public interface Option<T> extends Iterable<T> {
      * Can also be accessed using {@link #empty()}
      */
     @SuppressWarnings("rawtypes")
-    public static final None DEFAULT_NONE = new None();
+    None DEFAULT_NONE = new None();
 
     /**
      * Creates an instance of Option. <br>
@@ -103,7 +103,7 @@ public interface Option<T> extends Iterable<T> {
      * @since 1.0
      */
     static <T> Option<T> apply(T value) {
-        return value != null ? new Some<T>(value) : None();
+        return value != null ? new Some<>(value) : None();
     }
 
     /**

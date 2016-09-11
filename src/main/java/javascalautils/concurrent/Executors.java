@@ -90,7 +90,7 @@ public final class Executors {
      * Creates the default {@link Executor} instance. <br>
      * Either by getting the provider class from the system property or using the default.
      * 
-     * @return
+     * @return The created executor
      */
     private static Executor createDefaultExecutor() {
         Try<Executor> t = ReflectionUtil.newInstance(System.getProperty("javascalautils.concurrent.executorprovider"));

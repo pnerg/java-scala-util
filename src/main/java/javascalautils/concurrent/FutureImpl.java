@@ -263,7 +263,7 @@ final class FutureImpl<T> implements Future<T> {
      * Completes this Future with a result. <br>
      * Invoked by the Promise owning this instance.
      * 
-     * @param result
+     * @param result The result to complete with
      * @return Returns itself
      */
     Future<T> complete(Try<T> result) {
@@ -324,7 +324,7 @@ final class FutureImpl<T> implements Future<T> {
          * Notifies the response to the handler.<br>
          * Invoking this more than once makes no difference.
          * 
-         * @param response
+         * @param response The result to the listener with
          */
         private void notify(Try<T> response) {
             if (notified.compareAndSet(false, true)) {

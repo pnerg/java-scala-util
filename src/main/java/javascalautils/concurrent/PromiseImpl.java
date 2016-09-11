@@ -154,8 +154,8 @@ final class PromiseImpl<T> implements Promise<T> {
      * Internal try complete method that takes a consumer to apply the Future this Promise holds. <br>
      * Performs a check if this Promise already has been fulfilled or not.
      * 
-     * @param c
-     * @return
+     * @param c The consumer
+     * @return true if completed, false if already completed
      */
     private boolean tryComplete(Consumer<FutureImpl<T>> c) {
         if (completed.compareAndSet(false, true)) {

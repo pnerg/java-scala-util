@@ -53,7 +53,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @since 1.1
      */
     public boolean exists(Predicate<L> predicate) {
-        return either.isLeft() ? predicate.test(orNull()) : false;
+        return either.isLeft() && predicate.test(orNull());
     }
 
     /**
@@ -90,7 +90,7 @@ public class LeftProjection<L, R> extends Projection<L> implements Iterable<L>, 
      * @since 1.1
      */
     public boolean forAll(Predicate<L> predicate) {
-        return either.isLeft() ? predicate.test(orNull()) : true;
+        return !either.isLeft() || predicate.test(orNull());
     }
 
     /**

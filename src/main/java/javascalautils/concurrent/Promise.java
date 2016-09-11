@@ -61,8 +61,8 @@ public interface Promise<T> {
      * @return The Promise instance
      * @since 1.2
      */
-    public static <T> Promise<T> apply() {
-        return new PromiseImpl<T>();
+    static <T> Promise<T> apply() {
+        return new PromiseImpl<>();
     }
 
     /**
