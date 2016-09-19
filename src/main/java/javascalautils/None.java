@@ -17,7 +17,6 @@ package javascalautils;
 
 import java.io.Serializable;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -81,7 +80,7 @@ public final class None<T> extends EmptyContainer<T> implements Option<T>, Seria
      * @since 1.0
      */
     @SuppressWarnings("unchecked")
-    public <R> Option<R> map(Function<T, R> function) {
+    public <R> Option<R> map(ThrowableFunction1<T, R> function) {
         return (Option<R>) this;
     }
 
@@ -93,7 +92,7 @@ public final class None<T> extends EmptyContainer<T> implements Option<T>, Seria
      * @since 1.0
      */
     @Override
-    public <R> Option<R> flatMap(Function<T, Option<R>> function) {
+    public <R> Option<R> flatMap(ThrowableFunction1<T, Option<R>> function) {
         // uses the Map method as it anyways produces the same result
         return map(null);
     }

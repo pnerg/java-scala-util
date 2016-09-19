@@ -18,7 +18,6 @@ package javascalautils;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -275,7 +274,7 @@ public interface Option<T> extends Iterable<T> {
      * @return The Option containing the mapped value
      * @since 1.0
      */
-    <R> Option<R> map(Function<T, R> function);
+    <R> Option<R> map(ThrowableFunction1<T, R> function);
 
     /**
      * Returns an Option consisting of the result of applying the given function to the current {@link Some}. <br>
@@ -288,7 +287,7 @@ public interface Option<T> extends Iterable<T> {
      * @return The Option containing the mapped value
      * @since 1.2
      */
-    <R> Option<R> flatMap(Function<T, Option<R>> function);
+    <R> Option<R> flatMap(ThrowableFunction1<T, Option<R>> function);
 
     /**
      * Returns this Option if it is nonempty, otherwise return the result of provided by the supplier.

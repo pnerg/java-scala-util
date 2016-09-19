@@ -93,8 +93,8 @@ public final class Some<T> extends SingleItemContainer<T> implements Option<T>, 
      * @since 1.0
      */
     @Override
-    public <R> Option<R> map(Function<T, R> f) {
-        return Option.apply(f.apply(value));
+    public <R> Option<R> map(ThrowableFunction1<T, R> f) {
+        return flatMap(v -> Option.apply(f.apply(v)));
     }
 
     /**
@@ -103,8 +103,13 @@ public final class Some<T> extends SingleItemContainer<T> implements Option<T>, 
      * @since 1.2
      */
     @Override
-    public <R> Option<R> flatMap(Function<T, Option<R>> function) {
-        return function.apply(value);
+    public <R> Option<R> flatMap(ThrowableFunction1<T, Option<R>> function) {
+        try {
+            return function.apply(value);
+        }
+        catch (Throwable ex) {
+            throw new BrokenFunctionException("Caught exception while applying function", ex);
+        }
     }
 
     /**
