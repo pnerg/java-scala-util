@@ -126,11 +126,25 @@ public class TestSome extends BaseAssert {
         assertEquals(TEXT_VALUE.length(), mapped.get().intValue());
     }
 
+    @Test(expected = BrokenFunctionException.class)
+    public void map_fail() {
+        option.map(v -> {
+            throw new Exception("Oh darn, this went FUBAR!");
+        });
+    }
+
     @Test
     public void flatMap() {
         Option<Integer> mapped = option.flatMap(v -> Option.apply(v.length()));
         assertTrue(mapped.isDefined());
         assertEquals(TEXT_VALUE.length(), mapped.get().intValue());
+    }
+
+    @Test(expected = BrokenFunctionException.class)
+    public void flatMap_fail() {
+        option.flatMap(v -> {
+            throw new Exception("Oh darn, this went FUBAR!");
+        });
     }
 
     @Test
