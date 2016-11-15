@@ -242,7 +242,7 @@ final class FutureImpl<T> implements Future<T> {
 
         // block for either the time to pass or the Future gets completed
         if (!latch.await(duration, timeUnit)) {
-            throw new TimeoutException("Timeout waiting for Future to complete");
+            throw new TimeoutException("Timeout waiting ["+duration+"] ms for Future to complete");
         }
         
         //The future is now complete, return ourselves
