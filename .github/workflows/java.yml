@@ -1,0 +1,19 @@
+name: Build & Test
+
+on: [ push, pull_request ]
+
+jobs:
+  test-and-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check code format
+        run: sbt javafmtCheckAll
+      - name: Generate Javadoc
+        run: sbt doc
+      - name: Run tests & coverage
+        run: sbt jacoco
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true

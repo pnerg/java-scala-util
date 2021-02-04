@@ -1,19 +1,16 @@
 /**
- *  Copyright 2015 Peter Nerg
+ * Copyright 2015 Peter Nerg
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package javascalautils.concurrent;
 
 import javascalautils.BaseAssert;
@@ -23,19 +20,19 @@ import static javascalautils.concurrent.PromiseCompanion.Promise;
 
 /**
  * Test the class {@link PromiseCompanion}
- * 
+ *
  * @author Peter Nerg
  */
 public class TestPromiseCompanion extends BaseAssert {
 
-    @Test
-    public void createInstance() throws ReflectiveOperationException {
-        assertPrivateConstructor(PromiseCompanion.class);
-    }
+  @Test
+  public void createInstance() throws ReflectiveOperationException {
+    assertPrivateConstructor(PromiseCompanion.class);
+  }
 
-    @Test
-    public void promise() {
-        Promise<String> promise = Promise();
-        assertFalse(promise.isCompleted());
-    }
+  @Test
+  public void promise() {
+    Promise<String> promise = Promise();
+    assertFalse(promise.isCompleted());
+  }
 }

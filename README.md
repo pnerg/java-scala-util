@@ -1,7 +1,6 @@
 # Java Scala Util: Introducing some of the core concepts of Scala into Java
 
-[![Join the chat at https://gitter.im/pnerg/java-scala-util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/pnerg/java-scala-util.svg)](https://travis-ci.org/pnerg/java-scala-util)
+![Build & Test](https://github.com/pnerg/java-scala-util/workflows/Build%20&%20Test/badge.svg)
 [![codecov.io](http://codecov.io/github/pnerg/java-scala-util/coverage.svg?branch=master)](http://codecov.io/github/pnerg/java-scala-util?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils)
 [![Javadoc](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils.svg?label=javadoc)](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils)  
@@ -26,10 +25,6 @@ The project will supply features such as:
 ## Related Projects
 Once you start to use this library you will most likely build test cases for your code.  
 To allow for a richer flora of asserts related (amongst others) to this project there is a side project called [junit-extensions](https://github.com/pnerg/junit-extensions)
-
-## Discussion Forum
-
-- [java-scala-util on Gitter](https://gitter.im/pnerg/java-scala-util) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pnerg/java-scala-util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## LICENSE
 
