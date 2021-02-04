@@ -1,7 +1,7 @@
 import sbt.Keys.{javacOptions, scalaVersion}
 
 organization  := "org.dmonix.functional"
-version := "1.12.0"
+version := "1.11.0"
 name := "java-scala-utils"
 
 libraryDependencies ++= Seq(
