@@ -32,3 +32,16 @@ non-git/
 
 #Example code for the Wiki
 Examples.java
+
+# sbt specific
+.cache
+.cache-main
+.cache-tests
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
