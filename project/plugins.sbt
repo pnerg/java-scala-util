@@ -4,7 +4,7 @@ addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.1")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.6")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
 addSbtPlugin("com.lightbend.sbt" % "sbt-java-formatter" % "0.6.0")
 
