@@ -16,7 +16,7 @@ object Dependencies extends AutoPlugin {
      * ------------------------------
      */
     //val junit = "junit" % "junit" % "4.11"
-    val junit = "junit" % "junit" % "4.13.1"
+    val junit = "junit" % "junit" % "4.13.2"
     val `junit-interface` = "com.novocode" % "junit-interface" % "0.11"
   }
 
