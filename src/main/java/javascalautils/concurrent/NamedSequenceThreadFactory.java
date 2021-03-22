@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * Thread factory for providing meaningful names to the created threads. <br>
  * All threads created through this factory will be given a unique identifier based on a sequence
  * counter. <br>
- * E.g. providing the name <tt>MyThread</tt> will yield threads called <tt>MyThread-<i>n</i></tt>,
- * where <i>n</i> is the sequence counter for created threads. <br>
+ * E.g. providing the name <code>MyThread</code> will yield threads called <code>MyThread-<i>n</i>
+ * </code>, where <i>n</i> is the sequence counter for created threads. <br>
  * The counter starts at 1, thus the naming series will be <i>threadName-[1-n]</i>
  *
  * @author Peter Nerg

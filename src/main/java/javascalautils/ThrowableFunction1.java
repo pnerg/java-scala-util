@@ -32,7 +32,7 @@ public interface ThrowableFunction1<T, R> {
   /**
    * Applies this function returning a result.
    *
-   * @param t The value of type <tt>T</tt> provided to the function
+   * @param t The value of type <code>T</code> provided to the function
    * @return The function result
    * @throws Throwable Any error that may occur when applying the function
    * @since 1.10
