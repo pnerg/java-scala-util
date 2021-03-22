@@ -15,8 +15,8 @@ package javascalautils.concurrent;
 
 /**
  * A task that returns either a successful or failed result. <br>
- * Implementors define a single method with called <tt>execute</tt>. <br>
- * The <tt>Executable</tt> interface is similar to {@link java.lang.Runnable} and {@link
+ * Implementors define a single method with called <code>execute</code>. <br>
+ * The <code>Executable</code> interface is similar to {@link java.lang.Runnable} and {@link
  * java.util.concurrent.Callable}, in that both are designed for classes whose instances are
  * potentially executed by another thread. <br>
  * However this class allows the user to respond with either {@link Promise#success(Object) success}
