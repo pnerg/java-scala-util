@@ -81,7 +81,7 @@ public interface Executor {
    *
    * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
-   * @return <tt>true</tt> if this executor terminated and <tt>false</tt> if the timeout elapsed
+   * @return <code>true</code> if this executor terminated and <code>false</code> if the timeout elapsed
    *     before termination
    * @throws InterruptedException if interrupted while waiting
    * @since 1.2

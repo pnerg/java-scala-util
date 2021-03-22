@@ -52,10 +52,10 @@ public final class Unit implements Serializable {
   private static final long serialVersionUID = 75L;
 
   /**
-   * Always returns <tt>69</tt>.
+   * Always returns <code>69</code>.
    *
    * @since 1.7
-   * @return Always <tt>69</tt>
+   * @return Always <code>69</code>
    */
   @Override
   public int hashCode() {
@@ -80,9 +80,9 @@ public final class Unit implements Serializable {
   }
 
   /**
-   * Always returns the string <tt>Unit</tt>
+   * Always returns the string <code>Unit</code>
    *
-   * @return The string <tt>Unit</tt>
+   * @return The string <code>Unit</code>
    * @since 1.7
    */
   @Override
