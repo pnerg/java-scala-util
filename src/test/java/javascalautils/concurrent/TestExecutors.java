@@ -14,23 +14,25 @@
 package javascalautils.concurrent;
 
 import javascalautils.BaseAssert;
+import javascalautils.Try;
+import javascalautils.TryAsserts;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
-
+import static javascalautils.TryCompanion.Try;
 /**
  * Test the class {@link Executors}.
  *
  * @author name Peter Nerg
  */
-public class TestExecutors extends BaseAssert {
+public class TestExecutors extends BaseAssert implements TryAsserts {
   @Test
   public void createInstance() throws ReflectiveOperationException {
     assertPrivateConstructor(Executors.class);
   }
 
   @Test
-  public void createCachedThreadPoolExecutor() throws InterruptedException {
+  public void createCachedThreadPoolExecutor() {
     Executor executor =
         Executors.createCachedThreadPoolExecutor(
             r -> new Thread(r, "createCachedThreadPoolExecutor"));
@@ -38,7 +40,7 @@ public class TestExecutors extends BaseAssert {
   }
 
   @Test
-  public void createFixedThreadPoolExecutor() throws InterruptedException {
+  public void createFixedThreadPoolExecutor() {
     Executor executor =
         Executors.createFixedThreadPoolExecutor(
             5, r -> new Thread(r, "createFixedThreadPoolExecutor"));
@@ -46,13 +48,48 @@ public class TestExecutors extends BaseAssert {
   }
 
   @Test
-  public void create() throws InterruptedException {
+  public void create() {
     Executor executor = Executors.create(r -> r.run());
     destroyExecutor(executor);
   }
 
-  private void destroyExecutor(Executor executor) throws InterruptedException {
-    executor.shutdown();
-    executor.awaitTermination(666, TimeUnit.MILLISECONDS);
+  @Test
+  public void createDefaultExecutor_default() {
+    Executor executor = Executors.createDefaultExecutor();
+    destroyExecutor(executor);
+  }
+
+  @Test
+  public void createExecutorFromProvider() {
+    Try<Executor> t = Executors.createExecutorFromProvider(DummyExecutorProvider.class.getName());
+    assertIsSuccess(t);
+    t.forEach(TestExecutors::destroyExecutor);
+  }
+
+  @Test
+  public void createExecutorFromProvider_illegalclass() {
+    Try<Executor> t = Executors.createExecutorFromProvider("no-such-class");
+    assertIsFailure(t);
+  }
+
+  @Test
+  public void createExecutorFromProvider_null() {
+    Try<Executor> t = Executors.createExecutorFromProvider(null);
+    assertIsFailure(t);
+  }
+
+  private static void destroyExecutor(Executor executor) {
+    Try(
+        () -> {
+          executor.shutdown();
+          executor.awaitTermination(666, TimeUnit.MILLISECONDS);
+        });
+  }
+
+  static class DummyExecutorProvider implements ExecutorProvider {
+    @Override
+    public Executor create() {
+      return Executors.create(r -> r.run());
+    }
   }
 }

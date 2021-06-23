@@ -153,7 +153,6 @@ public class BaseAssert extends Assert {
    * Assert that a collection is empty.
    *
    * @param collection
-   * @param expectedSize
    */
   public static void assertIsEmpty(Collection<?> collection) {
     assertNotNull(collection);
