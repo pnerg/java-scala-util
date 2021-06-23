@@ -89,9 +89,11 @@ public final class Executors {
    * @return The created executor
    */
   static Executor createDefaultExecutor() {
-    Try<Executor> t = ReflectionUtil.newInstance(System.getProperty(ExecutorProviderClass));
-    return t.getOrElse(
-        () -> createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default")));
+    return createExecutorFromProvider(System.getProperty(ExecutorProviderClass))
+        .getOrElse(
+            () ->
+                createCachedThreadPoolExecutor(
+                    new NamedSequenceThreadFactory("Executors-Default")));
   }
 
   /**
