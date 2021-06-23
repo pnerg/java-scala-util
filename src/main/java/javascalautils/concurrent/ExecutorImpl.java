@@ -48,7 +48,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#execute(com.ericsson.concurrent.Executable)
+   * @see javascalautils.concurrent.Executor#execute(javascalautils.concurrent.Executable)
    */
   @Override
   public <T> Future<T> execute(final Executable<T> executable) {
@@ -71,7 +71,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#execute(java.util.concurrent.Callable)
+   * @see javascalautils.concurrent.Executor#execute(java.util.concurrent.Callable)
    */
   @Override
   public <T> Future<T> execute(final Callable<T> callable) {
@@ -90,7 +90,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#executeAll(com.ericsson.concurrent.Executable<T>[])
+   * @see javascalautils.concurrent.Executor#executeAll(javascalautils.concurrent.Executable<T>[])
    */
   @Override
   public <T> List<Future<T>> executeAll(
@@ -105,7 +105,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#executeAll(java.util.concurrent.Callable<T>[])
+   * @see javascalautils.concurrent.Executor#executeAll(java.util.concurrent.Callable<T>[])
    */
   @Override
   public <T> List<Future<T>> executeAll(@SuppressWarnings("unchecked") Callable<T>... callables) {
@@ -137,7 +137,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#shutdown()
+   * @see javascalautils.concurrent.Executor#shutdown()
    */
   @Override
   public void shutdown() {
@@ -149,7 +149,7 @@ final class ExecutorImpl implements Executor {
   /*
    * (non-Javadoc)
    *
-   * @see com.ericsson.concurrent.Executor#awaitTermination(long, java.util.concurrent.TimeUnit)
+   * @see javascalautils.concurrent.Executor#awaitTermination(long, java.util.concurrent.TimeUnit)
    */
   @Override
   public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {

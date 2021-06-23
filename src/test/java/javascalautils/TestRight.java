@@ -42,6 +42,7 @@ public class TestRight extends BaseAssert {
 
   @Test
   public void t_toString() {
+    System.out.println(either);
     assertNotNull(either.toString());
   }
 }

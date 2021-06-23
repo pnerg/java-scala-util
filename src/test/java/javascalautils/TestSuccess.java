@@ -134,4 +134,10 @@ public class TestSuccess extends BaseAssert implements TryAsserts {
     Stream<String> stream = new Success<String>(null).stream();
     assertEquals(1, stream.count());
   }
+
+  @Test
+  public void t_toString() {
+    System.out.println(t);
+    assertNotNull(t.toString());
+  }
 }

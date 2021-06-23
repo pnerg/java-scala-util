@@ -167,6 +167,6 @@ public final class Success<T> extends SingleItemContainer<T> implements Try<T>, 
    */
   @Override
   public String toString() {
-    return "Success:" + (value != null ? value.toString() : "NULL VALUE");
+    return String.format("Success(%s)", value != null ? value.toString() : "NULL VALUE");
   }
 }

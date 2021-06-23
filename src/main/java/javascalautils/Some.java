@@ -181,6 +181,6 @@ public final class Some<T> extends SingleItemContainer<T> implements Option<T>, 
    */
   @Override
   public String toString() {
-    return "Some:" + value;
+    return String.format("Some(%s)", value);
   }
 }

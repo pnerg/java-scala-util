@@ -163,6 +163,6 @@ public final class Failure<T> extends EmptyContainer<T> implements Try<T>, Seria
    */
   @Override
   public String toString() {
-    return "Failure:" + throwable.getMessage();
+    return String.format("Failure(%s)", throwable.getMessage());
   }
 }

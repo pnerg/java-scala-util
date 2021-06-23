@@ -1,12 +1,15 @@
-/*
- * Created : 9/8/16
+/**
+ * Copyright 2015 Peter Nerg
  *
- * Copyright (c) 2016 Ericsson AB, Sweden.
- * All rights reserved.
- * The Copyright to the computer program(s) herein is the property of Ericsson AB, Sweden.
- * The program(s) may be used and/or copied with the written permission from Ericsson AB
- * or in accordance with the terms and conditions stipulated in the agreement/contract
- * under which the program(s) have been supplied.
+ * <p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * <p>Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package javascalautils;
 

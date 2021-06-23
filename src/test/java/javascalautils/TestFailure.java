@@ -128,4 +128,10 @@ public class TestFailure extends BaseAssert implements TryAsserts, OptionAsserts
   public void stream() {
     assertEquals(0, t.stream().count());
   }
+
+  @Test
+  public void t_toString() {
+    System.out.println(t);
+    assertNotNull(t.toString());
+  }
 }

@@ -78,6 +78,6 @@ public final class Right<L, R> implements Either<L, R>, Serializable {
    */
   @Override
   public String toString() {
-    return "Right:" + value;
+    return String.format("Right(%s)", value);
   }
 }

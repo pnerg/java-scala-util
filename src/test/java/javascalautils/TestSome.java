@@ -27,11 +27,11 @@ public class TestSome extends BaseAssert {
   /** Value used in this test case to populate {@link Some}. */
   private final String TEXT_VALUE = "Peter Rulez!-" + System.nanoTime();
 
-  private final Option<String> option = new Some<String>(TEXT_VALUE);
+  private final Option<String> option = new Some<>(TEXT_VALUE);
 
   @Test(expected = IllegalArgumentException.class)
   public void create_withNullValue() {
-    new Some<Object>(null);
+    new Some<>(null);
   }
 
   @Test
@@ -90,7 +90,7 @@ public class TestSome extends BaseAssert {
   @Test
   public void foreach() {
     ArrayList<String> list = new ArrayList<>();
-    option.forEach(s -> list.add(s));
+    option.forEach(list::add);
     assertCollection(list, 1);
   }
 
@@ -214,6 +214,7 @@ public class TestSome extends BaseAssert {
 
   @Test
   public void t_toString() {
+    System.out.println(option);
     assertNotNull(option.toString());
   }
 }
