@@ -25,6 +25,8 @@ import java.util.concurrent.ThreadFactory;
  */
 public final class Executors {
 
+  public static final String ExecutorProviderClass = "javascalautils.concurrent.executorprovider";
+
   /** The default executor. */
   private static final Executor DefaultExecutor = createDefaultExecutor();
 
@@ -86,11 +88,20 @@ public final class Executors {
    *
    * @return The created executor
    */
-  private static Executor createDefaultExecutor() {
-    Try<Executor> t =
-        ReflectionUtil.newInstance(
-            System.getProperty("javascalautils.concurrent.executorprovider"));
+  static Executor createDefaultExecutor() {
+    Try<Executor> t = ReflectionUtil.newInstance(System.getProperty(ExecutorProviderClass));
     return t.getOrElse(
         () -> createCachedThreadPoolExecutor(new NamedSequenceThreadFactory("Executors-Default")));
+  }
+
+  /**
+   * Creates the default {@link Executor} instance. <br>
+   * Either by getting the provider class from the system property or using the default.
+   *
+   * @return The created executor
+   */
+  static Try<Executor> createExecutorFromProvider(String executorProviderClass) {
+    return ReflectionUtil.<ExecutorProvider>newInstance(executorProviderClass)
+        .map(ExecutorProvider::create);
   }
 }
