@@ -3,7 +3,7 @@
 ![Build & Test](https://github.com/pnerg/java-scala-util/workflows/Build%20&%20Test/badge.svg)
 [![codecov.io](http://codecov.io/github/pnerg/java-scala-util/coverage.svg?branch=master)](http://codecov.io/github/pnerg/java-scala-util?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.dmonix.functional/java-scala-utils)
-[![Javadoc](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils.svg?label=javadoc)](http://javadoc-badge.appspot.com/org.dmonix.functional/java-scala-utils)  
+[![javadoc](https://javadoc.io/badge2/org.dmonix.functional/java-scala-utils/javadoc.svg?label=javadoc)](https://javadoc.io/doc/org.dmonix.functional/java-scala-utils)
 
 One might ask the question why bother to map some of the features in Scala to Java.
 
