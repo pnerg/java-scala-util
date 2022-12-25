@@ -13,10 +13,9 @@
  */
 package javascalautils;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import org.junit.Test;
 
 /**
  * Test the class {@link None}.

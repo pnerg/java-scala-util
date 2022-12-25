@@ -13,13 +13,12 @@
  */
 package javascalautils;
 
-import java.io.Serializable;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 import static javascalautils.EitherCompanion.Left;
 import static javascalautils.EitherCompanion.Right;
+
+import java.io.Serializable;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Represents an {@link Option} holding a value. <br>

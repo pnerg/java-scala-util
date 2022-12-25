@@ -13,12 +13,12 @@
  */
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Right;
+
 import java.io.Serializable;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static javascalautils.EitherCompanion.Right;
 
 /**
  * This is a right-biased wrapper for an instance of {@link Either}.

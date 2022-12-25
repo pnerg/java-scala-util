@@ -13,14 +13,14 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.concurrent.PromiseCompanion.Promise;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import static javascalautils.concurrent.PromiseCompanion.Promise;
 
 /**
  * Implements the executor interface. <br>

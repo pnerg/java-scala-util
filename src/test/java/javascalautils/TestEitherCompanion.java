@@ -13,10 +13,10 @@
  */
 package javascalautils;
 
-import org.junit.Test;
-
 import static javascalautils.EitherCompanion.Left;
 import static javascalautils.EitherCompanion.Right;
+
+import org.junit.Test;
 
 /**
  * Test the class {@link EitherCompanion}

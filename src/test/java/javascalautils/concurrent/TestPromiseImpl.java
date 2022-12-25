@@ -13,12 +13,11 @@
  */
 package javascalautils.concurrent;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javascalautils.BaseAssert;
 import javascalautils.Success;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Test the class {@link PromiseImpl}
