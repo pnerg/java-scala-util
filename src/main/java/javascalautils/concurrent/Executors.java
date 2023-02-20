@@ -13,9 +13,8 @@
  */
 package javascalautils.concurrent;
 
-import javascalautils.Try;
-
 import java.util.concurrent.ThreadFactory;
+import javascalautils.Try;
 
 /**
  * Factory for creating {@link Executor} instances.

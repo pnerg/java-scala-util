@@ -13,13 +13,12 @@
  */
 package javascalautils.concurrent;
 
-import javascalautils.Try;
-import javascalautils.Validator;
+import static javascalautils.TryCompanion.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-
-import static javascalautils.TryCompanion.*;
+import javascalautils.Try;
+import javascalautils.Validator;
 
 /**
  * The Promise implementation. <br>

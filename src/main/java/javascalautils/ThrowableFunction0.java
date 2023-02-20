@@ -13,9 +13,8 @@
  */
 package javascalautils;
 
-import javascalautils.concurrent.Future;
-
 import java.util.function.Function;
+import javascalautils.concurrent.Future;
 
 /**
  * A function that takes no arguments and returns a value of type <i>T</i>. <br>

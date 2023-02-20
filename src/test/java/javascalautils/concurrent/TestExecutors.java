@@ -13,13 +13,14 @@
  */
 package javascalautils.concurrent;
 
+import static javascalautils.TryCompanion.Try;
+
+import java.util.concurrent.TimeUnit;
 import javascalautils.BaseAssert;
 import javascalautils.Try;
 import javascalautils.TryAsserts;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
-import static javascalautils.TryCompanion.Try;
 /**
  * Test the class {@link Executors}.
  *

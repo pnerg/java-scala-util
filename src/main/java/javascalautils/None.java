@@ -13,13 +13,13 @@
  */
 package javascalautils;
 
+import static javascalautils.EitherCompanion.Left;
+import static javascalautils.EitherCompanion.Right;
+
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static javascalautils.EitherCompanion.Left;
-import static javascalautils.EitherCompanion.Right;
 
 /**
  * Represents an empty {@link Option}. <br>

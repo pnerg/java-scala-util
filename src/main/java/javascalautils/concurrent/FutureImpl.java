@@ -13,10 +13,9 @@
  */
 package javascalautils.concurrent;
 
-import javascalautils.Option;
-import javascalautils.ThrowableFunction1;
-import javascalautils.Try;
-import javascalautils.Validator;
+import static javascalautils.Option.None;
+import static javascalautils.OptionCompanion.Some;
+import static javascalautils.TryCompanion.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,10 +26,10 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import static javascalautils.Option.None;
-import static javascalautils.OptionCompanion.Some;
-import static javascalautils.TryCompanion.*;
+import javascalautils.Option;
+import javascalautils.ThrowableFunction1;
+import javascalautils.Try;
+import javascalautils.Validator;
 
 /**
  * The future implementation.

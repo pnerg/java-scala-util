@@ -13,19 +13,18 @@
  */
 package javascalautils.concurrent;
 
-import javascalautils.BaseAssert;
-import javascalautils.DummyException;
-import javascalautils.Failure;
-import javascalautils.Success;
-import org.junit.Test;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static javascalautils.concurrent.Future.apply;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static javascalautils.concurrent.Future.apply;
+import javascalautils.BaseAssert;
+import javascalautils.DummyException;
+import javascalautils.Failure;
+import javascalautils.Success;
+import org.junit.Test;
 
 /**
  * Test the class {@link Future}.

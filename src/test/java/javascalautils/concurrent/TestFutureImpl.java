@@ -13,6 +13,11 @@
  */
 package javascalautils.concurrent;
 
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import javascalautils.BaseAssert;
 import javascalautils.DummyException;
 import javascalautils.Failure;
@@ -20,12 +25,6 @@ import javascalautils.Success;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Test the class {@link FutureImpl}.

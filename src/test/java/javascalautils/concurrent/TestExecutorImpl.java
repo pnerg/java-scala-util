@@ -13,14 +13,13 @@
  */
 package javascalautils.concurrent;
 
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
 import javascalautils.BaseAssert;
 import javascalautils.DummyException;
 import org.junit.After;
 import org.junit.Test;
-
-import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Test the class {@link ExecutorImpl}.

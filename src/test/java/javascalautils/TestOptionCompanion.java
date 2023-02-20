@@ -13,11 +13,11 @@
  */
 package javascalautils;
 
-import org.junit.Test;
-
 import static javascalautils.OptionCompanion.None;
 import static javascalautils.OptionCompanion.Option;
 import static javascalautils.OptionCompanion.Some;
+
+import org.junit.Test;
 
 /**
  * Test the class {@link OptionCompanion}.

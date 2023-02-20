@@ -13,7 +13,7 @@
  */
 package javascalautils.concurrent;
 
-import javascalautils.*;
+import static javascalautils.TryCompanion.*;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +22,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import static javascalautils.TryCompanion.*;
+import javascalautils.*;
 
 /**
  * A Future that will hold the result of an asynchronous computation. <br>

@@ -13,10 +13,9 @@
  */
 package javascalautils;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.junit.Test;
 
 /**
  * Test the class {@link Some}
