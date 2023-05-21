@@ -2,7 +2,7 @@ addSbtPlugin("com.github.sbt" % "sbt-jacoco" % "3.4.0")
 
 addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.1")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.17")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.21")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
 
